@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>B4N1Web</RootNamespace>
+    <AssemblyName>B4n1Web</AssemblyName>
+    <Version>0.4.0</Version>
+    <Authors>Bani Montoya</Authors>
+    <Email>banimontoya@gmail.com</Email>
+    <Description>B4n1Web SDK for .NET - Agentic Browser Engine</Description>
+    <License>MIT</License>
+    <Homepage>https://web.b4n1.com</Homepage>
+    <RepositoryUrl>https://github.com/B4N1-com/b4n1-web</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/B4N1-com/b4n1-web</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PublishSingleFile>false</PublishSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>

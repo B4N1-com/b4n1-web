@@ -1,0 +1,31 @@
+# Build artifacts - not public
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+logo.png
+save_logo.py
+
+# Node.js
+node_modules/
+
+# Java (Maven)
+java/target/
+
+# C# / .NET
+csharp/src/bin/
+csharp/src/obj/
+
+# Go
+go/b4n1web
+go/*.test
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
