@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "b4n1-web"
+version = "0.4.0"
+description = "Python SDK for B4n1Web Agentic Browser Engine - Requires explicit binary installation"
+authors = [
+    {name = "Bani Montoya", email = "banimontoya@gmail.com"}
+]
+license = {text = "MIT OR Apache-2.0"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/B4N1-com/b4n1-web"
+Repository = "https://github.com/B4N1-com/b4n1-web"
+
+[project.scripts]
+b4n1web-install = "b4n1web.__main__:install_command"
+
+[tool.setuptools]
+packages = ["b4n1web"]
