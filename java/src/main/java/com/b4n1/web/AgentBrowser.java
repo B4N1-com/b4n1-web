@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.4.0";
+    private static final String SDK_VERSION = "0.6.0";
     private final BrowserOptions options;
     private final String binaryPath;
 
@@ -55,8 +55,7 @@ public class AgentBrowser implements AutoCloseable {
 
         if (!binaryVersion.equals(SDK_VERSION)) {
             System.err.println("⚠️  Version mismatch: SDK v" + SDK_VERSION + " requires binary v" + SDK_VERSION +
-                ", but found v" + binaryVersion + ". Some features may not work correctly. " +
-                "To update: curl -sL https://web.b4n1.com/install | bash");
+                ", but found v" + binaryVersion + ". Some features may not work correctly.");
         }
     }
 
@@ -154,6 +153,22 @@ public class AgentBrowser implements AutoCloseable {
     }
 
     private String findBinary() {
+        // 1. Check bundled binary (bundled as native resource)
+        try {
+            String resourcePath = "/native/linux-x86_64/b4n1web-linux";
+            java.net.URL url = getClass().getResource(resourcePath);
+            if (url != null) {
+                // Extract to temp directory
+                File bundledBinary = extractBundledBinary(resourcePath);
+                if (bundledBinary != null && bundledBinary.canExecute()) {
+                    return bundledBinary.getAbsolutePath();
+                }
+            }
+        } catch (Exception e) {
+            // Bundled binary not available or couldn't be extracted
+        }
+
+        // 2. Check system install locations
         String[] possiblePaths = {
             "/usr/local/bin/b4n1web",
             "/usr/bin/b4n1web",
@@ -168,6 +183,31 @@ public class AgentBrowser implements AutoCloseable {
             }
         }
         return null;
+    }
+
+    /**
+     * Extract bundled binary to temp directory
+     */
+    private File extractBundledBinary(String resourcePath) {
+        try {
+            File tempDir = new File(System.getProperty("java.io.tmpdir"), "b4n1web");
+            tempDir.mkdirs();
+            File tempBinary = new File(tempDir, "b4n1web");
+
+            try (java.io.InputStream in = getClass().getResourceAsStream(resourcePath);
+                 java.io.FileOutputStream out = new java.io.FileOutputStream(tempBinary)) {
+                if (in == null) return null;
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+            }
+            tempBinary.setExecutable(true);
+            return tempBinary;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**

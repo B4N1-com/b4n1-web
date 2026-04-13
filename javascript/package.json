@@ -1,7 +1,7 @@
 {
   "name": "b4n1-web",
-  "version": "0.4.0",
-  "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine",
+  "version": "0.6.0",
+  "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -11,11 +11,13 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "postinstall": "node scripts/postinstall.js"
   },
   "keywords": [
     "browser",
@@ -29,7 +31,7 @@
   "homepage": "https://web.b4n1.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/B4N1-com/b4n1-web.git"
+    "url": "https://github.com/B4N1-com/b4n1web.git"
   },
   "dependencies": {
     "undici": "^6.0.0"

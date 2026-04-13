@@ -5,8 +5,6 @@
  * @module b4n1web
  */
 
-export { AgentBrowser, Page } from './browser';
+export { AgentBrowser, Page, getB4n1webBinary, getB4n1webVersion, checkVersionCompatibility } from './browser';
 export { BrowserMode } from './types';
 export { BinaryNotFoundError } from './errors';
-export { SecurityShield, navigate } from './security';
-export type { BrowserOptions, PageData, NavigateResult, SecurityShieldOptions } from './types';
