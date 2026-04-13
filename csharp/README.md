@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://www.nuget.org/packages/B4n1Web"><img src="https://img.shields.io/nuget/v/B4n1Web.svg" alt="NuGet version"></a>
   <a href="https://www.nuget.org/packages/B4n1Web"><img src="https://img.shields.io/nuget/dt/B4n1Web.svg" alt="NuGet downloads"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1web?style=flat" alt="GitHub stars"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat" alt="GitHub stars"></a>
 </p>
 
 .NET/C# bindings for B4n1Web: The Agentic Browser Engine.

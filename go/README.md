@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://pkg.go.dev/github.com/B4N1-com/b4n1-web-go"><img src="https://img.shields.io/go/v/b4n1-web-go.svg" alt="Go version"></a>
   <a href="https://pkg.go.dev/github.com/B4N1-com/b4n1-web-go"><img src="https://img.shields.io/badge/pkg.go.dev-reference-blue" alt="Go Reference"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1web?style=flat" alt="GitHub stars"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat" alt="GitHub stars"></a>
 </p>
 
 Go bindings for B4n1Web: The Agentic Browser Engine.

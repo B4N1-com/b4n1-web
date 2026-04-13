@@ -31,7 +31,7 @@
   "homepage": "https://web.b4n1.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/B4N1-com/b4n1web.git"
+    "url": "https://github.com/B4N1-com/b4n1-web.git"
   },
   "dependencies": {
     "undici": "^6.0.0"

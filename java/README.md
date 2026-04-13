@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://mavencentral.com/artifact/com.b4n1/b4n1-web"><img src="https://img.shields.io/maven/v/b4n1-web.svg" alt="Maven version"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1web?style=flat" alt="GitHub stars"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat" alt="GitHub stars"></a>
 </p>
 
 Java bindings for B4n1Web: The Agentic Browser Engine.
