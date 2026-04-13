@@ -5,13 +5,21 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/v/b4n1-web.svg?color=blue" alt="PyPI version"></a>
-  <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/v/b4n1-web.svg?color=cb3837" alt="NPM version"></a>
-  <a href="https://www.nuget.org/packages/B4n1Web"><img src="https://img.shields.io/nuget/v/B4n1Web.svg?color=512BD4" alt="NuGet version"></a>
-  <a href="https://central.sonatype.com/artifact/com.b4n1/b4n1-web"><img src="https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg?color=4C714E" alt="Maven Central"></a>
-  <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/dm/b4n1-web.svg" alt="PyPI downloads"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web/blob/master/LICENSE"><img src="https://img.shields.io/pypi/l/b4n1-web.svg" alt="License"></a>
-  <a href="https://web.b4n1.com"><img src="https://img.shields.io/badge/web-b4n1.com-00d4ff" alt="Website"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web/stargazers"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat&color=yellow" alt="GitHub stars"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web/network"><img src="https://img.shields.io/github/forks/B4N1-com/b4n1-web?style=flat&color=blue" alt="GitHub forks"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web/releases/tag/v0.6.1"><img src="https://img.shields.io/github/v/release/B4N1-com/b4n1-web?style=flat&color=green" alt="GitHub release"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web/releases/latest"><img src="https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total?style=flat&color=orange" alt="GitHub downloads"></a>
+  <br>
+  <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/v/b4n1-web.svg?style=flat&color=blue" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/dm/b4n1-web?style=flat&color=blue" alt="PyPI downloads"></a>
+  <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/l/b4n1-web.svg?style=flat&color=blue" alt="PyPI license"></a>
+  <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/v/b4n1-web.svg?style=flat&color=cb3837" alt="NPM version"></a>
+  <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/dm/b4n1-web.svg?style=flat&color=cb3837" alt="NPM downloads"></a>
+  <a href="https://www.nuget.org/packages/B4n1Web"><img src="https://img.shields.io/nuget/v/B4n1Web.svg?style=flat&color=512BD4" alt="NuGet version"></a>
+  <a href="https://central.sonatype.com/artifact/com.b4n1/b4n1-web"><img src="https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg?style=flat&color=4C714E" alt="Maven Central"></a>
+  <br>
+  <a href="https://github.com/B4N1-com/b4n1-web/blob/master/LICENSE"><img src="https://img.shields.io/github/license/B4N1-com/b4n1-web?style=flat&color=green" alt="License"></a>
+  <a href="https://web.b4n1.com"><img src="https://img.shields.io/badge/web-b4n1.com-00d4ff?style=flat" alt="Website"></a>
 </p>
 
 Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows across 5 languages.
