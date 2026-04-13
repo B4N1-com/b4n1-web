@@ -2,7 +2,8 @@
 B4n1Web SDK - Browser automation for AI agents
 
 This module provides an interface to the B4n1Web Rust engine.
-The B4n1Web binary must be installed separately via:
+The B4n1Web binary is bundled with this package. For standalone usage
+(MCP server, direct CLI), install via:
     curl -sL https://web.b4n1.com/install | bash
 """
 
@@ -50,9 +51,16 @@ class Page:
 
 
 def get_b4n1web_binary() -> Optional[str]:
-    """Find b4n1web binary in common install locations."""
+    """Find b4n1web binary in bundled location or system install."""
     from pathlib import Path
 
+    # 1. Check bundled binary (bundled with SDK)
+    bundled_dir = Path(__file__).parent / "bin"
+    bundled_binary = bundled_dir / "b4n1web-linux"
+    if bundled_binary.exists() and os.access(bundled_binary, os.X_OK):
+        return str(bundled_binary)
+
+    # 2. Check system install locations
     possible_locations = [
         "/usr/local/bin/b4n1web",
         "/usr/bin/b4n1web",
@@ -84,18 +92,18 @@ def get_b4n1web_version() -> Optional[str]:
             text=True,
             timeout=5,
         )
-        # Parse version from output like "b4n1web 0.3.0"
         output = result.stdout.strip()
         if output:
+            # Parse "b4n1web 0.4.0" -> "0.4.0"
             parts = output.split()
-            if len(parts) >= 2 and parts[0] == "b4n1web":
-                return parts[1]
+            if len(parts) >= 2:
+                return parts[-1]
         return None
     except Exception:
         return None
 
 
-SDK_VERSION = "0.4.0"
+SDK_VERSION = "0.6.0"
 
 
 def check_version_compatibility():
@@ -168,11 +176,20 @@ class AgentBrowser:
             raise BinaryNotFoundError()
         return binary_path
 
-    def goto(self, url: str) -> Page:
-        """Navigate to a URL and extract structured content using the Rust binary."""
+    def goto(self, url: str, wait_for: Optional[str] = None) -> Page:
+        """Navigate to a URL and extract structured content using the Rust binary.
+        
+        Args:
+            url: URL to navigate to
+            wait_for: CSS selector to wait for before extracting content (render mode only)
+        """
+        cmd = [self.binary_path, "goto", url, "--mode", self.mode.value]
+        if wait_for:
+            cmd.extend(["--wait-for", wait_for])
+        
         try:
             result = subprocess.run(
-                [self.binary_path, "goto", url, "--mode", self.mode.value],
+                cmd,
                 capture_output=True,
                 text=True,
                 timeout=self.timeout,
@@ -222,19 +239,3 @@ class AgentBrowser:
         """Context manager exit."""
         self.close()
         return False
-
-
-def get_b4n1web_version() -> str:
-    """Get B4n1Web binary version."""
-    try:
-        result = subprocess.run(
-            [get_b4n1web_binary(), "--version"],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        if result.returncode == 0:
-            return result.stdout.strip()
-    except Exception:
-        pass
-    return "unknown"

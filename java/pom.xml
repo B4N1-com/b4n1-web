@@ -6,7 +6,7 @@
 
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.4.0</version>
+    <version>0.6.0</version>
     <packaging>jar</packaging>
 
     <name>B4n1Web Java SDK</name>
@@ -14,8 +14,8 @@
 
     <url>https://web.b4n1.com</url>
     <scm>
-        <connection>scm:git:https://github.com/B4N1-com/b4n1-web.git</connection>
-        <url>https://github.com/B4N1-com/b4n1-web</url>
+        <connection>scm:git:https://github.com/B4N1-com/b4n1web.git</connection>
+        <url>https://github.com/B4N1-com/b4n1web</url>
     </scm>
 
     <licenses>
@@ -63,6 +63,15 @@
     </distributionManagement>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>native</directory>
+                <targetPath>native</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

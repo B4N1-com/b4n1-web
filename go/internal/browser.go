@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"time"
 )
 
@@ -48,7 +49,7 @@ func NewAgentBrowser(opts ...BrowserOption) (*AgentBrowser, error) {
 
 	path, err := findBinary()
 	if err != nil {
-		return nil, fmt.Errorf("%w: please install b4n1web binary", err)
+		return nil, fmt.Errorf("%w: b4n1web binary not found", err)
 	}
 	b.binaryPath = path
 
@@ -149,7 +150,7 @@ func (p *Page) FindLinksByText(text string) []string {
 }
 
 // SDK_VERSION is the current SDK version string
-const SDK_VERSION = "0.4.0"
+const SDK_VERSION = "0.5.0"
 
 // CheckVersionCompatibility checks if binary version matches SDK version
 func CheckVersionCompatibility() (string, error) {
@@ -159,7 +160,7 @@ func CheckVersionCompatibility() (string, error) {
 	}
 
 	if binaryVersion != SDK_VERSION {
-		fmt.Fprintf(os.Stderr, "⚠️  Version mismatch: SDK v%s requires binary v%s, but found v%s. Some features may not work correctly. To update: curl -sL https://web.b4n1.com/install | bash\n",
+		fmt.Fprintf(os.Stderr, "⚠️  Version mismatch: SDK v%s requires binary v%s, but found v%s. Some features may not work correctly.\n",
 			SDK_VERSION, SDK_VERSION, binaryVersion)
 	}
 	return binaryVersion, nil
@@ -182,6 +183,17 @@ func GetVersion() string {
 
 // findBinary locates the b4n1web binary
 func findBinary() (string, error) {
+	// 1. Check bundled binary (bundled with Go module)
+	_, filename, _, _ := runtime.Caller(0)
+	moduleDir := filepath.Dir(filepath.Dir(filename))
+	bundledBinary := filepath.Join(moduleDir, "bin", "b4n1web-linux")
+	if info, err := os.Stat(bundledBinary); err == nil {
+		if info.Mode()&0111 != 0 {
+			return bundledBinary, nil
+		}
+	}
+
+	// 2. Check system install locations
 	possiblePaths := []string{
 		"/usr/local/bin/b4n1web",
 		"/usr/bin/b4n1web",

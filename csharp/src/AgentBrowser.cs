@@ -20,7 +20,7 @@ namespace B4N1Web;
 /// </example>
 public class AgentBrowser : IDisposable
 {
-    private const string SdkVersion = "0.4.0";
+    private const string SdkVersion = "0.5.0";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
     private bool _disposed;
@@ -55,8 +55,7 @@ public class AgentBrowser : IDisposable
         {
             Console.Error.WriteLine(
                 $"⚠️  Version mismatch: SDK v{SdkVersion} requires binary v{SdkVersion}, " +
-                $"but found v{binaryVersion}. Some features may not work correctly. " +
-                $"To update: curl -sL https://web.b4n1.com/install | bash");
+                $"but found v{binaryVersion}. Some features may not work correctly.");
         }
     }
 
@@ -68,7 +67,7 @@ public class AgentBrowser : IDisposable
         var startInfo = new ProcessStartInfo
         {
             FileName = _binaryPath,
-            Arguments = $"goto {url} --mode {_options.Mode}",
+            Arguments = $"goto {url} --mode {_options.Mode.ToString().ToLower()}",
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
@@ -150,10 +149,18 @@ public class AgentBrowser : IDisposable
     }
 
     /// <summary>
-    /// Find b4n1web binary in common locations
+    /// Find b4n1web binary in bundled location or system install
     /// </summary>
     private static string FindBinary()
     {
+        // 1. Check bundled binary (bundled as embedded resource)
+        var bundledPath = ExtractBundledBinary();
+        if (!string.IsNullOrEmpty(bundledPath))
+        {
+            return bundledPath;
+        }
+
+        // 2. Check system install locations
         var possiblePaths = new[]
         {
             "/usr/local/bin/b4n1web",
@@ -171,6 +178,41 @@ public class AgentBrowser : IDisposable
         }
 
         return string.Empty;
+    }
+
+    /// <summary>
+    /// Extract bundled binary from embedded resources to temp directory
+    /// </summary>
+    private static string? ExtractBundledBinary()
+    {
+        try
+        {
+            var assembly = typeof(AgentBrowser).Assembly;
+            var resourceName = "B4N1Web.native.linux-x64.b4n1web-linux";
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null) return null;
+
+            var tempDir = Path.Combine(Path.GetTempPath(), "b4n1web");
+            Directory.CreateDirectory(tempDir);
+            var tempBinary = Path.Combine(tempDir, "b4n1web");
+
+            using var fs = new FileStream(tempBinary, FileMode.Create, FileAccess.Write);
+            stream.CopyTo(fs);
+
+            // Make executable on Unix
+            if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                var chmod = new Process { StartInfo = new ProcessStartInfo("chmod", $"755 {tempBinary}") { UseShellExecute = false } };
+                chmod.Start();
+                chmod.WaitForExit();
+            }
+
+            return tempBinary;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>

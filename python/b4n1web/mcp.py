@@ -182,11 +182,21 @@ class McpClient:
         """Send JSON-RPC request to server (async)."""
         return await asyncio.to_thread(self._send_request, method, params)
 
-    def goto(self, url: str, mode: BrowserMode = BrowserMode.LIGHT) -> Page:
-        """Navigate to a URL and extract content."""
+    def goto(self, url: str, mode: BrowserMode = BrowserMode.LIGHT, wait_for: Optional[str] = None) -> Page:
+        """Navigate to a URL and extract content.
+        
+        Args:
+            url: URL to navigate to
+            mode: Browser mode (LIGHT, JS, RENDER)
+            wait_for: CSS selector to wait for before extracting content (render mode only)
+        """
+        args: Dict[str, Any] = {"url": url, "mode": mode.value}
+        if wait_for:
+            args["wait_for"] = wait_for
+        
         response = self._send_request(
             "tools/call",
-            {"name": "goto", "arguments": {"url": url, "mode": mode.value}},
+            {"name": "goto", "arguments": args},
         )
 
         if response.error:
@@ -194,11 +204,21 @@ class McpClient:
 
         return self._parse_goto_result(response)
 
-    async def goto_async(self, url: str, mode: BrowserMode = BrowserMode.LIGHT) -> Page:
-        """Navigate to a URL and extract content (async)."""
+    async def goto_async(self, url: str, mode: BrowserMode = BrowserMode.LIGHT, wait_for: Optional[str] = None) -> Page:
+        """Navigate to a URL and extract content (async).
+        
+        Args:
+            url: URL to navigate to
+            mode: Browser mode (LIGHT, JS, RENDER)
+            wait_for: CSS selector to wait for before extracting content (render mode only)
+        """
+        args: Dict[str, Any] = {"url": url, "mode": mode.value}
+        if wait_for:
+            args["wait_for"] = wait_for
+        
         response = await self._send_request_async(
             "tools/call",
-            {"name": "goto", "arguments": {"url": url, "mode": mode.value}},
+            {"name": "goto", "arguments": args},
         )
 
         if response.error:
@@ -346,13 +366,13 @@ class AsyncMcpClient:
         await self.client.disconnect_async()
         return False
 
-    def goto(self, url: str, mode: BrowserMode = BrowserMode.LIGHT) -> Page:
+    def goto(self, url: str, mode: BrowserMode = BrowserMode.LIGHT, wait_for: Optional[str] = None) -> Page:
         """Navigate to a URL (sync)."""
-        return self.client.goto(url, mode)
+        return self.client.goto(url, mode, wait_for)
 
-    async def goto_async(self, url: str, mode: BrowserMode = BrowserMode.LIGHT) -> Page:
+    async def goto_async(self, url: str, mode: BrowserMode = BrowserMode.LIGHT, wait_for: Optional[str] = None) -> Page:
         """Navigate to a URL (async)."""
-        return await self.client.goto_async(url, mode)
+        return await self.client.goto_async(url, mode, wait_for)
 
     def get_links(self) -> List[str]:
         """Get all links (sync)."""

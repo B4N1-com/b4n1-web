@@ -3,34 +3,49 @@
  */
 
 import { execSync } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
 import { BrowserMode, type BrowserOptions, type PageData, BinaryNotFoundError } from './types';
 
 /**
- * Find the b4n1web binary in common locations
+ * Find the b4n1web binary in bundled location or system install
  */
-function getB4n1webBinary(): string | null {
+export function getB4n1webBinary(): string | null {
   const home = process.env.HOME || process.env.USERPROFILE || '/home/' + process.env.USER;
-  const paths = [
+  const paths: string[] = [];
+
+  // 1. Check bundled binary (bundled with npm package)
+  const bundledBinary = path.join(__dirname, '..', 'bin', 'b4n1web-linux');
+  if (fs.existsSync(bundledBinary)) {
+    try {
+      fs.accessSync(bundledBinary, fs.constants.X_OK);
+      return bundledBinary;
+    } catch {
+      // Not executable, continue searching
+    }
+  }
+
+  // 2. Check system install locations
+  paths.push(
     '/usr/local/bin/b4n1web',
     '/usr/bin/b4n1web',
     home + '/.local/bin/b4n1web',
     home + '/.b4n1web/bin/b4n1web',
-  ];
-  
-  // Also check PATH
+  );
+
+  // 3. Also check PATH
   const pathEnv = process.env.PATH || '';
   const pathDirs = pathEnv.split(':').filter(p => p);
   for (const dir of pathDirs) {
     paths.push(dir + '/b4n1web');
   }
 
-  for (const path of paths) {
+  for (const filePath of paths) {
     try {
-      const fs = require('fs');
-      if (fs.existsSync(path)) {
-        const stats = fs.statSync(path);
+      if (fs.existsSync(filePath)) {
+        const stats = fs.statSync(filePath);
         if (stats.isFile() && (stats.mode & 0o111) !== 0) {
-          return path;
+          return filePath;
         }
       }
     } catch {
@@ -60,7 +75,7 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.4.0';
+const SDK_VERSION = '0.5.0';
 
 /**
  * Check version compatibility and warn if mismatch
@@ -153,7 +168,7 @@ export class AgentBrowser {
         `- ${home}/.local/bin/b4n1web\n` +
         `- ${home}/.b4n1web/bin/b4n1web\n` +
         `- PATH: ${pathDirs.join(', ')}\n\n` +
-        `Run: curl -sL https://web.b4n1.com/install | bash`
+        `For MCP server: curl -sL https://web.b4n1.com/install | bash`
       );
     }
     this.binaryPath = binary;
