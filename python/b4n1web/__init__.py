@@ -26,7 +26,7 @@ from .errors import BinaryNotFoundError
 from .mcp import AsyncMcpClient, McpClient
 from .mcp import Tool, ToolResult
 
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 __author__ = "Bani Montoya"
 __email__ = "banimontoya@gmail.com"
 
