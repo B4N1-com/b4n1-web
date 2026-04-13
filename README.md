@@ -233,7 +233,7 @@ b4n1web install antigravity    # ~/.config/antigravity/mcp.json
 SDK and binary versions should match. SDKs emit a warning when versions differ:
 
 ```
-⚠️  Version mismatch: SDK v0.6.0 requires binary v0.6.0, but found v0.5.0.
+⚠️  Version mismatch: SDK vX.Y.Z requires binary vX.Y.Z, but found vA.B.C.
 ```
 
 Update the binary: `curl -sL https://web.b4n1.com/install | bash`
