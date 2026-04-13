@@ -32,7 +32,7 @@ curl -sL https://web.b4n1.com/install | bash
 | **JavaScript/TypeScript** | npm | `npm install b4n1-web` |
 | **C#/.NET** | NuGet | `dotnet add package B4n1Web` |
 | **Java** | Maven | See below |
-| **Go** | go | `go get github.com/B4N1-com/b4n1web/go` |
+| **Go** | go | `go get github.com/B4N1-com/b4n1-web/go` |
 
 ### Java (Maven)
 
@@ -76,7 +76,7 @@ package main
 
 import (
     "fmt"
-    b4n1web "github.com/B4N1-com/b4n1web/go"
+    b4n1web "github.com/B4N1-com/b4n1-web/go"
 )
 
 func main() {
