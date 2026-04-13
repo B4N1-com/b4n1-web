@@ -14,8 +14,8 @@
 
     <url>https://web.b4n1.com</url>
     <scm>
-        <connection>scm:git:https://github.com/B4N1-com/b4n1web.git</connection>
-        <url>https://github.com/B4N1-com/b4n1web</url>
+        <connection>scm:git:https://github.com/B4N1-com/b4n1-web.git</connection>
+        <url>https://github.com/B4N1-com/b4n1-web</url>
     </scm>
 
     <licenses>

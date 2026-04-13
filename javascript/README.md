@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/v/b4n1-web.svg" alt="NPM version"></a>
   <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/dt/b4n1-web.svg" alt="NPM downloads"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1web?style=flat" alt="GitHub stars"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat" alt="GitHub stars"></a>
 </p>
 
 TypeScript/JavaScript bindings for B4n1Web: The Agentic Browser Engine.
