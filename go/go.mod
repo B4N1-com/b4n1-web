@@ -1,4 +1,4 @@
-module github.com/B4N1-com/b4n1-web
+module github.com/B4N1-com/b4n1web
 
 go 1.21
 

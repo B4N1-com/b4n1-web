@@ -7,7 +7,6 @@
 <p align="center">
   <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/v/b4n1-web.svg?color=blue" alt="PyPI version"></a>
   <a href="https://www.npmjs.com/package/b4n1-web"><img src="https://img.shields.io/npm/v/b4n1-web.svg?color=cb3837" alt="NPM version"></a>
-  <a href="https://pkg.go.dev/github.com/B4N1-com/b4n1-web-go"><img src="https://img.shields.io/github/v/tag/B4N1-com/b4n1-web?label=go&color=00ADD8" alt="Go version"></a>
   <a href="https://www.nuget.org/packages/B4n1Web"><img src="https://img.shields.io/nuget/v/B4n1Web.svg?color=512BD4" alt="NuGet version"></a>
   <a href="https://central.sonatype.com/artifact/com.b4n1/b4n1-web"><img src="https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg?color=4C714E" alt="Maven Central"></a>
   <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/dm/b4n1-web.svg" alt="PyPI downloads"></a>
@@ -15,7 +14,7 @@
   <a href="https://web.b4n1.com"><img src="https://img.shields.io/badge/web-b4n1.com-00d4ff" alt="Website"></a>
 </p>
 
-Language-agnostic SDK for **B4n1Web: The Agentic Browser Engine**. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows.
+Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows across 5 languages.
 
 ## Installation
 
@@ -27,13 +26,13 @@ curl -sL https://web.b4n1.com/install | bash
 
 ### 2. Install Your Preferred SDK
 
-| Language | Package Manager | Install Command | Version |
-|----------|-----------------|------------------|---------|
-| **Python** | pip | `pip install b4n1-web` | [![PyPI](https://img.shields.io/pypi/v/b4n1-web.svg?color=blue)](https://pypi.org/project/b4n1-web/) |
-| **JavaScript/TypeScript** | npm | `npm install b4n1-web` | [![npm](https://img.shields.io/npm/v/b4n1-web.svg?color=cb3837)](https://www.npmjs.com/package/b4n1-web) |
-| **Go** | go | `go get github.com/B4N1-com/b4n1-web-go` | [![Go](https://img.shields.io/github/v/tag/B4N1-com/b4n1-web?label=go&color=00ADD8)](https://pkg.go.dev/github.com/B4N1-com/b4n1-web-go) |
-| **C#/.NET** | NuGet | `dotnet add package B4n1Web` | [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg?color=512BD4)](https://www.nuget.org/packages/B4n1Web) |
-| **Java** | Maven | See below | [![Maven](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg?color=4C714E)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web) |
+| Language | Package Manager | Install Command |
+|----------|-----------------|------------------|
+| **Python** | pip | `pip install b4n1-web` |
+| **JavaScript/TypeScript** | npm | `npm install b4n1-web` |
+| **C#/.NET** | NuGet | `dotnet add package B4n1Web` |
+| **Java** | Maven | See below |
+| **Go** | go | `go get github.com/B4N1-com/b4n1web/go` |
 
 ### Java (Maven)
 
@@ -41,7 +40,7 @@ curl -sL https://web.b4n1.com/install | bash
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.4.0</version>
+    <version>0.6.0</version>
 </dependency>
 ```
 
@@ -55,6 +54,7 @@ from b4n1web import AgentBrowser, BrowserMode
 browser = AgentBrowser(mode=BrowserMode.LIGHT)
 page = browser.goto("https://example.com")
 print(page.markdown)
+print(page.links)
 browser.close()
 ```
 
@@ -76,7 +76,7 @@ package main
 
 import (
     "fmt"
-    b4n1web "github.com/B4N1-com/b4n1-web-go"
+    b4n1web "github.com/B4N1-com/b4n1web/go"
 )
 
 func main() {
@@ -94,6 +94,7 @@ func main() {
     }
 
     fmt.Println(page.Markdown)
+    fmt.Println(page.Links)
 }
 ```
 
@@ -119,67 +120,60 @@ System.out.println(page.getMarkdown());
 browser.close();
 ```
 
+### CLI
+
+```bash
+b4n1web goto https://example.com --mode light
+```
+
 ## Browser Modes
 
-### Light Mode (Default)
+| Mode | Use Case | Performance | Capabilities |
+|------|----------|-------------|-------------|
+| **Light** | Reading articles, scraping static content, extracting links | < 15MB RAM, instant | HTML parsing, markdown conversion, link extraction |
+| **JS** | Extracting JavaScript from pages, SPA analysis | Same as Light | HTML parsing + JS tag extraction |
+| **Render** | SPAs, form filling, visual verification, E2E testing | ~100MB, slower startup | Full JS execution, screenshots, DOM interaction |
 
-- **Use case**: Reading articles, scraping static content, extracting links
-- **Performance**: < 15MB RAM, instant startup
-- **Capabilities**: HTML parsing, markdown conversion, link extraction
-- **Limitations**: No JavaScript execution
+## Features
 
-### JS Mode
+### `--wait-for` Selector (Render Mode)
 
-- **Use case**: Extracting JavaScript from pages, SPA analysis
-- **Performance**: Same as Light, instant startup
-- **Capabilities**: HTML parsing + JavaScript tag extraction
+Wait for a CSS selector to appear before extracting content — essential for dynamically-loaded pages:
 
-### Render Mode
+```bash
+# CLI
+b4n1web goto "https://example.com" --mode render --wait-for "#search-results"
 
-- **Use case**: SPAs, form filling, visual verification, E2E testing
-- **Performance**: Higher memory usage (~100MB), slower startup
-- **Capabilities**: Full JavaScript execution, screenshots, interaction
-- **Requirements**: Install Chromium via `b4n1web chromium install`
+# Python
+browser.goto("https://example.com", wait_for="#search-results")
 
-## Security
+# JavaScript
+await browser.goto("https://example.com", { waitFor: "#search-results" })
+```
 
-- All HTTP requests use TLS
-- No arbitrary code execution
-- Input validation and sanitization
-- **Explicit Installation**: Binary must be installed separately via `curl -sL https://web.b4n1.com/install | bash` — no automatic downloads
-- **Version Checking**: SDKs automatically warn if binary version doesn't match
+Supports `#id`, `.class`, and `tag` selectors with 10s timeout.
 
 ### SecurityShield
 
-All SDKs include a `SecurityShield` for domain-level safety validation with caching:
+Domain-level safety validation with SQLite-backed caching:
 
 ```python
-# Python
 from b4n1web.security import SecurityShield
 shield = SecurityShield()
 shield.mark_domain("evil.com", is_safe=False)
 shield.is_url_safe("https://evil.com/page")  # (False, False)
 ```
 
-Available in all 5 SDKs — Python (SQLite-backed), JavaScript, Go, Java, C#.
+Available in all 5 SDKs.
 
-## API Reference
+### MCP (Model Context Protocol)
 
-### Common Features (All SDKs)
+Full MCP server + Python client for AI agent integration:
 
-| Feature | Description |
-|---------|-------------|
-| `AgentBrowser` | Main browser class |
-| `BrowserMode` | `LIGHT`, `JS`, `RENDER` modes |
-| `Page` | Structured page data (url, markdown, links, screenshot) |
-| `goto/navigate` | Navigate to URL and return Page |
-| `getMainContent()` | Extract main content, skipping headers |
-| `findLinksByText()` | Find links containing specific text |
-| `SecurityShield` | Domain safety validation with cache |
-
-## MCP (Model Context Protocol)
-
-Python SDK includes full MCP client support for AI agent integration:
+```bash
+# Start MCP server
+b4n1web mcp -p 8765
+```
 
 ```python
 from b4n1web.mcp import AsyncMcpClient
@@ -189,7 +183,33 @@ async with AsyncMcpClient() as client:
     print(page.markdown)
 ```
 
-Start the MCP server: `b4n1web mcp -p 8765`
+**Available MCP tools:**
+- `goto` — Navigate to URL and extract content (params: `url`, `mode`, `wait_for`)
+- `get_links` — Get all links from current page
+
+**Auto-configure for AI agents:**
+```bash
+b4n1web install opencode       # ~/.opencode/config.json
+b4n1web install cursor         # ~/.cursor/mcp.json
+b4n1web install windsurf       # ~/.windsurf/mcp.json
+b4n1web install claude-code    # ~/Library/Application Support/Claude/mcp.json
+b4n1web install antigravity    # ~/.config/antigravity/mcp.json
+```
+
+## API Reference
+
+### Common Features (All SDKs)
+
+| Feature | Description |
+|---------|-------------|
+| `AgentBrowser` | Main browser class |
+| `BrowserMode` | `LIGHT`, `JS`, `RENDER` modes |
+| `Page` | Structured data: url, markdown, links, screenshot |
+| `goto` / `navigate` | Navigate to URL and return Page |
+| `wait_for` | CSS selector to wait for (render mode) |
+| `getMainContent()` | Extract main content, skipping headers |
+| `findLinksByText()` | Find links containing specific text |
+| `SecurityShield` | Domain safety validation with cache |
 
 ## Architecture
 
@@ -210,13 +230,22 @@ Start the MCP server: `b4n1web mcp -p 8765`
 
 ## Version Compatibility
 
-SDK and binary versions should match for full compatibility. SDKs emit a warning when versions differ:
+SDK and binary versions should match. SDKs emit a warning when versions differ:
 
 ```
-⚠️  Version mismatch: SDK v0.4.0 requires binary v0.4.0, but found v0.3.0.
+⚠️  Version mismatch: SDK v0.6.0 requires binary v0.6.0, but found v0.5.0.
 ```
 
-Update the binary with: `curl -sL https://web.b4n1.com/install | bash`
+Update the binary: `curl -sL https://web.b4n1.com/install | bash`
+
+## Chromium Management
+
+```bash
+b4n1web chromium install      # Download Chromium (~150MB)
+b4n1web chromium update       # Update to latest
+b4n1web chromium version      # Show current version
+b4n1web chromium remove       # Remove Chromium
+```
 
 ## License
 

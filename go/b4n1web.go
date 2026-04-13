@@ -7,7 +7,7 @@ Installation:
        curl -sL https://web.b4n1.com/install | bash
 
     2. Install the Go SDK
-       go get github.com/B4N1-com/b4n1-web-go
+       go get github.com/B4N1-com/b4n1web
 
 Usage:
 
@@ -15,7 +15,7 @@ Usage:
 
     import (
         "fmt"
-        b4n1web "github.com/B4N1-com/b4n1-web-go"
+        b4n1web "github.com/B4N1-com/b4n1web/go"
     )
 
     func main() {
@@ -39,7 +39,7 @@ Usage:
 package b4n1web
 
 import (
-	"github.com/B4N1-com/b4n1-web-go/internal"
+	"github.com/B4N1-com/b4n1web/go/internal"
 )
 
 // Re-export types and functions
