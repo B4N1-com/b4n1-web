@@ -229,7 +229,7 @@ b4n1web install antigravity    # ~/.config/antigravity/mcp.json
 │        B4n1Web SDK (this repo)     │
 │  Thin wrapper → spawns subprocess   │
 ├─────────────────────────────────────┤
-│      b4n1web binary (Rust)         │
+│        b4n1web binary (~5MB)       │
 │  Installed separately via curl      │
 ├─────────────────────────────────────┤
 │  Chromium (optional, render mode)  │
