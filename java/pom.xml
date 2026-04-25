@@ -12,7 +12,7 @@
     <name>B4n1Web Java SDK</name>
     <description>B4n1Web SDK for Java - Agentic Browser Engine</description>
 
-    <url>https://web.b4n1.com</url>
+    <url>https://github.com/B4N1-com/b4n1-web</url>
     <scm>
         <connection>scm:git:https://github.com/B4N1-com/b4n1-web.git</connection>
         <url>https://github.com/B4N1-com/b4n1-web</url>

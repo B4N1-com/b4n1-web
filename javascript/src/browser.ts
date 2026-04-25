@@ -90,7 +90,7 @@ export function checkVersionCompatibility(): string | null {
     console.warn(
       `⚠️  Version mismatch: SDK v${SDK_VERSION} requires binary v${SDK_VERSION}, ` +
       `but found v${binaryVersion}. Some features may not work correctly. ` +
-      `To update: curl -sL https://web.b4n1.com/install | bash`
+      `To update: curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz`
     );
   }
   return binaryVersion;
@@ -168,7 +168,7 @@ export class AgentBrowser {
         `- ${home}/.local/bin/b4n1web\n` +
         `- ${home}/.b4n1web/bin/b4n1web\n` +
         `- PATH: ${pathDirs.join(', ')}\n\n` +
-        `For MCP server: curl -sL https://web.b4n1.com/install | bash`
+        `For MCP server: curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz`
       );
     }
     this.binaryPath = binary;

@@ -1,7 +1,7 @@
 # B4n1Web SDK
 
 <p align="center">
-  <img src="https://web.b4n1.com/logo.png" alt="B4n1Web Logo" width="200">
+  <img src="https://github.com/B4N1-com/b4n1-web/raw/master/logo.png" alt="B4n1Web Logo" width="200">
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@
   <a href="https://central.sonatype.com/artifact/com.b4n1/b4n1-web"><img src="https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg?style=flat&color=4C714E" alt="Maven Central"></a>
   <br>
   <a href="https://github.com/B4N1-com/b4n1-web/blob/master/LICENSE"><img src="https://img.shields.io/github/license/B4N1-com/b4n1-web?style=flat&color=green" alt="License"></a>
-  <a href="https://web.b4n1.com"><img src="https://img.shields.io/badge/web-b4n1.com-00d4ff?style=flat" alt="Website"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/badge/web-GitHub-00d4ff?style=flat" alt="Website"></a>
 </p>
 
 Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows across 5 languages.
@@ -29,7 +29,7 @@ Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate UR
 ### 1. Install the B4n1Web Binary
 
 ```bash
-curl -sL https://web.b4n1.com/install | bash
+curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz && ./b4n1web --version
 ```
 
 ### 2. Install Your Preferred SDK

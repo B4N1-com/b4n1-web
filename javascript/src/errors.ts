@@ -6,7 +6,7 @@
  * Error thrown when B4n1Web binary is not found
  */
 export class BinaryNotFoundError extends Error {
-  constructor(message = 'B4n1Web binary not found. Please install it first:\n  curl -sL https://web.b4n1.com/install | bash') {
+  constructor(message = 'B4n1Web binary not found. Please install it first:\n  curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz') {
     super(message);
     this.name = 'BinaryNotFoundError';
     Error.captureStackTrace(this, BinaryNotFoundError);
