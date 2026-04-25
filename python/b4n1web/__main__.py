@@ -35,7 +35,7 @@ def install_command():
     install_dir.mkdir(parents=True, exist_ok=True)
     binary_path = install_dir / "b4n1web"
 
-    version_url = "https://web.b4n1.com/latest-version"
+    version_url = "https://api.github.com/repos/B4N1-com/b4n1-web/releases/latest"
     print(f"\nChecking latest version...")
 
     try:
