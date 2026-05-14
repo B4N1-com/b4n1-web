@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "b4n1-web"
-version = "0.6.2"
-description = "Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots)."
-readme = {file = "README.md", content-type = "text/markdown"}
+version = "0.7.0"
+description = "B4n1Web Agentic Browser Engine - Ultra-lightweight headless browser for AI agents"
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}
 ]
 license = {text = "MIT OR Apache-2.0"}
+readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 3 - Alpha",

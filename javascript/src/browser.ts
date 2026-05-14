@@ -1,31 +1,21 @@
-/**
- * B4n1Web Browser - JavaScript/TypeScript Implementation
- */
-
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { BrowserMode, type BrowserOptions, type PageData, BinaryNotFoundError } from './types';
 
-/**
- * Find the b4n1web binary in bundled location or system install
- */
 export function getB4n1webBinary(): string | null {
   const home = process.env.HOME || process.env.USERPROFILE || '/home/' + process.env.USER;
   const paths: string[] = [];
 
-  // 1. Check bundled binary (bundled with npm package)
   const bundledBinary = path.join(__dirname, '..', 'bin', 'b4n1web-linux');
   if (fs.existsSync(bundledBinary)) {
     try {
       fs.accessSync(bundledBinary, fs.constants.X_OK);
       return bundledBinary;
     } catch {
-      // Not executable, continue searching
     }
   }
 
-  // 2. Check system install locations
   paths.push(
     '/usr/local/bin/b4n1web',
     '/usr/bin/b4n1web',
@@ -33,7 +23,6 @@ export function getB4n1webBinary(): string | null {
     home + '/.b4n1web/bin/b4n1web',
   );
 
-  // 3. Also check PATH
   const pathEnv = process.env.PATH || '';
   const pathDirs = pathEnv.split(':').filter(p => p);
   for (const dir of pathDirs) {
@@ -49,15 +38,11 @@ export function getB4n1webBinary(): string | null {
         }
       }
     } catch {
-      // Path doesn't exist or not executable
     }
   }
   return null;
 }
 
-/**
- * Get B4n1Web binary version
- */
 export function getB4n1webVersion(): string | null {
   const binaryPath = getB4n1webBinary();
   if (!binaryPath) {
@@ -77,18 +62,15 @@ export function getB4n1webVersion(): string | null {
 
 const SDK_VERSION = '0.5.0';
 
-/**
- * Check version compatibility and warn if mismatch
- */
 export function checkVersionCompatibility(): string | null {
   const binaryVersion = getB4n1webVersion();
   if (!binaryVersion) {
     return null;
   }
-  
+
   if (binaryVersion !== SDK_VERSION) {
     console.warn(
-      `⚠️  Version mismatch: SDK v${SDK_VERSION} requires binary v${SDK_VERSION}, ` +
+      `Warning: Version mismatch: SDK v${SDK_VERSION} requires binary v${SDK_VERSION}, ` +
       `but found v${binaryVersion}. Some features may not work correctly. ` +
       `To update: curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz`
     );
@@ -96,67 +78,45 @@ export function checkVersionCompatibility(): string | null {
   return binaryVersion;
 }
 
-/**
- * Page data returned by B4n1Web
- */
 export class Page implements PageData {
   url: string;
   markdown: string;
   links: string[];
   screenshot?: string;
+  jsOutput?: string;
 
   constructor(data: PageData) {
     this.url = data.url;
     this.markdown = data.markdown;
     this.links = data.links;
     this.screenshot = data.screenshot;
+    this.jsOutput = data.jsOutput;
   }
 
-  /**
-   * Extract main content from markdown, skipping headers
-   */
   getMainContent(): string {
     const lines = this.markdown.split('\n');
     const contentLines = lines.length > 2 ? lines.slice(2) : lines;
     return contentLines.join('\n').trim();
   }
 
-  /**
-   * Find links containing specific text
-   */
   findLinksByText(text: string): string[] {
     const lowerText = text.toLowerCase();
     return this.links.filter(link => link.toLowerCase().includes(lowerText));
   }
 }
 
-/**
- * B4n1Web Agent Browser
- * 
- * A browser instance optimized for AI agent workflows.
- * Requires B4n1Web binary to be installed.
- * 
- * @example
- * ```typescript
- * import { AgentBrowser, BrowserMode } from 'b4n1-web';
- * 
- * const browser = new AgentBrowser({ mode: BrowserMode.LIGHT });
- * const page = await browser.goto('https://example.com');
- * console.log(page.markdown);
- * browser.close();
- * ```
- */
 export class AgentBrowser {
   private mode: BrowserMode;
   private timeout: number;
   private userAgent: string;
   private binaryPath!: string;
+  private currentUrl: string | null = null;
 
   constructor(options: BrowserOptions = {}) {
     this.mode = options.mode ?? BrowserMode.LIGHT;
     this.timeout = options.timeout ?? 30;
     this.userAgent = options.userAgent ?? 'B4n1Web-Agent/1.0';
-    
+
     const binary = getB4n1webBinary();
     if (!binary) {
       const home = process.env.HOME || '';
@@ -174,17 +134,15 @@ export class AgentBrowser {
     this.binaryPath = binary;
   }
 
-  /**
-   * Navigate to a URL and extract structured content
-   */
-  async goto(url: string): Promise<Page> {
+  async goto(url: string, waitFor?: string): Promise<Page> {
+    this.currentUrl = url;
     return new Promise((resolve, reject) => {
       try {
-        const output = execSync(
-          `${this.binaryPath} goto ${url} --mode ${this.mode}`,
-          { timeout: this.timeout * 1000 }
-        ).toString();
-
+        let cmd = `${this.binaryPath} goto ${url} --mode ${this.mode}`;
+        if (waitFor) {
+          cmd += ` --wait-for ${JSON.stringify(waitFor)}`;
+        }
+        const output = execSync(cmd, { timeout: this.timeout * 1000 }).toString();
         const page = this.parseOutput(url, output);
         resolve(page);
       } catch (error: any) {
@@ -197,13 +155,11 @@ export class AgentBrowser {
     });
   }
 
-  /**
-   * Parse text output from the binary
-   */
   private parseOutput(url: string, output: string): Page {
     let markdown = '';
     let links: string[] = [];
     let screenshot: string | undefined;
+    let jsOutput: string | undefined;
 
     for (const line of output.split('\n')) {
       if (line.startsWith('URL:')) {
@@ -212,12 +168,14 @@ export class AgentBrowser {
         continue;
       } else if (line.startsWith('Links:')) {
         try {
-          links = eval(line.slice(6).trim()); // Safe: we control the output format
+          links = JSON.parse(line.slice(6).trim());
         } catch {
           links = [];
         }
       } else if (line.startsWith('Screenshot:')) {
         screenshot = line.slice(10).trim() || undefined;
+      } else if (line.startsWith('js_output:')) {
+        jsOutput = line.slice(10).trim() || undefined;
       } else {
         markdown += line + '\n';
       }
@@ -228,27 +186,113 @@ export class AgentBrowser {
       markdown: markdown.trim(),
       links,
       screenshot,
+      jsOutput,
     });
   }
 
-  /**
-   * Close the browser session
-   */
   close(): void {
-    // No persistent session to close in current implementation
   }
 
-  /**
-   * Use as async context manager
-   */
   async [Symbol.asyncDispose]() {
     this.close();
   }
+
+  screenshot(width: number = 1280, height: number = 720): string {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    try {
+      const output = execSync(
+        `${this.binaryPath} screenshot --url ${this.currentUrl} --mode ${this.mode} --width ${width} --height ${height}`,
+        { timeout: this.timeout * 1000 }
+      ).toString().trim();
+      return output;
+    } catch (error: any) {
+      if (error.message?.includes('timed out')) {
+        throw new Error(`Screenshot timed out after ${this.timeout}s`);
+      }
+      throw new Error(`Screenshot failed: ${error.message}`);
+    }
+  }
+
+  async waitForSelector(selector: string, timeoutMs: number = 10000): Promise<boolean> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    try {
+      const output = execSync(
+        `${this.binaryPath} wait-for-selector --url ${this.currentUrl} --selector ${JSON.stringify(selector)} --timeout ${timeoutMs}`,
+        { timeout: Math.ceil(timeoutMs / 1000) + 5 }
+      ).toString().trim();
+      return output === 'true';
+    } catch {
+      return false;
+    }
+  }
+
+  async click(selector: string): Promise<void> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    try {
+      execSync(
+        `${this.binaryPath} click --url ${this.currentUrl} --mode ${this.mode} --selector ${JSON.stringify(selector)}`,
+        { timeout: this.timeout * 1000 }
+      );
+    } catch (error: any) {
+      throw new Error(`Click failed on "${selector}": ${error.message}`);
+    }
+  }
+
+  async typeText(selector: string, text: string, clearFirst: boolean = false): Promise<void> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    try {
+      let cmd = `${this.binaryPath} type-text --url ${this.currentUrl} --mode ${this.mode} --selector ${JSON.stringify(selector)} --text ${JSON.stringify(text)}`;
+      if (clearFirst) {
+        cmd += ' --clear-first';
+      }
+      execSync(cmd, { timeout: this.timeout * 1000 });
+    } catch (error: any) {
+      throw new Error(`Type text failed on "${selector}": ${error.message}`);
+    }
+  }
+
+  getLinks(): string[] {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    try {
+      const output = execSync(
+        `${this.binaryPath} get-links --url ${this.currentUrl} --mode ${this.mode}`,
+        { timeout: this.timeout * 1000 }
+      ).toString().trim();
+      try {
+        return JSON.parse(output);
+      } catch {
+        return [];
+      }
+    } catch {
+      return [];
+    }
+  }
+
+  static async getLinksFromPage(url: string, mode: BrowserMode = BrowserMode.LIGHT): Promise<string[]> {
+    const browser = new AgentBrowser({ mode });
+    try {
+      const page = await browser.goto(url);
+      return page.links;
+    } finally {
+      browser.close();
+    }
+  }
+
+  static findBinary(): string | null {
+    return getB4n1webBinary();
+  }
 }
 
-/**
- * Create a browser and navigate in one go
- */
 export async function createBrowserAndGoto(
   url: string,
   options: BrowserOptions = {}

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.6.0";
+    private static final String SDK_VERSION = "0.7.0";
     private final BrowserOptions options;
     private final String binaryPath;
 
@@ -39,7 +39,6 @@ public class AgentBrowser implements AutoCloseable {
         }
         this.binaryPath = path;
 
-        // Check version compatibility (non-fatal warning)
         checkVersionCompatibility();
     }
 
@@ -54,7 +53,7 @@ public class AgentBrowser implements AutoCloseable {
         }
 
         if (!binaryVersion.equals(SDK_VERSION)) {
-            System.err.println("⚠️  Version mismatch: SDK v" + SDK_VERSION + " requires binary v" + SDK_VERSION +
+            System.err.println("Version mismatch: SDK v" + SDK_VERSION + " requires binary v" + SDK_VERSION +
                 ", but found v" + binaryVersion + ". Some features may not work correctly.");
         }
     }
@@ -63,10 +62,26 @@ public class AgentBrowser implements AutoCloseable {
      * Navigate to a URL and extract structured content.
      */
     public Page goto_(String url) throws NavigationException {
+        return goto_(url, null);
+    }
+
+    /**
+     * Navigate to a URL with an optional CSS selector to wait for.
+     */
+    public Page goto_(String url, String waitFor) throws NavigationException {
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                binaryPath, "goto", url, "--mode", options.getMode().getValue()
-            );
+            List<String> cmd = new ArrayList<>();
+            cmd.add(binaryPath);
+            cmd.add("goto");
+            cmd.add(url);
+            cmd.add("--mode");
+            cmd.add(options.getMode().getValue());
+            if (waitFor != null && !waitFor.isEmpty()) {
+                cmd.add("--wait-for");
+                cmd.add(waitFor);
+            }
+
+            ProcessBuilder pb = new ProcessBuilder(cmd);
             pb.redirectErrorStream(true);
             Process process = pb.start();
 
@@ -100,9 +115,107 @@ public class AgentBrowser implements AutoCloseable {
         return goto_(url);
     }
 
+    /**
+     * Take a screenshot of the current page with specified dimensions.
+     */
+    public String screenshot(int width, int height) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(
+                binaryPath, "screenshot", "--width", String.valueOf(width), "--height", String.valueOf(height),
+                "--mode", options.getMode().getValue()
+            );
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            String output = new BufferedReader(new InputStreamReader(process.getInputStream()))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+
+            process.waitFor(options.getTimeout(), java.util.concurrent.TimeUnit.SECONDS);
+            return output.trim();
+        } catch (Exception e) {
+            throw new RuntimeException("Screenshot failed", e);
+        }
+    }
+
+    /**
+     * Wait for a CSS selector to appear within the given timeout.
+     */
+    public boolean waitForSelector(String selector, int timeoutMs) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(
+                binaryPath, "wait-selector", selector, "--timeout", String.valueOf(timeoutMs),
+                "--mode", options.getMode().getValue()
+            );
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            String output = new BufferedReader(new InputStreamReader(process.getInputStream()))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+
+            process.waitFor(timeoutMs / 1000 + 1, java.util.concurrent.TimeUnit.SECONDS);
+            return process.exitValue() == 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Click an element matching the given CSS selector.
+     */
+    public void click(String selector) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(
+                binaryPath, "click", selector, "--mode", options.getMode().getValue()
+            );
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+            process.waitFor(options.getTimeout(), java.util.concurrent.TimeUnit.SECONDS);
+        } catch (Exception e) {
+            throw new RuntimeException("Click failed for selector: " + selector, e);
+        }
+    }
+
+    /**
+     * Type text into an element matching the given CSS selector.
+     */
+    public void typeText(String selector, String text, boolean clearFirst) {
+        try {
+            List<String> cmd = new ArrayList<>();
+            cmd.add(binaryPath);
+            cmd.add("type");
+            cmd.add(selector);
+            cmd.add(text);
+            cmd.add("--mode");
+            cmd.add(options.getMode().getValue());
+            if (clearFirst) {
+                cmd.add("--clear-first");
+            }
+
+            ProcessBuilder pb = new ProcessBuilder(cmd);
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+            process.waitFor(options.getTimeout(), java.util.concurrent.TimeUnit.SECONDS);
+        } catch (Exception e) {
+            throw new RuntimeException("TypeText failed for selector: " + selector, e);
+        }
+    }
+
+    /**
+     * Convenience: fetch links directly from a URL.
+     */
+    public static String[] getLinksFromPage(String url) {
+        try (AgentBrowser browser = new AgentBrowser()) {
+            Page page = browser.goto_(url);
+            return page.getLinksArray();
+        }
+    }
+
     private Page parseOutput(String url, String output) {
         StringBuilder markdown = new StringBuilder();
         List<String> links = new ArrayList<>();
+        String jsOutput = null;
 
         for (String line : output.split("\n")) {
             if (line.startsWith("URL:")) {
@@ -116,6 +229,8 @@ public class AgentBrowser implements AutoCloseable {
                 } catch (Exception e) {
                     links = new ArrayList<>();
                 }
+            } else if (line.startsWith("JSOutput:")) {
+                jsOutput = line.substring(9).trim();
             } else {
                 if (markdown.length() > 0) {
                     markdown.append("\n");
@@ -128,6 +243,7 @@ public class AgentBrowser implements AutoCloseable {
         page.setUrl(url);
         page.setMarkdown(markdown.toString().trim());
         page.setLinks(links);
+        page.setJsOutput(jsOutput);
         return page;
     }
 
@@ -153,22 +269,18 @@ public class AgentBrowser implements AutoCloseable {
     }
 
     private String findBinary() {
-        // 1. Check bundled binary (bundled as native resource)
         try {
             String resourcePath = "/native/linux-x86_64/b4n1web-linux";
             java.net.URL url = getClass().getResource(resourcePath);
             if (url != null) {
-                // Extract to temp directory
                 File bundledBinary = extractBundledBinary(resourcePath);
                 if (bundledBinary != null && bundledBinary.canExecute()) {
                     return bundledBinary.getAbsolutePath();
                 }
             }
         } catch (Exception e) {
-            // Bundled binary not available or couldn't be extracted
         }
 
-        // 2. Check system install locations
         String[] possiblePaths = {
             "/usr/local/bin/b4n1web",
             "/usr/bin/b4n1web",
@@ -185,9 +297,6 @@ public class AgentBrowser implements AutoCloseable {
         return null;
     }
 
-    /**
-     * Extract bundled binary to temp directory
-     */
     private File extractBundledBinary(String resourcePath) {
         try {
             File tempDir = new File(System.getProperty("java.io.tmpdir"), "b4n1web");
@@ -232,7 +341,6 @@ public class AgentBrowser implements AutoCloseable {
                     pb.waitFor(5, java.util.concurrent.TimeUnit.SECONDS);
                     return version.trim();
                 } catch (Exception e) {
-                    // continue
                 }
             }
         }
@@ -241,6 +349,5 @@ public class AgentBrowser implements AutoCloseable {
 
     @Override
     public void close() {
-        // No persistent session in current implementation
     }
 }

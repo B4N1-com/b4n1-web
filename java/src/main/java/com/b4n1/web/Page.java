@@ -11,6 +11,7 @@ public class Page {
     private String markdown;
     private List<String> links;
     private String screenshot;
+    private String jsOutput;
 
     public Page() {
     }
@@ -53,6 +54,24 @@ public class Page {
         this.screenshot = screenshot;
     }
 
+    public String getJsOutput() {
+        return jsOutput;
+    }
+
+    public void setJsOutput(String jsOutput) {
+        this.jsOutput = jsOutput;
+    }
+
+    /**
+     * Get links as a String array.
+     */
+    public String[] getLinksArray() {
+        if (links == null) {
+            return new String[0];
+        }
+        return links.toArray(new String[0]);
+    }
+
     /**
      * Extract main content from markdown, skipping headers.
      */
@@ -83,5 +102,15 @@ public class Page {
         return links.stream()
                 .filter(link -> link.toLowerCase().contains(lowerText))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Convenience: fetch links directly from a URL using a temporary browser.
+     */
+    public static List<String> getLinksFromPage(String url) {
+        try (AgentBrowser browser = new AgentBrowser()) {
+            Page page = browser.goto_(url);
+            return page.getLinks();
+        }
     }
 }

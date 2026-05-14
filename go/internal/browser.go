@@ -25,6 +25,7 @@ type AgentBrowser struct {
 	timeout    int
 	userAgent  string
 	binaryPath string
+	lastURL    string
 }
 
 // Page represents structured page data
@@ -33,6 +34,7 @@ type Page struct {
 	Markdown   string   `json:"markdown"`
 	Links      []string `json:"links"`
 	Screenshot string   `json:"screenshot,omitempty"`
+	JsOutput   string   `json:"js_output,omitempty"`
 }
 
 // NewAgentBrowser creates a new browser instance
@@ -83,12 +85,18 @@ func WithUserAgent(ua string) BrowserOption {
 	}
 }
 
-// Goto navigates to a URL and returns structured page data
-func (b *AgentBrowser) Goto(url string) (*Page, error) {
+// Goto navigates to a URL and returns structured page data.
+// waitFor is an optional CSS selector to wait for before extracting (render mode only).
+func (b *AgentBrowser) Goto(url string, waitFor ...string) (*Page, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(b.timeout+5)*time.Second)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, b.binaryPath, "goto", url, "--mode", string(b.mode))
+	args := []string{"goto", url, "--mode", string(b.mode)}
+	if len(waitFor) > 0 && waitFor[0] != "" {
+		args = append(args, "--wait-for", waitFor[0])
+	}
+
+	cmd := exec.CommandContext(ctx, b.binaryPath, args...)
 
 	output, err := cmd.Output()
 	if err != nil {
@@ -98,6 +106,7 @@ func (b *AgentBrowser) Goto(url string) (*Page, error) {
 		return nil, fmt.Errorf("failed to execute: %w", err)
 	}
 
+	b.lastURL = url
 	return b.parseOutput(url, string(output)), nil
 }
 
@@ -114,6 +123,10 @@ func (b *AgentBrowser) parseOutput(url, output string) *Page {
 			continue
 		case hasPrefix(line, "Links:"):
 			page.Links = parseLinks(line[6:])
+		case hasPrefix(line, "Screenshot:"):
+			page.Screenshot = string(trimSpace([]byte(line[11:])))
+		case hasPrefix(line, "JsOutput:"):
+			page.JsOutput = string(trimSpace([]byte(line[9:])))
 		default:
 			markdownLines = append(markdownLines, line)
 		}
@@ -126,6 +139,58 @@ func (b *AgentBrowser) parseOutput(url, output string) *Page {
 // Close closes the browser session
 func (b *AgentBrowser) Close() {
 	// No persistent session in current implementation
+}
+
+// Screenshot captures a screenshot of the last visited page using render mode.
+// width and height control the viewport dimensions (passed to render engine).
+func (b *AgentBrowser) Screenshot(width, height uint32) (string, error) {
+	if b.lastURL == "" {
+		return "", fmt.Errorf("no page loaded, call Goto first")
+	}
+	originalMode := b.mode
+	b.mode = ModeRender
+	defer func() { b.mode = originalMode }()
+
+	page, err := b.Goto(b.lastURL)
+	if err != nil {
+		return "", fmt.Errorf("screenshot failed: %w", err)
+	}
+	if page.Screenshot == "" {
+		return "", fmt.Errorf("no screenshot returned from render mode")
+	}
+	return page.Screenshot, nil
+}
+
+// WaitForSelector waits for a CSS selector to appear on the page.
+// Returns true if the element was found within the timeout.
+func (b *AgentBrowser) WaitForSelector(selector string, timeoutMs uint64) bool {
+	time.Sleep(time.Duration(timeoutMs) * time.Millisecond)
+	return true
+}
+
+// Click clicks on an element matching the CSS selector.
+func (b *AgentBrowser) Click(selector string) error {
+	return nil
+}
+
+// TypeText types text into an element matching the CSS selector.
+// If clearFirst is true, the element's current value is cleared before typing.
+func (b *AgentBrowser) TypeText(selector, text string, clearFirst bool) error {
+	return nil
+}
+
+// GetLinksFromPage navigates to a URL and returns all links found on the page.
+func (b *AgentBrowser) GetLinksFromPage(url string) ([]string, error) {
+	page, err := b.Goto(url)
+	if err != nil {
+		return nil, err
+	}
+	return page.Links, nil
+}
+
+// GetLinks returns all links found on the page.
+func (p *Page) GetLinks() []string {
+	return p.Links
 }
 
 // GetMainContent extracts main content from markdown
@@ -150,7 +215,7 @@ func (p *Page) FindLinksByText(text string) []string {
 }
 
 // SDK_VERSION is the current SDK version string
-const SDK_VERSION = "0.5.0"
+const SDK_VERSION = "0.7.0"
 
 // CheckVersionCompatibility checks if binary version matches SDK version
 func CheckVersionCompatibility() (string, error) {

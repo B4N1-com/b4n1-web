@@ -29,6 +29,7 @@ public class Page
     public string Markdown { get; set; } = string.Empty;
     public List<string> Links { get; set; } = new();
     public string? Screenshot { get; set; }
+    public string? JsOutput { get; set; }
 
     /// <summary>
     /// Extract main content from markdown, skipping headers
