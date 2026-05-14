@@ -23,6 +23,7 @@ public class AgentBrowser : IDisposable
     private const string SdkVersion = "0.5.0";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
+    private Page? _lastPage;
     private bool _disposed;
 
     public AgentBrowser(BrowserOptions? options = null)
@@ -62,12 +63,18 @@ public class AgentBrowser : IDisposable
     /// <summary>
     /// Navigate to a URL and extract structured content
     /// </summary>
-    public async Task<Page> GotoAsync(string url)
+    public async Task<Page> GotoAsync(string url, string? waitFor = null)
     {
+        var args = $"goto {url} --mode {_options.Mode.ToString().ToLower()}";
+        if (waitFor != null)
+        {
+            args += $" --wait-for \"{waitFor}\"";
+        }
+
         var startInfo = new ProcessStartInfo
         {
             FileName = _binaryPath,
-            Arguments = $"goto {url} --mode {_options.Mode.ToString().ToLower()}",
+            Arguments = args,
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
@@ -93,15 +100,243 @@ public class AgentBrowser : IDisposable
             throw new Exception($"Binary error: {error}");
         }
 
-        return ParseOutput(url, output);
+        var page = ParseOutput(url, output);
+        _lastPage = page;
+        return page;
     }
 
     /// <summary>
     /// Navigate to URL (synchronous version)
     /// </summary>
-    public Page Goto(string url)
+    public Page Goto(string url, string? waitFor = null)
     {
-        return GotoAsync(url).GetAwaiter().GetResult();
+        return GotoAsync(url, waitFor).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
+    /// Take a screenshot of the current page
+    /// </summary>
+    public string Screenshot(int width, int height)
+    {
+        if (_lastPage == null)
+            throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = _binaryPath,
+            Arguments = $"screenshot --url {_lastPage.Url} --width {width} --height {height}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        var output = process.StandardOutput.ReadToEnd();
+        var error = process.StandardError.ReadToEnd();
+
+        var timedOut = process.WaitForExit(_options.Timeout * 1000);
+
+        if (!timedOut)
+        {
+            process.Kill();
+            throw new Exception($"Binary timed out after {_options.Timeout}s");
+        }
+
+        if (process.ExitCode != 0)
+        {
+            throw new Exception($"Binary error: {error}");
+        }
+
+        foreach (var line in output.Split('\n'))
+        {
+            if (line.StartsWith("Screenshot:"))
+            {
+                var b64 = line[11..].Trim();
+                if (!string.IsNullOrEmpty(b64))
+                    return b64;
+            }
+        }
+
+        throw new Exception("No screenshot data returned from binary");
+    }
+
+    /// <summary>
+    /// Wait for a CSS selector to appear on the page
+    /// </summary>
+    public bool WaitForSelector(string selector, int timeoutMs)
+    {
+        if (_lastPage == null)
+            throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = _binaryPath,
+            Arguments = $"wait-for-selector \"{selector}\" --url {_lastPage.Url} --timeout {timeoutMs}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        var output = process.StandardOutput.ReadToEnd();
+        var error = process.StandardError.ReadToEnd();
+
+        var timedOut = process.WaitForExit(_options.Timeout * 1000);
+
+        if (!timedOut)
+        {
+            process.Kill();
+            throw new Exception($"Binary timed out after {_options.Timeout}s");
+        }
+
+        if (process.ExitCode != 0)
+        {
+            throw new Exception($"Binary error: {error}");
+        }
+
+        foreach (var line in output.Split('\n'))
+        {
+            if (line.StartsWith("Found:"))
+            {
+                return line[6..].Trim() == "true";
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Click on an element by CSS selector
+    /// </summary>
+    public void Click(string selector)
+    {
+        if (_lastPage == null)
+            throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = _binaryPath,
+            Arguments = $"click \"{selector}\" --url {_lastPage.Url}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        var error = process.StandardError.ReadToEnd();
+        var timedOut = process.WaitForExit(_options.Timeout * 1000);
+
+        if (!timedOut)
+        {
+            process.Kill();
+            throw new Exception($"Binary timed out after {_options.Timeout}s");
+        }
+
+        if (process.ExitCode != 0)
+        {
+            throw new Exception($"Binary error: {error}");
+        }
+    }
+
+    /// <summary>
+    /// Type text into an element by CSS selector
+    /// </summary>
+    public void TypeText(string selector, string text, bool clearFirst)
+    {
+        if (_lastPage == null)
+            throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
+
+        var clearArg = clearFirst ? " --clear-first" : "";
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = _binaryPath,
+            Arguments = $"type-text \"{selector}\" \"{text}\" --url {_lastPage.Url}{clearArg}",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        var error = process.StandardError.ReadToEnd();
+        var timedOut = process.WaitForExit(_options.Timeout * 1000);
+
+        if (!timedOut)
+        {
+            process.Kill();
+            throw new Exception($"Binary timed out after {_options.Timeout}s");
+        }
+
+        if (process.ExitCode != 0)
+        {
+            throw new Exception($"Binary error: {error}");
+        }
+    }
+
+    /// <summary>
+    /// Get links from the last visited page
+    /// </summary>
+    public string[] GetLinks()
+    {
+        return _lastPage?.Links.ToArray() ?? Array.Empty<string>();
+    }
+
+    /// <summary>
+    /// Fetch links from a URL without creating a browser instance (static)
+    /// </summary>
+    public static string[] GetLinksFromPage(string url)
+    {
+        var binaryPath = FindBinary();
+        if (string.IsNullOrEmpty(binaryPath))
+            throw new BinaryNotFoundException();
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = binaryPath,
+            Arguments = $"goto {url} --mode light",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        var output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit(30000);
+
+        if (process.ExitCode != 0)
+            return Array.Empty<string>();
+
+        foreach (var line in output.Split('\n'))
+        {
+            if (line.StartsWith("Links:"))
+            {
+                try
+                {
+                    return System.Text.Json.JsonSerializer.Deserialize<List<string>>(line[6..])
+                        ?.ToArray() ?? Array.Empty<string>();
+                }
+                catch
+                {
+                    return Array.Empty<string>();
+                }
+            }
+        }
+
+        return Array.Empty<string>();
     }
 
     /// <summary>
@@ -111,6 +346,8 @@ public class AgentBrowser : IDisposable
     {
         var markdown = new List<string>();
         var links = new List<string>();
+        string? screenshot = null;
+        string? jsOutput = null;
 
         foreach (var line in output.Split('\n'))
         {
@@ -134,6 +371,16 @@ public class AgentBrowser : IDisposable
                     links = new List<string>();
                 }
             }
+            else if (line.StartsWith("Screenshot:"))
+            {
+                screenshot = line[11..].Trim();
+                if (string.IsNullOrEmpty(screenshot)) screenshot = null;
+            }
+            else if (line.StartsWith("JsOutput:"))
+            {
+                jsOutput = line[9..].Trim();
+                if (string.IsNullOrEmpty(jsOutput)) jsOutput = null;
+            }
             else
             {
                 markdown.Add(line);
@@ -144,7 +391,9 @@ public class AgentBrowser : IDisposable
         {
             Url = url,
             Markdown = string.Join("\n", markdown).Trim(),
-            Links = links
+            Links = links,
+            Screenshot = screenshot,
+            JsOutput = jsOutput
         };
     }
 

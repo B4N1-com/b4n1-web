@@ -1,6 +1,6 @@
 {
   "name": "b4n1-web",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

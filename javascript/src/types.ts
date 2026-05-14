@@ -1,7 +1,3 @@
-/**
- * B4n1Web TypeScript Types
- */
-
 export enum BrowserMode {
   LIGHT = 'light',
   JS = 'js',
@@ -19,6 +15,7 @@ export interface PageData {
   markdown: string;
   links: string[];
   screenshot?: string;
+  jsOutput?: string;
 }
 
 export interface NavigateResult {

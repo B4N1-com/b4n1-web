@@ -120,8 +120,8 @@ class McpClient:
         response = self._send_request(
             "initialize",
             {
-                "protocolVersion": "2024-11-05",
-                "clientInfo": {"name": "b4n1web-python-sdk", "version": "0.3.0"},
+                "protocolVersion": "2025-11-25",
+                "clientInfo": {"name": "b4n1web-python-sdk", "version": "0.7.0"},
             },
         )
 
@@ -252,7 +252,7 @@ class McpClient:
             elif line.startswith("Links:"):
                 in_markdown = False
                 try:
-                    links = eval(line[6:].strip())
+                    links = json.loads(line[6:].strip())
                 except Exception:
                     links = []
             elif line.startswith("Screenshot:"):
@@ -284,7 +284,7 @@ class McpClient:
         text = "".join(c.get("text", "") for c in content if c.get("type") == "text")
 
         try:
-            return eval(text.strip())
+            return json.loads(text.strip())
         except Exception:
             return []
 
@@ -301,7 +301,7 @@ class McpClient:
         text = "".join(c.get("text", "") for c in content if c.get("type") == "text")
 
         try:
-            return eval(text.strip())
+            return json.loads(text.strip())
         except Exception:
             return []
 
