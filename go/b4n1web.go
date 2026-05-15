@@ -4,7 +4,7 @@ Package b4n1web provides Go bindings for B4n1Web: The Agentic Browser Engine.
 Installation:
 
     1. Install the B4n1Web Binary
-       curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz
+       curl -sL https://web.b4n1.com/install | bash
 
     2. Install the Go SDK
        go get github.com/B4N1-com/b4n1-web/go
@@ -60,6 +60,15 @@ const (
 // NewAgentBrowser creates a new browser instance
 var NewAgentBrowser = internal.NewAgentBrowser
 
+// WithMode sets the browser mode
+var WithMode = internal.WithMode
+
+// WithTimeout sets the request timeout
+var WithTimeout = internal.WithTimeout
+
+// WithUserAgent sets custom user agent
+var WithUserAgent = internal.WithUserAgent
+
 // NewSecurityShield creates a new security shield
 var NewSecurityShield = internal.NewSecurityShield
 
@@ -68,3 +77,6 @@ var GetVersion = internal.GetVersion
 
 // Navigate navigates with security check
 var Navigate = internal.Navigate
+
+// GetLinksFromPage navigates to a URL and returns all links found on the page
+var GetLinksFromPage = internal.GetLinksFromPage

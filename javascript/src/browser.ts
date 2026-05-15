@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { BrowserMode, type BrowserOptions, type PageData, BinaryNotFoundError } from './types';
+import { BrowserMode, type BrowserOptions, type PageData, type IframeInfo, BinaryNotFoundError } from './types';
 
 export function getB4n1webBinary(): string | null {
   const home = process.env.HOME || process.env.USERPROFILE || '/home/' + process.env.USER;
@@ -60,7 +60,7 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.5.0';
+const SDK_VERSION = '0.7.0';
 
 export function checkVersionCompatibility(): string | null {
   const binaryVersion = getB4n1webVersion();
@@ -72,7 +72,7 @@ export function checkVersionCompatibility(): string | null {
     console.warn(
       `Warning: Version mismatch: SDK v${SDK_VERSION} requires binary v${SDK_VERSION}, ` +
       `but found v${binaryVersion}. Some features may not work correctly. ` +
-      `To update: curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz`
+      `To update: curl -sL https://web.b4n1.com/install | bash`
     );
   }
   return binaryVersion;
@@ -111,11 +111,17 @@ export class AgentBrowser {
   private userAgent: string;
   private binaryPath!: string;
   private currentUrl: string | null = null;
+  private sessionId: string;
+  private sessionStarted: boolean = false;
+  private viewportWidth: number = 1280;
+  private viewportHeight: number = 720;
+  private emulatedDevice: string | null = null;
 
   constructor(options: BrowserOptions = {}) {
     this.mode = options.mode ?? BrowserMode.LIGHT;
     this.timeout = options.timeout ?? 30;
     this.userAgent = options.userAgent ?? 'B4n1Web-Agent/1.0';
+    this.sessionId = `agent-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
     const binary = getB4n1webBinary();
     if (!binary) {
@@ -128,10 +134,41 @@ export class AgentBrowser {
         `- ${home}/.local/bin/b4n1web\n` +
         `- ${home}/.b4n1web/bin/b4n1web\n` +
         `- PATH: ${pathDirs.join(', ')}\n\n` +
-        `For MCP server: curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz`
+        `For MCP server: curl -sL https://web.b4n1.com/install | bash`
       );
     }
     this.binaryPath = binary;
+  }
+
+  private escapeArg(arg: string): string {
+    return JSON.stringify(arg);
+  }
+
+  private runSessionCommand(subcommand: string, ...args: string[]): string {
+    try {
+      return execSync(
+        `${this.binaryPath} session ${subcommand} ${this.sessionId} ${args.join(' ')}`,
+        { timeout: this.timeout * 1000 }
+      ).toString().trim();
+    } catch (error: any) {
+      if (error.message?.includes('timed out')) {
+        throw new Error(`Session command timed out after ${this.timeout}s`);
+      }
+      throw new Error(`Session command "${subcommand}" failed: ${error.message}`);
+    }
+  }
+
+  private ensureSession(url?: string): void {
+    if (!this.sessionStarted) {
+      execSync(`${this.binaryPath} session start ${this.sessionId}`, { timeout: 10000 });
+      this.sessionStarted = true;
+    }
+    if (url) {
+      execSync(
+        `${this.binaryPath} session goto ${this.sessionId} ${this.escapeArg(url)}`,
+        { timeout: this.timeout * 1000 }
+      );
+    }
   }
 
   async goto(url: string, waitFor?: string): Promise<Page> {
@@ -190,53 +227,14 @@ export class AgentBrowser {
     });
   }
 
-  close(): void {
-  }
-
-  async [Symbol.asyncDispose]() {
-    this.close();
-  }
-
-  screenshot(width: number = 1280, height: number = 720): string {
-    if (!this.currentUrl) {
-      throw new Error('No page loaded. Call goto() first.');
-    }
-    try {
-      const output = execSync(
-        `${this.binaryPath} screenshot --url ${this.currentUrl} --mode ${this.mode} --width ${width} --height ${height}`,
-        { timeout: this.timeout * 1000 }
-      ).toString().trim();
-      return output;
-    } catch (error: any) {
-      if (error.message?.includes('timed out')) {
-        throw new Error(`Screenshot timed out after ${this.timeout}s`);
-      }
-      throw new Error(`Screenshot failed: ${error.message}`);
-    }
-  }
-
-  async waitForSelector(selector: string, timeoutMs: number = 10000): Promise<boolean> {
-    if (!this.currentUrl) {
-      throw new Error('No page loaded. Call goto() first.');
-    }
-    try {
-      const output = execSync(
-        `${this.binaryPath} wait-for-selector --url ${this.currentUrl} --selector ${JSON.stringify(selector)} --timeout ${timeoutMs}`,
-        { timeout: Math.ceil(timeoutMs / 1000) + 5 }
-      ).toString().trim();
-      return output === 'true';
-    } catch {
-      return false;
-    }
-  }
-
   async click(selector: string): Promise<void> {
     if (!this.currentUrl) {
       throw new Error('No page loaded. Call goto() first.');
     }
+    this.ensureSession(this.currentUrl);
     try {
       execSync(
-        `${this.binaryPath} click --url ${this.currentUrl} --mode ${this.mode} --selector ${JSON.stringify(selector)}`,
+        `${this.binaryPath} session click ${this.sessionId} ${this.escapeArg(selector)}`,
         { timeout: this.timeout * 1000 }
       );
     } catch (error: any) {
@@ -248,14 +246,105 @@ export class AgentBrowser {
     if (!this.currentUrl) {
       throw new Error('No page loaded. Call goto() first.');
     }
+    this.ensureSession(this.currentUrl);
     try {
-      let cmd = `${this.binaryPath} type-text --url ${this.currentUrl} --mode ${this.mode} --selector ${JSON.stringify(selector)} --text ${JSON.stringify(text)}`;
+      let cmd = `${this.binaryPath} session type ${this.sessionId} ${this.escapeArg(selector)} ${this.escapeArg(text)}`;
       if (clearFirst) {
         cmd += ' --clear-first';
       }
       execSync(cmd, { timeout: this.timeout * 1000 });
     } catch (error: any) {
       throw new Error(`Type text failed on "${selector}": ${error.message}`);
+    }
+  }
+
+  async waitForSelector(selector: string, timeoutMs: number = 10000): Promise<boolean> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    this.ensureSession(this.currentUrl);
+    try {
+      const output = execSync(
+        `${this.binaryPath} session wait ${this.sessionId} ${this.escapeArg(selector)} --timeout-ms ${timeoutMs}`,
+        { timeout: Math.ceil(timeoutMs / 1000) + 5 }
+      ).toString().trim();
+      return output === 'true';
+    } catch {
+      return false;
+    }
+  }
+
+  async screenshot(url?: string): Promise<string> {
+    const targetUrl = url || this.currentUrl;
+    if (!targetUrl) {
+      throw new Error('No URL provided. Pass a URL or call goto() first.');
+    }
+    this.ensureSession(targetUrl);
+    try {
+      const output = execSync(
+        `${this.binaryPath} session screenshot ${this.sessionId} ${this.escapeArg(targetUrl)}`,
+        { timeout: this.timeout * 1000 }
+      ).toString().trim();
+      return output;
+    } catch (error: any) {
+      if (error.message?.includes('timed out')) {
+        throw new Error(`Screenshot timed out after ${this.timeout}s`);
+      }
+      throw new Error(`Screenshot failed: ${error.message}`);
+    }
+  }
+
+  async frames(): Promise<IframeInfo[]> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    this.ensureSession(this.currentUrl);
+    try {
+      const output = this.runSessionCommand('frames');
+      return JSON.parse(output) as IframeInfo[];
+    } catch (error: any) {
+      throw new Error(`Failed to list frames: ${error.message}`);
+    }
+  }
+
+  async iframeText(index: number): Promise<string> {
+    if (!this.currentUrl) {
+      throw new Error('No page loaded. Call goto() first.');
+    }
+    this.ensureSession(this.currentUrl);
+    try {
+      return this.runSessionCommand('iframe-text', String(index));
+    } catch (error: any) {
+      throw new Error(`Failed to get iframe text at index ${index}: ${error.message}`);
+    }
+  }
+
+  async setViewport(width: number, height: number): Promise<void> {
+    this.viewportWidth = width;
+    this.viewportHeight = height;
+    if (this.sessionStarted && this.currentUrl) {
+      try {
+        execSync(
+          `${this.binaryPath} session goto ${this.sessionId} ${this.escapeArg(this.currentUrl)} --viewport-width ${width} --viewport-height ${height}`,
+          { timeout: this.timeout * 1000 }
+        );
+      } catch (error: any) {
+        throw new Error(`setViewport failed: ${error.message}`);
+      }
+    }
+  }
+
+  async emulateDevice(device: string): Promise<void> {
+    this.emulatedDevice = device;
+    if (this.sessionStarted && this.currentUrl) {
+      try {
+        execSync(
+          `${this.binaryPath} session goto ${this.sessionId} ${this.escapeArg(this.currentUrl)} --emulate ${this.escapeArg(device)}`,
+          { timeout: this.timeout * 1000 }
+        );
+      } catch (error: any) {
+        throw new Error(`emulateDevice failed: ${error.message}`);
+      }
     }
   }
 
@@ -290,6 +379,20 @@ export class AgentBrowser {
 
   static findBinary(): string | null {
     return getB4n1webBinary();
+  }
+
+  close(): void {
+    if (this.sessionStarted) {
+      try {
+        execSync(`${this.binaryPath} session close ${this.sessionId}`, { timeout: 5000 });
+      } catch {
+      }
+      this.sessionStarted = false;
+    }
+  }
+
+  async [Symbol.asyncDispose]() {
+    this.close();
   }
 }
 

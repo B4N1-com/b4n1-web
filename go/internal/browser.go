@@ -1,8 +1,9 @@
-package b4n1web
+package internal
 
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -21,11 +22,15 @@ const (
 
 // AgentBrowser represents a B4n1Web browser instance
 type AgentBrowser struct {
-	mode       BrowserMode
-	timeout    int
-	userAgent  string
-	binaryPath string
-	lastURL    string
+	mode           BrowserMode
+	timeout        int
+	userAgent      string
+	binaryPath     string
+	lastURL        string
+	sessionID      string
+	sessionName    string
+	viewportWidth  uint32
+	viewportHeight uint32
 }
 
 // Page represents structured page data
@@ -43,6 +48,7 @@ func NewAgentBrowser(opts ...BrowserOption) (*AgentBrowser, error) {
 		mode:      ModeLight,
 		timeout:   30,
 		userAgent: "B4N1Web-Agent/1.0",
+		sessionID: fmt.Sprintf("%x", rand.Int63()),
 	}
 
 	for _, opt := range opts {
@@ -110,6 +116,43 @@ func (b *AgentBrowser) Goto(url string, waitFor ...string) (*Page, error) {
 	return b.parseOutput(url, string(output)), nil
 }
 
+// SessionStart starts a persistent browser session with the given name.
+// All subsequent session operations (Click, TypeText, etc.) use this session name.
+func (b *AgentBrowser) SessionStart(name string) error {
+	b.sessionName = name
+	_, err := b.runSessionCommand("start")
+	return err
+}
+
+// SessionStop stops the current session's navigation.
+// The session remains open for further operations.
+func (b *AgentBrowser) SessionStop() error {
+	if b.sessionName == "" {
+		return fmt.Errorf("no active session, call SessionStart first")
+	}
+	_, err := b.Goto("about:blank")
+	return err
+}
+
+// runSessionCommand runs a b4n1web session subcommand with the session name and extra args.
+func (b *AgentBrowser) runSessionCommand(subcommand string, extraArgs ...string) (string, error) {
+	if b.sessionName == "" {
+		return "", fmt.Errorf("no active session, call SessionStart first")
+	}
+	args := append([]string{"session", subcommand, b.sessionName}, extraArgs...)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(b.timeout+5)*time.Second)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, b.binaryPath, args...)
+	output, err := cmd.Output()
+	if err != nil {
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			return "", fmt.Errorf("session %s failed: %s", subcommand, string(exitErr.Stderr))
+		}
+		return "", fmt.Errorf("session %s failed: %w", subcommand, err)
+	}
+	return string(output), nil
+}
+
 // parseOutput parses text output from the binary
 func (b *AgentBrowser) parseOutput(url, output string) *Page {
 	page := &Page{URL: url}
@@ -136,14 +179,21 @@ func (b *AgentBrowser) parseOutput(url, output string) *Page {
 	return page
 }
 
-// Close closes the browser session
+// Close closes the browser session if one is active.
 func (b *AgentBrowser) Close() {
-	// No persistent session in current implementation
+	if b.sessionName != "" {
+		b.runSessionCommand("close")
+		b.sessionName = ""
+	}
 }
 
-// Screenshot captures a screenshot of the last visited page using render mode.
-// width and height control the viewport dimensions (passed to render engine).
+// Screenshot captures a screenshot of the last visited page.
+// If a session is active, uses the session screenshot command.
+// Otherwise falls back to render mode via Goto.
 func (b *AgentBrowser) Screenshot(width, height uint32) (string, error) {
+	if b.sessionName != "" && b.lastURL != "" {
+		return b.runSessionCommand("screenshot", b.lastURL)
+	}
 	if b.lastURL == "" {
 		return "", fmt.Errorf("no page loaded, call Goto first")
 	}
@@ -164,19 +214,96 @@ func (b *AgentBrowser) Screenshot(width, height uint32) (string, error) {
 // WaitForSelector waits for a CSS selector to appear on the page.
 // Returns true if the element was found within the timeout.
 func (b *AgentBrowser) WaitForSelector(selector string, timeoutMs uint64) bool {
-	time.Sleep(time.Duration(timeoutMs) * time.Millisecond)
-	return true
+	args := []string{selector}
+	if timeoutMs > 0 {
+		args = append(args, "--timeout-ms", fmt.Sprintf("%d", timeoutMs))
+	}
+	_, err := b.runSessionCommand("wait", args...)
+	return err == nil
 }
 
 // Click clicks on an element matching the CSS selector.
 func (b *AgentBrowser) Click(selector string) error {
-	return nil
+	_, err := b.runSessionCommand("click", selector)
+	return err
 }
 
 // TypeText types text into an element matching the CSS selector.
 // If clearFirst is true, the element's current value is cleared before typing.
 func (b *AgentBrowser) TypeText(selector, text string, clearFirst bool) error {
+	args := []string{selector, text}
+	if clearFirst {
+		args = append(args, "--clear-first")
+	}
+	_, err := b.runSessionCommand("type", args...)
+	return err
+}
+
+// Frames lists all iframes on the current page.
+func (b *AgentBrowser) Frames() ([]string, error) {
+	output, err := b.runSessionCommand("frames")
+	if err != nil {
+		return nil, err
+	}
+	return splitLines(string(trimSpace([]byte(output)))), nil
+}
+
+// IframeText returns the text content of an iframe at the given index.
+func (b *AgentBrowser) IframeText(index int) (string, error) {
+	return b.runSessionCommand("iframe-text", fmt.Sprintf("%d", index))
+}
+
+// SetViewport sets the viewport dimensions for subsequent navigations.
+func (b *AgentBrowser) SetViewport(width, height uint32) error {
+	b.viewportWidth = width
+	b.viewportHeight = height
 	return nil
+}
+
+// EmulateDevice sets viewport and user agent to emulate a specific device.
+// Supported devices: iphone 12/13/14, iphone se, pixel 5/6/7, ipad, ipad pro
+func (b *AgentBrowser) EmulateDevice(device string) error {
+	switch toLower(device) {
+	case "iphone 12", "iphone 13", "iphone 14":
+		b.userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+		b.viewportWidth = 390
+		b.viewportHeight = 844
+	case "iphone se":
+		b.userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+		b.viewportWidth = 375
+		b.viewportHeight = 667
+	case "pixel 5", "pixel 6", "pixel 7":
+		b.userAgent = "Mozilla/5.0 (Linux; Android 12; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
+		b.viewportWidth = 393
+		b.viewportHeight = 851
+	case "ipad", "ipad air":
+		b.userAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+		b.viewportWidth = 820
+		b.viewportHeight = 1180
+	case "ipad pro":
+		b.userAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+		b.viewportWidth = 1024
+		b.viewportHeight = 1366
+	default:
+		b.userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+		b.viewportWidth = 1920
+		b.viewportHeight = 1080
+	}
+	return nil
+}
+
+// GetLinksFromPage is a static helper that navigates to a URL and returns all links.
+func GetLinksFromPage(url string) ([]string, error) {
+	b, err := NewAgentBrowser()
+	if err != nil {
+		return nil, err
+	}
+	defer b.Close()
+	page, err := b.Goto(url)
+	if err != nil {
+		return nil, err
+	}
+	return page.Links, nil
 }
 
 // GetLinksFromPage navigates to a URL and returns all links found on the page.
