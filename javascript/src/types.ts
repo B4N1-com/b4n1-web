@@ -36,8 +36,14 @@ export interface SecurityCheckResult {
   needsApiCheck: boolean;
 }
 
+export interface IframeInfo {
+  index: number;
+  src?: string;
+  title?: string;
+}
+
 export class BinaryNotFoundError extends Error {
-  constructor(message = 'B4n1Web binary not found. Please install it first:\n  curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz') {
+  constructor(message = 'B4n1Web binary not found. Please install it first:\n  curl -sL https://web.b4n1.com/install | bash') {
     super(message);
     this.name = 'BinaryNotFoundError';
   }
