@@ -1,0 +1,1 @@
+{"version":"1.6.1","results":[[":security.test.ts",{"duration":33,"failed":false}],[":browser-mode.test.ts",{"duration":107,"failed":false}],[":agent-browser.test.ts",{"duration":278,"failed":false}],[":page.test.ts",{"duration":99,"failed":false}],[":errors.test.ts",{"duration":100,"failed":false}]]}

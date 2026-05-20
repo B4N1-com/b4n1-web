@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "b4n1-web"
+version = "0.8.0"
+description = "B4n1Web Agentic Browser Engine - Ultra-lightweight headless browser for AI agents"
+authors = [
+    {name = "Bani Montoya", email = "banimontoya@gmail.com"}
+]
+license = {text = "MIT OR Apache-2.0"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.urls]
+Homepage = "https://web.b4n1.com"
+Repository = "https://github.com/B4N1-com/b4n1-web"
+
+[project.scripts]
+b4n1web-install = "b4n1web.__main__:install_command"
+
+[tool.setuptools]
+packages = ["b4n1web", "b4n1web.bin"]
+
+[tool.setuptools.package-data]
+"b4n1web.bin" = ["*"]

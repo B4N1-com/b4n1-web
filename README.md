@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/B4N1-com/b4n1-web/stargazers"><img src="https://img.shields.io/github/stars/B4N1-com/b4n1-web?style=flat&color=yellow" alt="GitHub stars"></a>
   <a href="https://github.com/B4N1-com/b4n1-web/network"><img src="https://img.shields.io/github/forks/B4N1-com/b4n1-web?style=flat&color=blue" alt="GitHub forks"></a>
-  <a href="https://github.com/B4N1-com/b4n1-web/releases/tag/v0.6.2"><img src="https://img.shields.io/github/v/release/B4N1-com/b4n1-web?style=flat&color=green" alt="GitHub release"></a>
+  <a href="https://github.com/B4N1-com/b4n1-web/releases/tag/v0.7.0"><img src="https://img.shields.io/github/v/release/B4N1-com/b4n1-web?style=flat&color=green" alt="GitHub release"></a>
   <a href="https://github.com/B4N1-com/b4n1-web/releases/latest"><img src="https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total?style=flat&color=orange" alt="GitHub downloads"></a>
   <br>
   <a href="https://pypi.org/project/b4n1-web/"><img src="https://img.shields.io/pypi/v/b4n1-web.svg?style=flat&color=blue" alt="PyPI version"></a>
@@ -29,7 +29,7 @@ Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate UR
 ### 1. Install the B4n1Web Binary
 
 ```bash
-curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz && ./b4n1web --version
+curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.7.0-flat.tar.gz | tar -xz && ./b4n1web --version
 ```
 
 ### 2. Install Your Preferred SDK
@@ -48,7 +48,7 @@ curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0</version>
 </dependency>
 ```
 
