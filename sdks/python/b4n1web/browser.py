@@ -47,7 +47,7 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.7.0"
+SDK_VERSION = "0.8.0"
 
 
 def get_b4n1web_binary() -> Optional[str]:
