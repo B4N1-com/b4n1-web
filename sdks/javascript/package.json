@@ -1,0 +1,47 @@
+{
+  "name": "b4n1-web",
+  "version": "0.8.0",
+  "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "keywords": [
+    "browser",
+    "agent",
+    "automation",
+    "web-scraping",
+    "headless"
+  ],
+  "author": "Bani Montoya <banimontoya@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://web.b4n1.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/B4N1-com/b4n1-web.git"
+  },
+  "dependencies": {
+    "undici": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "B4n1Web/0.6.2": {
+        "runtime": {
+          "B4n1Web.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "B4n1Web/0.6.2": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

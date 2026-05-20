@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>B4N1Web</RootNamespace>
+    <AssemblyName>B4n1Web</AssemblyName>
+    <Version>0.8.0</Version>
+    <Authors>Bani Montoya</Authors>
+    <Email>banimontoya@gmail.com</Email>
+    <Description>B4n1Web SDK for .NET - Agentic Browser Engine</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>browser;automation;agent;AI;headless</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PublishSingleFile>false</PublishSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="native/linux-x64/b4n1web-linux">
+      <LogicalName>B4N1Web.native.linux-x64.b4n1web-linux</LogicalName>
+    </EmbeddedResource>
+    <None Update="README.md">
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>

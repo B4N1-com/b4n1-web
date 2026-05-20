@@ -1,0 +1,6 @@
+com/b4n1/web/BrowserOptions.class
+com/b4n1/web/AgentBrowser.class
+com/b4n1/web/NavigationException.class
+com/b4n1/web/Page.class
+com/b4n1/web/BrowserMode.class
+com/b4n1/web/BinaryNotFoundException.class

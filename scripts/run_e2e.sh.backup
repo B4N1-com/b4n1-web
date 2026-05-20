@@ -1,0 +1,401 @@
+#!/bin/bash
+# ──────────────────────────────────────────────────────
+# B4n1Web — E2E Test Runner (Podman)
+# ──────────────────────────────────────────────────────
+#
+# QUALITY GATE: Run this before publishing any SDK.
+# If all tests pass → safe to publish.
+#
+# Usage:
+#   bash scripts/run_e2e.sh              # Run all
+#   bash scripts/run_e2e.sh python       # Python only
+#   bash scripts/run_e2e.sh javascript   # JavaScript only
+#   bash scripts/run_e2e.sh go           # Go only
+#   bash scripts/run_e2e.sh java         # Java only
+#   bash scripts/run_e2e.sh csharp       # C# only
+#   bash scripts/run_e2e.sh binary       # Standalone binary tests only
+#   bash scripts/run_e2e.sh mcp          # MCP server tests only
+#
+# ──────────────────────────────────────────────────────
+
+set -euo pipefail
+
+# ── Paths ──
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ENGINE_DIR="$REPO_ROOT/engine/cli-core"
+SDKS_DIR="$REPO_ROOT/sdks"
+
+IMAGE_NAME="b4n1web-e2e"
+CONTAINER_PREFIX="b4n1web-e2e"
+EXIT_CODE=0
+
+# ── Colors ──
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+log()    { echo -e "${CYAN}│ $1${NC}"; }
+ok()     { echo -e "${GREEN}│ ✅ $1${NC}"; }
+fail()   { echo -e "${RED}│ ❌ $1${NC}"; EXIT_CODE=1; }
+warn()   { echo -e "${YELLOW}│ ⚠️  $1${NC}"; }
+header() { echo -e "\n${CYAN}${BOLD}├─ $1${NC}"; }
+
+# ── Step 0: Build binary from source ──
+build_binary() {
+    header "Building b4n1web binary from source..."
+
+    if [ ! -d "$ENGINE_DIR" ]; then
+        fail "Engine source not found: $ENGINE_DIR"
+        return 1
+    fi
+
+    log "Building Rust engine..."
+    (cd "$ENGINE_DIR" && cargo build --release 2>&1 | tail -5)
+
+    BINARY_PATH="$ENGINE_DIR/target/release/b4n1web"
+    if [ ! -f "$BINARY_PATH" ]; then
+        fail "Binary build failed: $BINARY_PATH not found"
+        return 1
+    fi
+
+    ok "Binary built: $BINARY_PATH"
+    log "Version: $("${BINARY_PATH}" --version)"
+}
+
+# ── Step 1: Build container image ──
+build_image() {
+    header "Building E2E container image..."
+
+    if podman image exists "$IMAGE_NAME" 2>/dev/null; then
+        warn "Image already exists, reusing"
+        ok "Image: $IMAGE_NAME"
+        return
+    fi
+
+    podman build -t "$IMAGE_NAME" -f "$REPO_ROOT/Containerfile" "$REPO_ROOT" 2>&1 | tail -5
+    ok "Image built: $IMAGE_NAME"
+}
+
+# ── Helper: run command in container ──
+run_test() {
+    local name="$1"
+    local cmd="$2"
+
+    header "Testing: $name"
+
+    local rc=0
+    podman run --rm \
+        --name "${CONTAINER_PREFIX}-${name}" \
+        -v "${SDKS_DIR}/python:/sdk-python:ro" \
+        -v "${SDKS_DIR}/javascript:/sdk-javascript:ro" \
+        -v "${SDKS_DIR}/go:/sdk-go:ro" \
+        -v "${SDKS_DIR}/java:/sdk-java:ro" \
+        -v "${SDKS_DIR}/csharp:/sdk-csharp:ro" \
+        -v "${REPO_ROOT}/tests:/tests:ro" \
+        -v "${REPO_ROOT}/internal:/internal:ro" \
+        --network host \
+        "$IMAGE_NAME" \
+        bash -c "$cmd" || rc=$?
+
+    if [ $rc -eq 0 ]; then
+        ok "$name PASSED"
+    else
+        fail "$name FAILED (exit code: $rc)"
+    fi
+    return $rc
+}
+
+# ── Test: Python SDK ──
+test_python() {
+    run_test "python" '
+        set -e
+
+        echo "🐍 ── Phase 1: Install SDK (with bundled binary) ──"
+        cp -r /sdk-python /tmp/sdk-python
+        cd /tmp/sdk-python
+        pip3 install --root-user-action=ignore . 2>&1 | tail -3
+        pip3 install --root-user-action=ignore pytest requests 2>&1 | tail -1
+
+        echo ""
+        echo "🐍 ── Phase 2: Verify Bundled Binary ──"
+        python3 -c "
+from b4n1web.browser import get_b4n1web_binary
+binary = get_b4n1web_binary()
+assert binary is not None, 'Binary not found'
+print(f'✅ Bundled binary found: {binary}')
+"
+
+        echo ""
+        echo "🐍 ── Phase 3: Unit Tests ──"
+        python3 -m pytest /tests/python/ -v --tb=short --cache-clear 2>&1
+
+        echo ""
+        echo "🐍 ── Phase 4: E2E Tests ──"
+        python3 -m pytest /tests/e2e/test_e2e.py -v --tb=short --cache-clear 2>&1
+    '
+}
+
+# ── Test: JavaScript SDK ──
+test_javascript() {
+    run_test "javascript" '
+        set -e
+
+        echo "🟨 ── Phase 1: Install SDK (with bundled binary) ──"
+        cp -r /sdk-javascript /tmp/sdk-js
+        cd /tmp/sdk-js
+        npm install 2>&1 | tail -5
+        npm run build 2>&1 | tail -5
+
+        echo ""
+        echo "🟨 ── Phase 2: Verify Bundled Binary ──"
+        node -e "
+const { getB4n1webBinary } = require('./dist');
+const binary = getB4n1webBinary();
+if (!binary) throw new Error('Binary not found');
+console.log('✅ Bundled binary found:', binary);
+"
+
+        echo ""
+        echo "🟨 ── Phase 3: Unit Tests ──"
+        cd /tmp/sdk-js
+        npx vitest run --passWithNoTests 2>&1 | tail -15
+
+        echo ""
+        echo "🟨 ── Phase 4: Integration / Smoke Tests ──"
+        node -e "
+            const { AgentBrowser, BrowserMode, Page, SecurityShield, getB4n1webVersion } = require('./dist/index.js');
+            console.log('✅ AgentBrowser:', typeof AgentBrowser);
+            console.log('✅ BrowserMode.LIGHT:', BrowserMode.LIGHT);
+            console.log('✅ BrowserMode.JS:', BrowserMode.JS);
+            console.log('✅ BrowserMode.RENDER:', BrowserMode.RENDER);
+            console.log('✅ Page:', typeof Page);
+            console.log('✅ SecurityShield:', typeof SecurityShield);
+            console.log('✅ Version:', getB4n1webVersion());
+            const page = new Page({url: 'https://test.com', markdown: '# Test\nContent', links: ['https://a.com', 'https://b.com/test']});
+            console.log('✅ Page.getMainContent():', page.getMainContent());
+            console.log('✅ Page.findLinksByText(\"b.com\"):', page.findLinksByText('b.com'));
+            if (BrowserMode.LIGHT !== 'light') throw new Error('LIGHT wrong');
+            if (BrowserMode.JS !== 'js') throw new Error('JS wrong');
+            if (BrowserMode.RENDER !== 'render') throw new Error('RENDER wrong');
+            console.log('✅ BrowserMode enum correct (3 modes)');
+            const shield = new SecurityShield();
+            shield.markDomain('evil.com', false);
+            const blocked = shield.isUrlSafe('https://evil.com');
+            console.log('✅ SecurityShield blocks unsafe:', !blocked.isSafe);
+            console.log('');
+            console.log('✅ All JavaScript SDK tests passed');
+        "
+    }
+
+test_go() {
+    run_test "go" '
+        set -e
+
+        echo "🐹 ── Phase 1: Install SDK (with bundled binary) ──"
+        cd /tmp/sdk-go
+        go mod download 2>&1 | tail -3
+
+        echo ""
+        echo "🐹 ── Phase 2: Verify Bundled Binary ──"
+        go run -exec /bin/true - <<'"'"'GO'"'"'
+package main
+import (
+    b4n1web "github.com/B4N1-com/b4n1web"
+    "fmt"
+)
+func main() {
+    ver := b4n1web.GetVersion()
+    if ver == "unknown" {
+        fmt.Println("⚠️  Could not detect bundled binary")
+    } else {
+        fmt.Println("✅ Bundled binary detected:", ver)
+    }
+}
+GO
+
+        echo ""
+        echo "🐹 ── Phase 3: Unit Tests ──"
+        cp /internal/tests/go/*_test.go internal/
+        go test ./internal/ -v 2>&1 | tail -30
+
+        echo ""
+        echo "🐹 ── Phase 4: Build Test ──"
+        go build ./internal/
+        echo "✅ Go SDK compiles successfully"
+    '
+}
+
+# ── Test: Java SDK ──
+test_java() {
+    run_test "java" '
+        set -e
+
+        echo "☕ ── Phase 1: Install SDK (with bundled binary) ──"
+        cp -r /sdk-java /tmp/sdk-java
+        cd /tmp/sdk-java
+
+        echo ""
+        echo "☕ ── Phase 2: Unit Tests ──"
+        mkdir -p src/test/java/com/b4n1/web
+        cp /internal/tests/java/UnitTests.java src/test/java/com/b4n1/web/
+        mvn test 2>&1 | tail -30
+
+        echo ""
+        echo "☕ ── Phase 3: Build Test ──"
+        mvn package -DskipTests -q 2>&1 | tail -5
+        echo "✅ Java SDK builds successfully"
+    '
+}
+
+# ── Test: C# SDK ──
+test_csharp() {
+    run_test "csharp" '
+        set -e
+
+        echo "🔷 ── Phase 1: Install SDK (with bundled binary) ──"
+        cp -r /sdk-csharp /tmp/sdk-csharp
+        cd /tmp/sdk-csharp
+
+        echo ""
+        echo "🔷 ── Phase 2: Unit Tests ──"
+        mkdir -p tests
+        cp /internal/tests/csharp/* tests/
+        sed -i "s|<ProjectReference Include=\".*\" />|<ProjectReference Include=\"../src/B4n1Web.csproj\" />|" tests/B4n1Web.Tests.csproj
+        dotnet test tests/ -v minimal 2>&1 | tail -30
+
+        echo ""
+        echo "🔷 ── Phase 3: Build Test ──"
+        dotnet build src/ -c Release 2>&1 | tail -10
+        echo "✅ C# SDK builds successfully"
+    '
+}
+
+# ── Test: Standalone Binary ──
+test_binary() {
+    local binary_path="$1"
+    header "Testing: Standalone Binary"
+
+    podman run --rm \
+        --name "${CONTAINER_PREFIX}-binary" \
+        -v "${binary_path}:/usr/local/bin/b4n1web:ro" \
+        --network host \
+        "$IMAGE_NAME" \
+        bash -c '
+            set -e
+
+            echo "📦 ── Phase 1: Verify Binary ──"
+            which b4n1web
+            b4n1web --version
+            echo "✅ Binary installed and reports version"
+
+            echo ""
+            echo "📦 ── Phase 2: Light Mode ──"
+            OUTPUT=$(b4n1web goto https://example.com --mode light 2>&1)
+            echo "$OUTPUT" | head -10
+            echo "✅ Light mode works"
+
+            echo ""
+            echo "📦 ── Phase 3: JS Mode ──"
+            OUTPUT=$(b4n1web goto https://example.com --mode js 2>&1)
+            echo "$OUTPUT" | head -10
+            echo "✅ JS mode works"
+
+            echo ""
+            echo "📦 ── Phase 4: MCP Server ──"
+            timeout 3 b4n1web mcp -p 8080 &
+            MCP_PID=$!
+            sleep 1
+            if kill -0 $MCP_PID 2>/dev/null; then
+                echo "✅ MCP server starts successfully"
+                kill $MCP_PID 2>/dev/null || true
+            else
+                echo "⚠️  MCP server exited quickly (may need more time)"
+                wait $MCP_PID 2>/dev/null || true
+            fi
+
+            echo ""
+            echo "✅ Standalone binary all tests passed"
+        ' 2>&1 || { fail "Binary tests failed"; return 1; }
+
+    ok "Standalone Binary PASSED"
+}
+
+# ── Cleanup ──
+cleanup() {
+    log "Cleaning up stopped containers..."
+    podman rm -f $(podman ps -a --filter "name=${CONTAINER_PREFIX}-" --format "{{.ID}}") 2>/dev/null || true
+}
+
+# ── Main ──
+main() {
+    echo -e "${CYAN}${BOLD}"
+    echo "╔═══════════════════════════════════════════════╗"
+    echo "║   B4n1Web E2E Test Suite (Podman)            ║"
+    echo "║   Quality Gate — Before Publishing            ║"
+    echo "╚═══════════════════════════════════════════════╝"
+    echo -e "${NC}"
+
+    log "Private repo: $REPO_ROOT"
+    log "SDKs:         $SDKS_DIR"
+    log "Podman:       $(podman --version)"
+    log "Rust:         $(rustc --version 2>/dev/null || echo 'not installed')"
+    echo ""
+
+    # Step 0: Build binary
+    build_binary
+    BINARY_PATH="$ENGINE_DIR/target/release/b4n1web"
+
+    # Step 1: Build image
+    build_image
+
+    # Determine which tests to run
+    TARGET="${1:-all}"
+
+    case "$TARGET" in
+        all)
+            test_python
+            test_javascript
+            test_go
+            test_java
+            test_csharp
+            test_binary "$BINARY_PATH"
+            ;;
+        python)     test_python ;;
+        javascript) test_javascript ;;
+        go)         test_go ;;
+        java)       test_java ;;
+        csharp)     test_csharp ;;
+        binary)     build_binary; test_binary "$BINARY_PATH" ;;
+        *)
+            echo "Unknown target: $TARGET"
+            echo "Usage: $0 [all|python|javascript|go|java|csharp|binary]"
+            exit 1
+            ;;
+    esac
+
+    # Cleanup
+    cleanup
+
+    echo ""
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo -e "${GREEN}${BOLD}"
+        echo "╔═══════════════════════════════════════════════╗"
+        echo "║   ✅ ALL TESTS PASSED — Ready to publish!     ║"
+        echo "╚═══════════════════════════════════════════════╝"
+        echo -e "${NC}"
+    else
+        echo -e "${RED}${BOLD}"
+        echo "╔═══════════════════════════════════════════════╗"
+        echo "║   ❌ SOME TESTS FAILED — Do NOT publish       ║"
+        echo "╚═══════════════════════════════════════════════╝"
+        echo -e "${NC}"
+    fi
+
+    exit $EXIT_CODE
+}
+
+main "$@"

@@ -6,7 +6,7 @@ B4n1Web is a 5MB binary browser engine for AI agents. Navigate URLs, extract str
 
 ```bash
 # Install the binary
-curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.6.2-flat.tar.gz | tar -xz && ./b4n1web --version
+curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.7.0-flat.tar.gz | tar -xz && ./b4n1web --version
 
 # Install the Python SDK
 pip install b4n1-web
