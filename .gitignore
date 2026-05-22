@@ -5,6 +5,9 @@ __pycache__/
 *.pyc
 logo.png
 save_logo.py
+sdks/python/build/
+build/
+
 
 # Node.js
 node_modules/

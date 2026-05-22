@@ -48,7 +48,7 @@ curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.7.0</version>
+    <version>0.8.0</version>
 </dependency>
 ```
 
