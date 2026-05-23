@@ -1,6 +1,6 @@
 [package]
 name = "b4n1web"
-version = "0.8.0"
+version = "0.9.0"
 edition = "2021"
 authors = ["Bani Montoya <banimontoya@gmail.com>"]
 description = "B4n1Web: The Agentic Browser Engine - Ultra-lightweight headless browser for AI agents"
