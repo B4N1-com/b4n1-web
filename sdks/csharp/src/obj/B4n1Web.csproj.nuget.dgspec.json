@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/B4n1Web.csproj": {}
+    "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/B4n1Web.csproj": {}
   },
   "projects": {
-    "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/B4n1Web.csproj": {
-      "version": "0.6.1",
+    "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/B4n1Web.csproj": {
+      "version": "0.9.0",
       "restore": {
-        "projectUniqueName": "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/B4n1Web.csproj",
+        "projectUniqueName": "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/B4n1Web.csproj",
         "projectName": "B4n1Web",
-        "projectPath": "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/B4n1Web.csproj",
+        "projectPath": "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/B4n1Web.csproj",
         "packagesPath": "/home/b4n1/.nuget/packages/",
-        "outputPath": "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/obj/",
+        "outputPath": "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/b4n1/.nuget/NuGet/NuGet.Config"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.421/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

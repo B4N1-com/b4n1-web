@@ -1,6 +1,6 @@
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/NavigationException.java
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BinaryNotFoundException.java
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BrowserOptions.java
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BrowserMode.java
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/Page.java
-/home/b4n1/B4N1-Frameworks/private-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/AgentBrowser.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/Page.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BinaryNotFoundException.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BrowserOptions.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/AgentBrowser.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/BrowserMode.java
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java/com/b4n1/web/NavigationException.java

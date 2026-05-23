@@ -6,7 +6,7 @@ set -e
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 NEW_VERSION="${1:-$(cat "${BASE_DIR}/VERSION" 2>/dev/null || echo "0.9.0")}"
 
-OLD_VERSION="0.8.0"
+OLD_VERSION="0.9.0"
 
 echo "🔁 Bumping version ${OLD_VERSION} → ${NEW_VERSION}"
 echo ""

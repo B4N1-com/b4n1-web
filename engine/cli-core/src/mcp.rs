@@ -82,7 +82,8 @@ impl McpServer {
                 "protocolVersion": client_version,
                 "serverInfo": {
                     "name": "b4n1web",
-                    "version": env!("CARGO_PKG_VERSION")
+                    "version": env!("CARGO_PKG_VERSION"),
+                    "description": "B4n1Web is an ultra-lightweight agentic browser engine (6MB) for AI agents. It provides three browsing modes: Light (HTTP fetch + HTML parsing), JS (JavaScript extraction), and Render (full headless browser with Chromium). Perfect for web scraping, data extraction, E2E testing, and autonomous AI agents that need to navigate and extract content from websites without the overhead of a full browser.\n\nFeatures:\n- Ultra-lightweight binary (6MB)\n- Python SDK available on PyPI\n- MCP server for integration with Claude, Cursor, OpenCode, Windsurf, Antigravity\n- SQLite-based SecurityShield for safe browsing\n- Multiple modes: Light, JS, Render\n\nMCP Server:\nCommand: b4n1web mcp -p 8080\nPort is configurable — change 8080 to any available port\nTools: goto (navigate & extract content), get_links (extract all links from current page)"
                 },
                 "capabilities": {
                     "tools": {}
