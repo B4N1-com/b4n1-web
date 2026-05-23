@@ -82,7 +82,7 @@ impl McpServer {
                 "protocolVersion": client_version,
                 "serverInfo": {
                     "name": "b4n1web",
-                    "version": "0.7.0"
+                    "version": env!("CARGO_PKG_VERSION")
                 },
                 "capabilities": {
                     "tools": {}
@@ -496,7 +496,7 @@ mod tests {
         let result = response.result.unwrap();
         assert_eq!(result["protocolVersion"], "2025-11-25");
         assert_eq!(result["serverInfo"]["name"], "b4n1web");
-        assert_eq!(result["serverInfo"]["version"], "0.7.0");
+        assert_eq!(result["serverInfo"]["version"], "0.8.0");
     }
 
     #[tokio::test]

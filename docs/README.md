@@ -2,7 +2,7 @@
 
 Ultra-lightweight Agentic Browser Engine para AI Agents
 
-**Versión:** 0.7.0 | **Fecha:** 2026-05-20
+**Versión:** 0.8.0 | **Fecha:** 2026-05-20
 
 ---
 

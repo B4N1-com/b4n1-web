@@ -4,7 +4,7 @@
 
 use clap::{Parser, Subcommand};
 use b4n1web::{AgentBrowser, BrowserMode};
-use b4n1web::mcp::{run_mcp_server_stdio, run_mcp_server_tcp};
+use b4n1web::mcp::McpServer;
 use b4n1web::session;
 use serde_json::json;
 use tracing_subscriber::fmt::init;
@@ -241,21 +241,33 @@ fn install_single_agent(agent: &str, b4n1web_path: &std::path::Path) -> Result<(
     Ok(())
 }
 
+fn tcp_main(port: u16) -> b4n1web::Result<()> {
+    let rt = tokio::runtime::Runtime::new()?;
+    rt.block_on(async { McpServer::new(port).run().await })
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     init();
 
     let cli = Cli::parse();
 
-    // For stdio MCP, run directly (no extra async runtime needed)
+    // TCP MCP mode needs its own tokio runtime
+    if let Commands::Mcp { tcp: true, port } = &cli.command {
+        tcp_main(*port)?;
+        return Ok(());
+    }
+
+    // For stdio MCP, run synchronously (no async runtime needed)
     if let Commands::Mcp { tcp: false, port } = &cli.command {
-        let _ = run_mcp_server_stdio().await?;
-        return Ok(server.run_stdio_sync()?);
+        McpServer::new(*port).run_stdio_sync()?;
+        return Ok(());
     }
 
     // All other commands need an async runtime
     let rt = tokio::runtime::Runtime::new()?;
     rt.block_on(async {
         match cli.command {
+            Commands::Mcp { .. } => unreachable!(),  // ALL handled above
             Commands::Goto { url, mode, wait_for } => {
                 let mode = match mode.as_str() {
                     "light" => BrowserMode::Light,
@@ -266,55 +278,46 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         std::process::exit(1);
                     }
                 };
-
                 let browser = AgentBrowser::new(mode);
                 let page = browser.goto(&url, wait_for.as_deref()).await?;
-
                 println!("URL: {}", page.url);
                 println!("Markdown:\n{}", page.markdown);
                 println!("Links: {:?}", page.links);
                 if let Some(screenshot) = page.screenshot {
                     println!("Screenshot: {}", screenshot);
                 }
-
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
             Commands::Evaluate { url, js } => {
                 let browser = AgentBrowser::new(BrowserMode::Render);
                 let _ = browser.goto(&url, None).await?;
-                let result = browser.evaluate(&js).await?;
-                println!("{}", result);
-                Ok(())
+                let eval_result = browser.evaluate(&js).await?;
+                println!("{}", eval_result);
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
-            Commands::Mcp { tcp: true, port } => {
-                let _ = run_mcp_server_tcp(port).await?;
-                server.run().await?;
-                Ok(())
-            }
-            // tcp:false handled above, unreachable here
-            Commands::Mcp { .. } => unreachable!(),
             Commands::Install { agent } => {
                 install_for_agent(&agent)?;
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
             Commands::InstallRender { install } => {
                 install_render_binary(install).await?;
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
             Commands::Update { install } => {
                 check_and_update(install).await?;
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
             Commands::Chromium { action } => {
                 handle_chromium_action(action).await?;
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
             Commands::Session { action } => {
                 handle_session_action(action).await?;
-                Ok(())
+                Ok::<_, Box<dyn std::error::Error>>(())
             }
         }
-    })
+    })?;
+    Ok(())
 }
 
 async fn check_and_update(install: bool) -> Result<(), Box<dyn std::error::Error>> {
