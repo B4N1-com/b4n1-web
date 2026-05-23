@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fmXUgEOfOGg=",
+  "dgSpecHash": "1TfjyAR/UDU=",
   "success": true,
-  "projectFilePath": "/home/b4n1/B4N1-Frameworks/projects/b4n1-web/b4n1-web-private/sdks/csharp/src/B4n1Web.csproj",
+  "projectFilePath": "/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/B4n1Web.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

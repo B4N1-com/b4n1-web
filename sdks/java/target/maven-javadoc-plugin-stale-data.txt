@@ -1,0 +1,53 @@
+@options
+@packages
+-classpath
+'/home/b4n1/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+-sourcepath
+'/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java:/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'B4n1Web Java SDK 0.9.1 API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'B4n1Web Java SDK 0.9.1 API'
+com.b4n1.web
+/home/b4n1/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar = 1775885482225
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/src/main/java = 1779252658963
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/generated-sources/annotations = 1779527134371
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/stylesheet.css = 1779527153088
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/help-doc.html = 1779527153088
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/search.js = 1779527153152
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/member-search-index.js = 1779527153052
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/allclasses.html = 1779527153080
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/serialized-form.html = 1779527152656
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/element-list = 1779527152456
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/index.html = 1779527153084
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/constant-values.html = 1779527152572
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/type-search-index.zip = 1779527153052
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/member-search-index.zip = 1779527153056
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/jquery-ui.overrides.css = 1779527153160
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/allclasses-index.html = 1779527153068
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/deprecated-list.html = 1779527153076
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/package-search-index.zip = 1779527153052
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/type-search-index.js = 1779527153052
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/overview-tree.html = 1779527152952
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/allpackages-index.html = 1779527153072
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/script.js = 1779527153088
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/package-search-index.js = 1779527152984
+/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/java/target/apidocs/index-all.html = 1779527153056

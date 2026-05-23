@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>B4n1Web</id>
+    <version>0.9.0</version>
+    <authors>Bani Montoya</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <description>B4n1Web SDK for .NET - Agentic Browser Engine</description>
+    <tags>browser automation agent AI headless</tags>
+    <repository type="git" commit="92470af7fb75bcc73759e2e0c2887b3e6701f826" />
+    <dependencies>
+      <group targetFramework="net8.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/src/bin/Release/net8.0/B4n1Web.dll" target="lib/net8.0/B4n1Web.dll" />
+    <file src="/home/b4n1/B4N1-Frameworks/public-repos/b4n1-web/sdks/csharp/README.md" target="/README.md" />
+  </files>
+</package>

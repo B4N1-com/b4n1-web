@@ -1,4 +1,4 @@
-📜 B4N1-MANIFEST: B4N1-WEB v0.9.0 (Agentic Browser)
+📜 B4N1-MANIFEST: B4N1-WEB v0.9.1 (Agentic Browser)
 
     INSTRUCCIÓN SOBERANA: Este módulo es un navegador agéntico. Navega por la web de forma autónoma, ejecuta acciones en páginas web, extrae datos y completa flujos complejos usando IA.
 

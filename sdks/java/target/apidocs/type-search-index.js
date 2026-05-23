@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"com.b4n1.web","l":"AgentBrowser"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.b4n1.web","l":"BinaryNotFoundException"},{"p":"com.b4n1.web","l":"BrowserMode"},{"p":"com.b4n1.web","l":"BrowserOptions"},{"p":"com.b4n1.web","l":"NavigationException"},{"p":"com.b4n1.web","l":"Page"}]

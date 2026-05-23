@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "b4n1-web"
-version = "0.9.0"
+version = "0.9.1"
 description = "B4n1Web Agentic Browser Engine - Ultra-lightweight headless browser for AI agents"
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}

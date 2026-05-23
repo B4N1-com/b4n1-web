@@ -1,4 +1,4 @@
-# Release Checklist v0.9.0
+# Release Checklist v0.9.1
 
 ## Pre-Release
 - [x] Versiones centralizadas en `VERSION` (0.9.0)
@@ -14,7 +14,7 @@
 - [x] B4n1Web.csproj 0.9.0, pom.xml 0.9.0
 
 ## Binario
-- [x] Compilar: `cargo build --release` → b4n1web v0.9.0 (9.3MB)
+- [x] Compilar: `cargo build --release` → b4n1web v0.9.1 (9.3MB)
 - [x] Tarball creado: `releases/b4n1web-v0.9.0-linux-x86_64.tar.gz`
 - [ ] Subir a GitHub Releases
 - [ ] Generar SHA256 y actualizar `scripts/install.sh`
