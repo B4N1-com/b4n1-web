@@ -22,7 +22,7 @@
   <a href="https://github.com/B4N1-com/b4n1-web"><img src="https://img.shields.io/badge/web-GitHub-00d4ff?style=flat" alt="Website"></a>
 </p>
 
-Ultra-lightweight agentic browser engine (5MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows across 5 languages.
+Ultra-lightweight agentic browser engine (~10MB binary) for AI agents. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows across 5 languages.
 
 ## Installation
 
@@ -229,7 +229,7 @@ b4n1web install antigravity    # ~/.config/antigravity/mcp.json
 │        B4n1Web SDK (this repo)     │
 │  Thin wrapper → spawns subprocess   │
 ├─────────────────────────────────────┤
-│        b4n1web binary (~5MB)       │
+│        b4n1web binary (~10MB)      │
 │  Installed separately via curl      │
 ├─────────────────────────────────────┤
 │  Chromium (optional, render mode)  │
