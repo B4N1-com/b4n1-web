@@ -33,6 +33,9 @@ enum Commands {
         /// CSS selector to wait for before extracting content (render mode only)
         #[arg(long)]
         wait_for: Option<String>,
+        /// JavaScript to execute after page load (render mode only)
+        #[arg(long)]
+        js: Option<String>,
     },
     /// Execute arbitrary JavaScript in a URL (render mode only)
     Evaluate {
@@ -76,6 +79,17 @@ enum Commands {
     Session {
         #[command(subcommand)]
         action: SessionAction,
+    },
+    /// Start persistent browser daemon (keeps Chrome alive)
+    Daemon {
+        /// Port to listen on
+        #[arg(short, long, default_value = "9876")]
+        port: u16,
+    },
+    /// Execute JS on running daemon
+    Exec {
+        /// JavaScript code to execute
+        js: String,
     },
 }
 
@@ -241,34 +255,22 @@ fn install_single_agent(agent: &str, b4n1web_path: &std::path::Path) -> Result<(
     Ok(())
 }
 
-fn tcp_main(port: u16) -> b4n1web::Result<()> {
-    let rt = tokio::runtime::Runtime::new()?;
-    rt.block_on(async { McpServer::new(port).run().await })
-}
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     init();
 
     let cli = Cli::parse();
 
-    // TCP MCP mode needs its own tokio runtime
-    if let Commands::Mcp { tcp: true, port } = &cli.command {
-        tcp_main(*port)?;
-        return Ok(());
-    }
-
-    // For stdio MCP, run synchronously (no async runtime needed)
+    // For stdio MCP, run directly (no extra async runtime needed)
     if let Commands::Mcp { tcp: false, port } = &cli.command {
-        McpServer::new(*port).run_stdio_sync()?;
-        return Ok(());
+        let server = McpServer::new(*port);
+        return Ok(server.run_stdio_sync()?);
     }
 
     // All other commands need an async runtime
     let rt = tokio::runtime::Runtime::new()?;
     rt.block_on(async {
         match cli.command {
-            Commands::Mcp { .. } => unreachable!(),  // ALL handled above
-            Commands::Goto { url, mode, wait_for } => {
+            Commands::Goto { url, mode, wait_for, js } => {
                 let mode = match mode.as_str() {
                     "light" => BrowserMode::Light,
                     "js" => BrowserMode::Js,
@@ -278,45 +280,165 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         std::process::exit(1);
                     }
                 };
+
                 let browser = AgentBrowser::new(mode);
                 let page = browser.goto(&url, wait_for.as_deref()).await?;
-                println!("URL: {}", page.url);
-                println!("Markdown:\n{}", page.markdown);
-                println!("Links: {:?}", page.links);
-                if let Some(screenshot) = page.screenshot {
-                    println!("Screenshot: {}", screenshot);
+
+                if let Some(js_code) = js {
+                    let result = browser.evaluate(&js_code).await?;
+                    println!("{}", result);
+                } else {
+                    println!("URL: {}", page.url);
+                    println!("Markdown:\n{}", page.markdown);
+                    println!("Links: {:?}", page.links);
+                    if let Some(screenshot) = page.screenshot {
+                        println!("Screenshot: {}", screenshot);
+                    }
                 }
-                Ok::<_, Box<dyn std::error::Error>>(())
+
+                Ok(())
             }
             Commands::Evaluate { url, js } => {
                 let browser = AgentBrowser::new(BrowserMode::Render);
                 let _ = browser.goto(&url, None).await?;
-                let eval_result = browser.evaluate(&js).await?;
-                println!("{}", eval_result);
-                Ok::<_, Box<dyn std::error::Error>>(())
+                let result = browser.evaluate(&js).await?;
+                println!("{}", result);
+                Ok(())
             }
+            Commands::Mcp { tcp: true, port } => {
+                let server = McpServer::new(port);
+                server.run().await?;
+                Ok(())
+            }
+            // tcp:false handled above, unreachable here
+            Commands::Mcp { .. } => unreachable!(),
             Commands::Install { agent } => {
                 install_for_agent(&agent)?;
-                Ok::<_, Box<dyn std::error::Error>>(())
+                Ok(())
             }
             Commands::InstallRender { install } => {
                 install_render_binary(install).await?;
-                Ok::<_, Box<dyn std::error::Error>>(())
+                Ok(())
             }
             Commands::Update { install } => {
                 check_and_update(install).await?;
-                Ok::<_, Box<dyn std::error::Error>>(())
+                Ok(())
             }
             Commands::Chromium { action } => {
                 handle_chromium_action(action).await?;
-                Ok::<_, Box<dyn std::error::Error>>(())
+                Ok(())
             }
             Commands::Session { action } => {
                 handle_session_action(action).await?;
-                Ok::<_, Box<dyn std::error::Error>>(())
+                Ok(())
+            }
+            Commands::Daemon { port } => {
+                start_daemon(port).await?;
+                Ok(())
+            }
+            Commands::Exec { js } => {
+                exec_on_daemon(&js).await?;
+                Ok(())
             }
         }
-    })?;
+    })
+}
+
+async fn start_daemon(port: u16) -> Result<(), Box<dyn std::error::Error>> {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    use tokio::net::TcpListener;
+    use std::sync::Arc;
+    use tokio::sync::Mutex;
+
+    println!("Starting b4n1web daemon on port {}...", port);
+    
+    // Launch persistent browser
+    let chrome_path = b4n1web::chromium::find_chromium()
+        .ok_or("Chrome not found. Run: b4n1web chromium install")?;
+    let browser = b4n1web::chromium::ChromiumBrowser::launch(Some(&chrome_path)).await?;
+    let browser = Arc::new(Mutex::new(Some(browser)));
+    
+    println!("Browser launched. Listening on 0.0.0.0:{}", port);
+    
+    let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
+    
+    loop {
+        let (mut stream, _) = listener.accept().await?;
+        let browser = browser.clone();
+        
+        tokio::spawn(async move {
+            let mut buf = vec![0u8; 65536];
+            let n = stream.read(&mut buf).await.unwrap_or(0);
+            if n == 0 { return; }
+            
+            let request = String::from_utf8_lossy(&buf[..n]);
+            let request: serde_json::Value = serde_json::from_str(&request).unwrap_or_default();
+            
+            let action = request["action"].as_str().unwrap_or("");
+            let js = request["js"].as_str().unwrap_or("");
+            let url = request["url"].as_str().unwrap_or("about:blank");
+            
+            let response = match action {
+                "goto" => {
+                    let guard = browser.lock().await;
+                    if let Some(br) = guard.as_ref() {
+                        match br.goto(url, None).await {
+                            Ok(page) => serde_json::json!({"ok": true, "url": page.url, "markdown": page.markdown}),
+                            Err(e) => serde_json::json!({"error": e.to_string()}),
+                        }
+                    } else {
+                        serde_json::json!({"error": "No browser"})
+                    }
+                }
+                "eval" | "evaluate" => {
+                    let guard = browser.lock().await;
+                    if let Some(br) = guard.as_ref() {
+                        match br.evaluate(js).await {
+                            Ok(val) => serde_json::json!({"ok": true, "result": val.to_string()}),
+                            Err(e) => serde_json::json!({"error": e.to_string()}),
+                        }
+                    } else {
+                        serde_json::json!({"error": "No browser"})
+                    }
+                }
+                "screenshot" => {
+                    let guard = browser.lock().await;
+                    if let Some(br) = guard.as_ref() {
+                        match br.screenshot(url, true).await {
+                            Ok(Some(ss)) => serde_json::json!({"ok": true, "screenshot": ss}),
+                            _ => serde_json::json!({"error": "Screenshot failed"}),
+                        }
+                    } else {
+                        serde_json::json!({"error": "No browser"})
+                    }
+                }
+                "close" => {
+                    let mut guard = browser.lock().await;
+                    if let Some(br) = guard.take() {
+                        br.close().await;
+                    }
+                    serde_json::json!({"ok": true})
+                }
+                _ => serde_json::json!({"error": "Unknown action"}),
+            };
+            
+            let _ = stream.write_all(response.to_string().as_bytes()).await;
+        });
+    }
+}
+
+async fn exec_on_daemon(js: &str) -> Result<(), Box<dyn std::error::Error>> {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    use tokio::net::TcpStream;
+    
+    let mut stream = TcpStream::connect("127.0.0.1:9876").await?;
+    let request = serde_json::json!({"action": "eval", "js": js});
+    stream.write_all(request.to_string().as_bytes()).await?;
+    
+    let mut buf = vec![0u8; 65536];
+    let n = stream.read(&mut buf).await?;
+    let response = String::from_utf8_lossy(&buf[..n]);
+    println!("{}", response);
     Ok(())
 }
 

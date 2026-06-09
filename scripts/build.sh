@@ -7,7 +7,7 @@
 
 set -e
 
-VERSION="${1:-0.9.1}"
+VERSION="${1:-0.1.0}"
 BUILD_ALL=false
 
 for arg in "$@"; do

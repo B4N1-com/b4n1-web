@@ -8,6 +8,24 @@ import tempfile
 from pathlib import Path
 
 
+def resolve_install_dir():
+    """Resolve the directory where b4n1web should be installed."""
+    env_install_dir = os.getenv("B4N1WEB_INSTALL_DIR")
+    if env_install_dir:
+        return Path(env_install_dir)
+
+    # Priority: /usr/local/bin (if writable), ~/.local/bin (if exists/writable), else ~/.b4n1web/bin
+    usr_local = Path("/usr/local/bin")
+    if os.access(str(usr_local), os.W_OK):
+        return usr_local
+
+    user_local = Path.home() / ".local/bin"
+    if os.access(str(user_local), os.W_OK):
+        return user_local
+
+    return Path.home() / ".b4n1web" / "bin"
+
+
 def install_command():
     """Handle the 'python -m b4n1web install' command."""
     from .browser import get_b4n1web_binary, get_b4n1web_version
@@ -22,19 +40,10 @@ def install_command():
             print("Installation cancelled.")
             return
 
-    env_install_dir = os.getenv("B4N1WEB_INSTALL_DIR")
-    if env_install_dir:
-        install_dir = Path(env_install_dir)
-        use_sudo = False
-    elif os.access("/usr/local/bin", os.W_OK):
-        install_dir = Path("/usr/local/bin")
-        use_sudo = False
-    elif os.access(str(Path.home() / ".local/bin"), os.W_OK):
-        install_dir = Path.home() / ".local/bin"
-        use_sudo = False
-    else:
-        install_dir = Path.home() / ".b4n1web" / "bin"
-        use_sudo = False
+    install_dir = resolve_install_dir()
+    use_sudo = str(install_dir).startswith("/usr/local/bin") or str(
+        install_dir
+    ).startswith("/usr/bin")
 
     install_dir.mkdir(parents=True, exist_ok=True)
     binary_path = install_dir / "b4n1web"
