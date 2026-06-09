@@ -846,11 +846,14 @@ class TestEdgeCases:
             ) + "\n",
             # Tools/list response - MALFORMED JSON
             '{"invalid": json}' + "\n",
+            # Followed by something that will satisfy the next read if it happens
+            json.dumps({"jsonrpc": "2.0", "id": 2, "error": {"code": -32600, "message": "Invalid Request"}}) + "\n",
         ]
 
         client = McpClient()
-        with pytest.raises(json.JSONDecodeError):
-            client.connect()
+        # The client now gracefully skips non-json lines
+        client.connect()
+        assert client.is_connected
 
     @patch("subprocess.Popen")
     def test_client_handles_subprocess_termination(self, mock_popen):

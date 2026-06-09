@@ -4,11 +4,17 @@
 
 pub mod browser;
 pub mod download;
+pub mod gpu;
 pub mod locator;
 pub mod network;
+pub mod stealth;
 pub mod trace;
+pub mod utils;
 
 pub use browser::ChromiumBrowser;
+pub use gpu::GpuMode;
+pub use stealth::apply_stealth;
+pub use utils::{IframeInfo, extract_links_from_html, html_to_markdown, human_delay, rand_nanos};
 pub use download::{download_chromium, get_chromium_version, CHROMIUM_BASE_URL};
 
 use std::path::PathBuf;

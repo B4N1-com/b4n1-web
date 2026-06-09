@@ -2,6 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BinaryNotFoundError, NavigationError, BinaryError } from '../../../sdks/javascript/src/errors';
 import { AgentBrowser } from '../../../sdks/javascript/src/browser';
 import * as fsMod from 'fs';
+import * as os from 'os';
+
+vi.mock('os', () => ({
+  homedir: vi.fn(() => '/home/testuser'),
+}));
 
 vi.mock('fs', () => ({
   existsSync: vi.fn(),

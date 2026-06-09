@@ -8,6 +8,9 @@ use chromiumoxide::browser::{Browser, BrowserConfig};
 use chromiumoxide::Page;
 use futures_util::StreamExt;
 use super::locator::{Locator, LocatorStrategy};
+use super::gpu::{GpuMode, detect_gpu_mode};
+use super::stealth::apply_stealth;
+use super::utils::{IframeInfo, extract_links_from_html, html_to_markdown, human_delay};
 
 /// A Chromium-based browser for Render mode
 pub struct ChromiumBrowser {
@@ -40,32 +43,73 @@ impl ChromiumBrowser {
             None => return Ok(Self { chrome_path: None, browser: None, page: None, incognito: false, proxy: None }),
         };
 
-        let mut config_builder = BrowserConfig::builder()
-            .chrome_executable(chrome.clone())
-            .disable_default_args();
+        // Generate a unique user-data-dir per launch
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.as_nanos())
+            .unwrap_or(0);
+        let tmp_dir = std::env::temp_dir().join(format!("b4n1web-{}", now));
+        let _ = std::fs::create_dir_all(&tmp_dir);
+
+        // GPU detection and fallback chain
+        let gpu_mode = detect_gpu_mode();
+        tracing::info!("GPU mode: {:?}", gpu_mode);
 
         let mut extra_args = vec![
-            "--headless".to_string(),
+            "--disable-dev-shm-usage".to_string(),
+            "--no-first-run".to_string(),
+            "--disable-default-apps".to_string(),
         ];
+
+        match gpu_mode {
+            GpuMode::Native => {
+                // GPU available - use it
+                extra_args.push("--enable-webgl".to_string());
+            }
+            GpuMode::SwiftShader => {
+                // No GPU - use software rendering
+                extra_args.push("--enable-webgl".to_string());
+                extra_args.push("--use-gl=angle".to_string());
+                extra_args.push("--use-angle=swiftshader".to_string());
+                extra_args.push("--enable-unsafe-swiftshader".to_string());
+            }
+            GpuMode::Xvfb => {
+                // Xvfb mode - Chrome runs with virtual display (not headless)
+                extra_args.push("--enable-webgl".to_string());
+                extra_args.push("--use-gl=angle".to_string());
+                extra_args.push("--use-angle=swiftshader".to_string());
+                extra_args.push("--enable-unsafe-swiftshader".to_string());
+                // Don't add --headless - Xvfb provides the display
+            }
+            GpuMode::None => {
+                // Last resort - headless with SwiftShader
+                extra_args.push("--headless=new".to_string());
+                extra_args.push("--enable-webgl".to_string());
+                extra_args.push("--use-gl=swiftshader".to_string());
+            }
+        }
 
         if let Some(proxy_url) = proxy {
             extra_args.push(format!("--proxy-server={}", proxy_url));
             extra_args.push("--proxy-bypass-list=<-loopback>".to_string());
         }
 
-        config_builder = config_builder.args(&extra_args);
-
-        let config = config_builder.build()
+        let config = BrowserConfig::builder()
+            .chrome_executable(chrome.clone())
+            .no_sandbox()
+            .user_data_dir(tmp_dir)
+            .args(extra_args.iter().map(|s| s.as_str()))
+            .build()
             .map_err(|e| crate::Error::Other(format!("Browser config error: {}", e)))?;
 
-        let (mut browser, mut handler) = Browser::launch(config)
+        let (browser, mut handler) = Browser::launch(config)
             .await
             .map_err(|e| crate::Error::Other(format!("Chrome launch error: {}", e)))?;
 
         tokio::spawn(async move {
-            while let Some(h) = handler.next().await {
-                if h.is_err() { break; }
-            }
+            // Do NOT break on errors — errors are normal CDP events (redirects, navigations).
+            // Only break when the stream ends (None), meaning browser process died.
+            while handler.next().await.is_some() {}
         });
 
         let page = browser.new_page("about:blank")
@@ -74,6 +118,14 @@ impl ChromiumBrowser {
 
         // Apply stealth patches to hide automation
         apply_stealth(&page).await?;
+
+        // Inject WebGL support override BEFORE any page scripts run
+        let override_js = r#"
+            Object.defineProperty(navigator, 'webdriver', { get: () => false });
+            window.__supported = true;
+        "#;
+        page.evaluate_on_new_document(override_js.to_string()).await
+            .map_err(|e| crate::Error::Other(format!("Script injection error: {}", e)))?;
 
         Ok(Self {
             chrome_path: Some(chrome),
@@ -259,6 +311,11 @@ impl ChromiumBrowser {
         self.chrome_path.as_ref()
     }
 
+    /// Returns true if the browser CDP connection is still usable
+    pub fn is_alive(&self) -> bool {
+        self.page.is_some() && self.browser.is_some()
+    }
+
     pub async fn close(mut self) {
         if let Some(ref mut b) = self.browser {
             let _ = b.close().await;
@@ -410,42 +467,42 @@ impl ChromiumBrowser {
     // --- Locator API ---
 
     /// Find element by CSS selector
-    pub fn locator(&self, selector: &str) -> Locator {
+    pub fn locator(&self, selector: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Css(selector.to_string()))
     }
 
     /// Find element by text content
-    pub fn get_by_text(&self, text: &str) -> Locator {
+    pub fn get_by_text(&self, text: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Text(text.to_string()))
     }
 
     /// Find element by ARIA role
-    pub fn get_by_role(&self, role: &str) -> Locator {
+    pub fn get_by_role(&self, role: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Role(role.to_string()))
     }
 
     /// Find element by data-testid attribute
-    pub fn get_by_test_id(&self, test_id: &str) -> Locator {
+    pub fn get_by_test_id(&self, test_id: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::TestId(test_id.to_string()))
     }
 
     /// Find element by label text
-    pub fn get_by_label(&self, label: &str) -> Locator {
+    pub fn get_by_label(&self, label: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Label(label.to_string()))
     }
 
     /// Find element by placeholder
-    pub fn get_by_placeholder(&self, placeholder: &str) -> Locator {
+    pub fn get_by_placeholder(&self, placeholder: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Placeholder(placeholder.to_string()))
     }
 
     /// Find element by alt text
-    pub fn get_by_alt_text(&self, alt: &str) -> Locator {
+    pub fn get_by_alt_text(&self, alt: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::AltText(alt.to_string()))
     }
 
     /// Find element by title attribute
-    pub fn get_by_title(&self, title: &str) -> Locator {
+    pub fn get_by_title(&self, title: &str) -> Locator<'_> {
         Locator::new(self.page.as_ref().unwrap(), LocatorStrategy::Title(title.to_string()))
     }
 
@@ -837,153 +894,6 @@ impl ChromiumBrowser {
     }
 }
 
-/// Information about an iframe on the page
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct IframeInfo {
-    pub index: usize,
-    pub src: String,
-    pub id: String,
-    pub name: String,
-    pub title: String,
-    pub width: u32,
-    pub height: u32,
-}
-
-fn extract_links_from_html(html: &str) -> Vec<String> {
-    let mut links = Vec::new();
-    let re = regex_lite::Regex::new(r#"href=["'](http[^"']+)["']"#).ok();
-    if let Some(re) = re {
-        for cap in re.captures_iter(html) {
-            if let Some(link) = cap.get(1) {
-                links.push(link.as_str().to_string());
-            }
-        }
-    }
-    links
-}
-
-/// Add human-like delay (async)
-async fn human_delay(min_ms: u64, max_ms: u64) {
-    let ms = min_ms + (rand_nanos() % (max_ms - min_ms + 1));
-    tokio::time::sleep(tokio::time::Duration::from_millis(ms)).await;
-}
-
-fn rand_nanos() -> u64 {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos() as u64
-}
-
-fn html_to_markdown(html: &str) -> String {
-    let mut md = html.to_string();
-
-    // Strip script and style blocks (including multiline)
-    let re = regex_lite::Regex::new(r"(?is)<script[^>]*>.*?</script>|<style[^>]*>.*?</style>").ok();
-    if let Some(re) = re {
-        md = re.replace_all(&md, "").to_string();
-    }
-    // Decode HTML entities
-    md = md.replace("&amp;", "&")
-           .replace("&lt;", "<")
-           .replace("&gt;", ">")
-           .replace("&quot;", "\"")
-           .replace("&#39;", "'");
-    // Strip HTML tags
-    let re = regex_lite::Regex::new(r"<[^>]*>").ok();
-    if let Some(re) = re {
-        md = re.replace_all(&md, "").to_string();
-    }
-    // Collapse whitespace
-    let re = regex_lite::Regex::new(r"\s+").ok();
-    if let Some(re) = re {
-        md = re.replace_all(&md, " ").to_string();
-    }
-    md.trim().to_string()
-}
-
-/// Apply stealth patches to hide automation/bot detection
-fn rand_range(min: usize, max: usize) -> usize {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos();
-    min + (nanos as usize) % (max - min + 1)
-}
-
-async fn apply_stealth(page: &chromiumoxide::Page) -> Result<()> {
-    let js = format!(r#"
-    (function() {{
-        // === STEALTH: Ocultar automation ===
-        Object.defineProperty(navigator, 'webdriver', {{ get: () => false }});
-        if (window.chrome) {{
-            Object.defineProperty(window.chrome, 'runtime', {{ get: () => undefined }});
-        }}
-        const originalQuery = window.navigator.permissions?.query;
-        if (originalQuery) {{
-            window.navigator.permissions.query = (p) => {{
-                if (p.name === 'notifications') return Promise.resolve({{ state: 'denied' }});
-                return originalQuery(p);
-            }};
-        }}
-        Object.defineProperty(navigator, 'plugins', {{ get: () => [1, 2, 3, 4, 5] }});
-        Object.defineProperty(navigator, 'languages', {{ get: () => ['en-US', 'en'] }});
-        ['webdriver','__webdriver_eval','__selenium_evaluate',
-         '__selenium_unwrapped','__driver_evaluate','__fxdriver_evaluate',
-         '__webdriver_script_fn'].forEach(k => {{ try {{ delete window[k]; }} catch(e){{}} }});
-        if (window.navigator.connection) {{
-            Object.defineProperty(navigator.connection, 'rtt', {{ get: () => 100 }});
-        }}
-
-        // === FINGERPRINT RANDOMIZATION ===
-        // Hardware concurrency (2-16 nucleos)
-        const cpus = [2, 4, 6, 8, 12, 16];
-        Object.defineProperty(navigator, 'hardwareConcurrency', {{
-            get: () => cpus[{}]
-        }});
-
-        // Device memory (0.25, 0.5, 1, 2, 4, 8 GB)
-        const mems = [0.25, 0.5, 1, 2, 4, 8];
-        Object.defineProperty(navigator, 'deviceMemory', {{
-            get: () => mems[{}]
-        }});
-
-        // Platform random
-        const platforms = ['Win32', 'MacIntel', 'Linux x86_64', 'Linux aarch64'];
-        Object.defineProperty(navigator, 'platform', {{
-            get: () => platforms[{}]
-        }});
-
-        // WebGL vendor (spoof)
-        const getExt = WebGLRenderingContext.prototype.getExtension;
-        WebGLRenderingContext.prototype.getExtension = function() {{
-            const result = getExt.apply(this, arguments);
-            if (arguments[0] === 'WEBGL_debug_renderer_info') return null;
-            return result;
-        }};
-
-        // Canvas noise (tiny random offset to prevent fingerprinting)
-        const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
-        HTMLCanvasElement.prototype.toDataURL = function() {{
-            const data = origToDataURL.apply(this, arguments);
-            // Add 1px random pixel
-            const ctx = this.getContext('2d');
-            if (ctx) {{
-                ctx.fillStyle = `rgba(${{{} % 255}}, ${{{} % 255}}, ${{{} % 255}}, 0.01)`;
-                ctx.fillRect(0, 0, 1, 1);
-            }}
-            return data;
-        }};
-    }})();
-    "#,
-    rand_range(0, 5),
-    rand_range(0, 5),
-    rand_range(0, 3),
-    rand_range(0, 255), rand_range(0, 255), rand_range(0, 255)
-);
-
-    page.evaluate(js)
-        .await
-        .map_err(|e| crate::Error::Other(format!("Stealth error: {}", e)))?;
-
-    Ok(())
-}
 
 #[cfg(test)]
 mod tests {

@@ -1,6 +1,6 @@
 [package]
 name = "b4n1web"
-version = "0.9.1"
+version = "0.9.3"
 edition = "2021"
 authors = ["Bani Montoya <banimontoya@gmail.com>"]
 description = "B4n1Web: The Agentic Browser Engine - Ultra-lightweight headless browser for AI agents"
@@ -47,7 +47,7 @@ dirs = "5"
 flate2 = "1.1.9"
 
 # For Chromium/Render mode
-chromiumoxide = "0.5"
+chromiumoxide = "0.9"
 which = "5.0"
 tokio-tungstenite = "0.21"
 futures-util = "0.3"

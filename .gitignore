@@ -1,34 +1,101 @@
-# Build artifacts - not public
-dist/
-*.egg-info/
+# Rust
+/target/
+**/target/
+**.rs.bk
+Cargo.lock
+
+# Python
 __pycache__/
-*.pyc
-logo.png
-save_logo.py
-sdks/python/build/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.pth
 
-
-# Node.js
+# Node
 node_modules/
-
-# Java (Maven)
-java/target/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
 # C# / .NET
-csharp/src/bin/
-csharp/src/obj/
+**/obj/
+**/bin/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+*.nupkg
+*.nuspec
+*.sourcelink.json
+project.assets.json
+
+# Java
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+.gradle/
+build/
+out/
 
 # Go
-go/b4n1web
-go/*.test
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+pkg/
+vendor/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# OS
+*~
 .DS_Store
 Thumbs.db
+
+# Secrets
+.env
+.env.local
+.env.*.local
+secrets/
+
+# Internal (not for public consumption)
+internal/
+tests/e2e/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+*.log

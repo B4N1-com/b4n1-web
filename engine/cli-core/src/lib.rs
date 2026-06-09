@@ -46,13 +46,20 @@ impl BrowserMode {
     }
 }
 
+use std::sync::Arc;
+use tokio::sync::Mutex;
+
 pub struct AgentBrowser {
     mode: BrowserMode,
+    chromium_browser: Arc<Mutex<Option<chromium::ChromiumBrowser>>>,
 }
 
 impl AgentBrowser {
     pub fn new(mode: BrowserMode) -> Self {
-        Self { mode }
+        Self {
+            mode,
+            chromium_browser: Arc::new(Mutex::new(None)),
+        }
     }
 
     pub async fn goto(&self, url: &str, wait_for: Option<&str>) -> Result<Page> {
@@ -75,6 +82,15 @@ impl AgentBrowser {
             return Err(Error::Other("Evaluate only supported in render mode".to_string()));
         }
 
+        // Reuse existing browser if available
+        let guard = self.chromium_browser.lock().await;
+        if let Some(browser) = guard.as_ref() {
+            let result = browser.evaluate(js).await?;
+            return Ok(result.to_string());
+        }
+        drop(guard);
+
+        // Launch new browser if none exists
         let chrome_path = chromium::find_chromium();
         if chrome_path.is_none() {
             return Err(Error::ChromeNotFound("Chrome not found".to_string()));
@@ -153,36 +169,26 @@ impl AgentBrowser {
     }
 
     async fn goto_render(&self, url: &str, wait_for: Option<&str>) -> Result<Page> {
-        // Try to find Chrome/Chromium
         let chrome_path = chromium::find_chromium();
-
         if chrome_path.is_none() {
             return Err(Error::ChromeNotFound(
                 "Chrome/Chromium not found. Run: b4n1web chromium install".to_string()
             ));
         }
 
-        // Launch Chromium browser
         let browser = chromium::ChromiumBrowser::launch(chrome_path.as_ref()).await?;
-
-        // Navigate to URL with optional wait
         let page = browser.goto(url, wait_for).await?;
 
-        // Take screenshot (re-navigate to page URL for CDP screenshot)
         let screenshot = match browser.screenshot(url, true).await {
             Ok(Some(ss)) => {
                 tracing::info!("Screenshot captured: {} bytes", ss.len());
                 Some(ss)
             }
-            Ok(None) => {
-                tracing::warn!("Screenshot returned None");
-                None
-            }
-            Err(e) => {
-                tracing::warn!("Screenshot failed: {}", e);
-                None
-            }
+            _ => None,
         };
+
+        // Store browser for potential evaluate calls
+        *self.chromium_browser.lock().await = Some(browser);
 
         Ok(Page {
             url: page.url,

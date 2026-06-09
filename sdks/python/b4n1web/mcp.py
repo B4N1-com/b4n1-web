@@ -9,76 +9,11 @@ import asyncio
 import json
 import subprocess
 import threading
-from dataclasses import dataclass
+import time
 from typing import Any, Dict, List, Optional, Union
 
 from .browser import BinaryNotFoundError, BrowserMode, Page, get_b4n1web_binary
-
-
-@dataclass
-class Tool:
-    """MCP Tool definition."""
-
-    name: str
-    description: str
-    input_schema: Dict[str, Any]
-
-
-@dataclass
-class ToolResult:
-    """Result from a tool call."""
-
-    content: List[Dict[str, Any]]
-    is_error: bool = False
-
-    @property
-    def text(self) -> str:
-        """Get text content from result."""
-        return "".join(
-            c.get("text", "") for c in self.content if c.get("type") == "text"
-        )
-
-
-@dataclass
-class McpResponse:
-    """JSON-RPC response from MCP server."""
-
-    jsonrpc: str
-    id: Union[int, None]
-    result: Optional[Dict[str, Any]] = None
-    error: Optional["McpError"] = None
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "McpResponse":
-        """Create response from dictionary."""
-        error = None
-        if "error" in data:
-            error = McpError.from_dict(data["error"])
-
-        return cls(
-            jsonrpc=data.get("jsonrpc", "2.0"),
-            id=data.get("id"),
-            result=data.get("result"),
-            error=error,
-        )
-
-
-@dataclass
-class McpError:
-    """JSON-RPC error."""
-
-    code: int
-    message: str
-    data: Optional[Any] = None
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "McpError":
-        """Create error from dictionary."""
-        return cls(
-            code=data.get("code", -32603),
-            message=data.get("message", "Unknown error"),
-            data=data.get("data"),
-        )
+from .mcp_types import Tool, ToolResult, McpResponse, McpError
 
 
 class McpClient:
@@ -181,15 +116,47 @@ class McpClient:
             self._process.stdin.write(request_str)
             self._process.stdin.flush()
 
-            response_str = self._process.stdout.readline()
-            if not response_str:
-                stderr = self._read_stderr()
-                raise RuntimeError(
-                    f"MCP subprocess closed unexpectedly. stderr: {stderr}"
-                )
+            import select
+            deadline = time.monotonic() + self.timeout
+            
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    stderr = self._read_stderr()
+                    raise RuntimeError(
+                        f"MCP request timed out after {self.timeout}s. stderr: {stderr}"
+                    )
 
-            response = json.loads(response_str.strip())
-            return McpResponse.from_dict(response)
+                line = self._process.stdout.readline()
+                if not line:
+                    stderr = self._read_stderr()
+                    # Check if process died
+                    exit_code = self._process.poll()
+                    if exit_code is not None:
+                        raise RuntimeError(
+                            f"MCP subprocess exited with code {exit_code}. stderr: {stderr}"
+                        )
+                    else:
+                        raise RuntimeError(
+                            f"MCP subprocess closed unexpectedly. stderr: {stderr}"
+                        )
+
+                stripped = line.strip()
+                if stripped.startswith("{"):
+                    try:
+                        response = json.loads(stripped)
+                        return McpResponse.from_dict(response)
+                    except json.JSONDecodeError:
+                        continue
+                
+                # Check if process died even if we got some non-json line
+                if self._process.poll() is not None:
+                    stderr = self._read_stderr()
+                    raise RuntimeError(
+                        f"MCP subprocess exited with code {self._process.poll()}. stderr: {stderr}"
+                    )
+                
+                time.sleep(0.01)
 
     def _read_stderr(self) -> str:
         """Read any available stderr output."""
@@ -244,10 +211,11 @@ class McpClient:
 
         Args:
             url: URL to navigate to
-            mode: Browser mode (LIGHT, JS, RENDER)
+            mode: Browser mode (LIGHT, JS, RENDER) or its string representation
             wait_for: CSS selector to wait for before extracting content (render mode only)
         """
-        args: Dict[str, Any] = {"url": url, "mode": mode.value}
+        mode_val = mode if isinstance(mode, str) else mode.value
+        args: Dict[str, Any] = {"url": url, "mode": mode_val}
         if wait_for:
             args["wait_for"] = wait_for
 
@@ -264,10 +232,11 @@ class McpClient:
 
         Args:
             url: URL to navigate to
-            mode: Browser mode (LIGHT, JS, RENDER)
+            mode: Browser mode (LIGHT, JS, RENDER) or its string representation
             wait_for: CSS selector to wait for before extracting content (render mode only)
         """
-        args: Dict[str, Any] = {"url": url, "mode": mode.value}
+        mode_val = mode if isinstance(mode, str) else mode.value
+        args: Dict[str, Any] = {"url": url, "mode": mode_val}
         if wait_for:
             args["wait_for"] = wait_for
 
