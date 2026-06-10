@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "project_hash": "ad2e14e28f858c4d06e25bd9ceae6c38afa0fcc6216bfc986006675bf4b260a9",
+  "identity_hash": "B4N1-Orchestrator",
+  "device_dna": "local-dev",
+  "timestamp_utc": 1779836729,
+  "calendar_url": "https://alice.btc.calendar.opentimestamps.org",
+  "ots_receipt_b64": "8AjWSwHPphF50QjxIK+1vdD7Kc3RySHsbEPaWi9if2kAMrcVArABjfAkd8ERCPAgoggZ4uKz1JIWjFZWXlsYMZTMGbRyMWFC6IP6axINd2cI8BC0egul47OiZRaJIWm2H7yDCPEgvdJJtfDtQNdSRkySXRAxoIccXDHZ+Di4JRYdZlhU8ngI8CDhN43loz786plmv7csFVonMiC3iPPCJyRY/Exd3ObALQjxBGoWJznwCDGDiZsm2p1mAIPf4w0u+QyOLi1odHRwczovL2FsaWNlLmJ0Yy5jYWxlbmRhci5vcGVudGltZXN0YW1wcy5vcmc=",
+  "status": "CalendarPending"
+}

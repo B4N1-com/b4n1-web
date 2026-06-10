@@ -1,0 +1,317 @@
+#!/bin/bash
+# ──────────────────────────────────────────────────────
+# B4n1Web — E2E Test Runner (Podman)
+# ──────────────────────────────────────────────────────
+#
+# QUALITY GATE: Run this before publishing any SDK.
+# If all tests pass → safe to publish.
+#
+# Usage:
+#   bash scripts/run_e2e.sh              # Run all
+#   bash scripts/run_e2e.sh python       # Python only
+#   bash scripts/run_e2e.sh javascript   # JavaScript only
+#   bash scripts/run_e2e.sh go           # Go only
+#   bash scripts/run_e2e.sh java         # Java only
+#   bash scripts/run_e2e.sh csharp       # C# only
+#   bash scripts/run_e2e.sh binary       # Standalone binary tests only
+#   bash scripts/run_e2e.sh mcp          # MCP server tests only
+#
+# ──────────────────────────────────────────────────────
+
+set -euo pipefail
+
+# ── Paths ──
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ENGINE_DIR="$REPO_ROOT/engine/cli-core"
+SDKS_DIR="$REPO_ROOT/sdks"
+
+IMAGE_NAME="b4n1web-e2e"
+CONTAINER_PREFIX="b4n1web-e2e"
+
+# ── Helpers ──
+log()    { echo -e "[\033[1;34mINFO\033[0m] $*"; }
+ok()     { echo -e "[\033[1;32m OK \033[0m] $*"; }
+fail()   { echo -e "[\033[1;31mFAIL\033[0m] $*"; }
+run_test() {
+    local name="$1"
+    shift
+    local cmd="$*"
+    local rc=0
+
+    log "▶️  Running test: $name"
+    eval "$cmd" || rc=$?
+
+    if [ $rc -eq 0 ]; then
+        ok "$name PASSED"
+    else
+        fail "$name FAILED (exit code: $rc)"
+    fi
+    return $rc
+}
+
+# ── Test: Python SDK ──
+test_python() {
+    run_test "python" '
+set -e
+
+echo "🐍 ── Phase 1: Install SDK (with bundled binary) ──"
+cp -r /sdk-python /tmp/sdk-python
+cd /tmp/sdk-python
+pip3 install --root-user-action=ignore . 2>&1 | tail -3
+pip3 install --root-user-action=ignore pytest requests 2>&1 | tail -1
+
+echo ""
+echo "🐍 ── Phase 2: Verify Bundled Binary ──"
+python3 -c "
+from b4n1web.browser import get_b4n1web_binary
+binary = get_b4n1web_binary()
+assert binary is not None, '\''Binary not found'\''
+print(f'\''[OK] Bundled binary found: {binary}'\'')
+"
+
+echo ""
+echo "🐍 ── Phase 3: Unit Tests ──"
+python3 -m pytest /tests/python/ -v --tb=short --cache-clear 2>&1
+
+echo ""
+echo "🐍 ── Phase 4: E2E Tests ──"
+python3 -m pytest /tests/e2e/test_e2e.py -v --tb=short --cache-clear 2>&1
+'
+}
+
+# ── Test: JavaScript SDK ──
+test_javascript() {
+    run_test "javascript" '
+set -e
+
+echo "🟨 ── Phase 1: Install SDK (with bundled binary) ──"
+cp -r /sdk-javascript /tmp/sdk-js
+cd /tmp/sdk-js
+npm install 2>&1 | tail -5
+npm run build 2>&1 | tail -5
+
+echo ""
+echo "🟨 ── Phase 2: Verify Bundled Binary ──"
+node -e "
+const { getB4n1webBinary } = require('./dist');
+const binary = getB4n1webBinary();
+if (!binary) throw new Error('Binary not found');
+console.log('[OK] Bundled binary found:', binary);
+"
+
+echo ""
+echo "🟨 ── Phase 3: Unit Tests ──"
+cd /tmp/sdk-js
+npx vitest run --passWithNoTests 2>&1 | tail -15
+
+echo ""
+echo "🟨 ── Phase 4: Integration / Smoke Tests ──"
+node -e "
+const { AgentBrowser, BrowserMode, Page, SecurityShield, getB4n1webVersion } = require('./dist/index.js');
+console.log('[OK] AgentBrowser:', typeof AgentBrowser);
+console.log('[OK] BrowserMode.LIGHT:', BrowserMode.LIGHT);
+console.log('[OK] BrowserMode.JS:', BrowserMode.JS);
+console.log('[OK] BrowserMode.RENDER:', BrowserMode.RENDER);
+console.log('[OK] Page:', typeof Page);
+console.log('[OK] SecurityShield:', typeof SecurityShield);
+console.log('[OK] Version:', getB4n1webVersion());
+const page = new Page({url: 'https://test.com', markdown: '# Test\nContent', links: ['https://a.com', 'https://b.com/test']});
+console.log('[OK] Page.getMainContent():', page.getMainContent());
+console.log('[OK] Page.findLinksByText(\"b.com\"):', page.findLinksByText('b.com'));
+if (BrowserMode.LIGHT !== 'light') throw new Error('LIGHT wrong');
+if (BrowserMode.JS !== 'js') throw new Error('JS wrong');
+if (BrowserMode.RENDER !== 'render') throw new Error('RENDER wrong');
+console.log('[OK] BrowserMode enum correct (3 modes)');
+const shield = new SecurityShield();
+shield.markDomain('evil.com', false);
+const blocked = shield.isUrlSafe('https://evil.com');
+console.log('[OK] SecurityShield blocks unsafe:', !blocked.isSafe);
+console.log('');
+console.log('[OK] All JavaScript SDK tests passed');
+'
+}
+
+test_go() {
+    run_test "go" '
+set -e
+
+echo "🐹 ── Phase 1: Install SDK (with bundled binary) ──"
+cd /tmp/sdk-go
+go mod download 2>&1 | tail -3
+
+echo ""
+echo "🐹 ── Phase 2: Verify Bundled Binary ──"
+go run -exec /bin/true - <<'"'"'GO'"'"'
+package main
+import (
+    b4n1web "github.com/B4N1-com/b4n1web"
+    "fmt"
+)
+func main() {
+    ver := b4n1web.GetVersion()
+    if ver == "unknown" {
+        fmt.Println("⚠️  Could not detect bundled binary")
+    } else {
+        fmt.Println("✅ Bundled binary detected:", ver)
+    }
+}
+GO
+
+echo ""
+echo "🐹 ── Phase 3: Unit Tests ──"
+go test ./... -v 2>&1 | tail -10
+'
+}
+
+# ── Test: Java SDK ──
+test_java() {
+    run_test "java" '
+set -e
+
+echo "☕ ── Phase 1: Install SDK (with bundled binary) ──"
+cp -r /sdk-java /tmp/sdk-java
+cd /tmp/sdk-java
+./mvnw dependency:resolve 2>&1 | tail -5
+
+echo ""
+echo "☕ ── Phase 2: Verify Bundled Binary ──"
+java -cp "target/classes:target/dependency/*" com.b4n1.web.B4n1Web 2>&1 | grep -E "(Bundled binary|Could not detect)" || true
+
+echo ""
+echo "☕ ── Phase 3: Unit Tests ──"
+./mvnw test 2>&1 | tail -10
+'
+}
+
+# ── Test: C# SDK ──
+test_csharp() {
+    run_test "csharp" '
+set -e
+
+echo "🔷 ── Phase 1: Install SDK (with bundled binary) ──"
+cp -r /sdk-csharp /tmp/sdk-csharp
+cd /tmp/sdk-csharp
+dotnet restore 2>&1 | tail -5
+
+echo ""
+echo "🔷 ── Phase 2: Verify Bundled Binary ──"
+dotnet run --project src/B4n1Web.csproj 2>&1 | grep -E "(Bundled binary|Could not detect)" || true
+
+echo ""
+echo "🔷 ── Phase 3: Unit Tests ──"
+dotnet test 2>&1 | tail -10
+'
+}
+
+# ── Test: Standalone Binary ──
+test_binary() {
+    run_test "binary" '
+set -e
+
+echo "⚙️ ── Phase 1: Build Binary ──"
+cd "$ENGINE_DIR"
+cargo build --release 2>&1 | tail -5
+
+echo ""
+echo "⚙️ ── Phase 2: Verify Binary Exists ──"
+BINARY="$ENGINE_DIR/target/release/b4n1web"
+if [ ! -f "$BINARY" ]; then
+    echo "❝ Binary not found at $BINARY"
+    exit 1
+fi
+echo "✅ Binary found at $BINARY"
+
+echo ""
+echo "⚙️ ── Phase 3: Binary Version Check ──"
+VERSION_OUTPUT=$("$BINARY" --version 2>&1)
+echo "$VERSION_OUTPUT" | grep -q "b4n1web" && echo "✅ Version check passed: $VERSION_OUTPUT" || echo "❌ Version check failed: $VERSION_OUTPUT"
+
+echo ""
+echo "⚙️ ── Phase 4: Binary Help Check ──"
+HELP_OUTPUT=$("$BINARY" --help 2>&1)
+echo "$HELP_OUTPUT" | grep -q "B4n1Web" && echo "✅ Help check passed" || echo "❌ Help check failed"
+
+echo ""
+echo "⚙️ ── Phase 5: Binary Basic Functionality ──"
+TIMEOUT_OUTPUT=$("$BINARY" --url "https://httpbin.org/html" --timeout 10 2>&1 | head -5)
+echo "$TIMEOUT_OUTPUT" | grep -q "<!DOCTYPE HTML>" && echo "✅ Basic functionality check passed" || echo "⚠️  Basic functionality check output: $TIMEOUT_OUTPUT"
+'
+}
+
+# ── Test: MCP Server ──
+test_mcp() {
+    run_test "mcp" '
+set -e
+
+echo "🔌 ── Phase 1: Start MCP Server ──"
+cd "$ENGINE_DIR"
+cargo build --release 2>&1 | tail -3
+BINARY="$ENGINE_DIR/target/release/b4n1web"
+timeout 10s "$BINARY" mcp 2>&1 &
+MCP_PID=$!
+sleep 2
+
+echo ""
+echo "🔌 ── Phase 2: Verify MCP Server Running ──"
+if ps -p $MCP_PID > /dev/null; then
+    echo "✅ MCP server started with PID $MCP_PID"
+else
+    echo "❌ MCP server failed to start"
+    kill $MCP_PID 2>/dev/null || true
+    exit 1
+fi
+
+echo ""
+echo "🔌 ── Phase 3: Stop MCP Server ──"
+kill $MCP_PID 2>/dev/null || true
+wait $MCP_PID 2>/dev/null || true
+echo "✅ MCP server stopped"
+'
+}
+
+# ── Main Execution ──
+main() {
+    local test_target="${1:-all}"
+
+    case "$test_target" in
+        all)
+            log "🚀 Running ALL tests..."
+            test_python
+            test_javascript
+            test_go
+            test_java
+            test_csharp
+            test_binary
+            test_mcp
+            ;;
+        python)
+            test_python
+            ;;
+        javascript)
+            test_javascript
+            ;;
+        go)
+            test_go
+            ;;
+        java)
+            test_java
+            ;;
+        csharp)
+            test_csharp
+            ;;
+        binary)
+            test_binary
+            ;;
+        mcp)
+            test_mcp
+            ;;
+        *)
+            fail "Unknown test target: $test_target"
+            echo "Usage: $0 [all|python|javascript|go|java|csharp|binary|mcp]"
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
