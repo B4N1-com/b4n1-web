@@ -3,7 +3,7 @@ B4n1Web SDK
 Zero-overhead, high-speed web execution for sovereign AI agents.
 
 NOTE: The B4n1Web binary must be installed separately via:
-    curl -sL https://web.b4n1.com/install | bash
+    curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash
 
 Quick Start:
     # Using MCP (recommended for AI agents)
@@ -27,7 +27,7 @@ from .security import SecurityShield
 from .mcp import AsyncMcpClient, McpClient
 from .mcp import Tool, ToolResult
 
-__version__ = "0.8.0"
+__version__ = "0.9.4"
 __author__ = "Bani Montoya"
 __email__ = "banimontoya@gmail.com"
 

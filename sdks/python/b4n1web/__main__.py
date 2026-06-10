@@ -48,25 +48,37 @@ def install_command():
     install_dir.mkdir(parents=True, exist_ok=True)
     binary_path = install_dir / "b4n1web"
 
-    version_url = "https://web.b4n1.com/latest-version"
+    import platform as _platform
+    machine = _platform.machine()
+    system = _platform.system().lower()
+    arch = "x86_64" if machine in ("x86_64", "amd64") else "aarch64" if machine in ("aarch64", "arm64") else machine
+    plat = f"{system}-{arch}"
+
     print(f"\nChecking latest version...")
 
     try:
         import requests
 
-        resp = requests.get(version_url, timeout=10)
-        version_info = resp.json()
-        download_url = version_info.get("url")
-        version = version_info.get("version", "unknown")
+        resp = requests.get(
+            "https://api.github.com/repos/B4N1-com/b4n1-web/releases/latest",
+            timeout=10,
+            headers={"User-Agent": "b4n1web-python-sdk"}
+        )
+        resp.raise_for_status()
+        release = resp.json()
+        version = release["tag_name"].lstrip("v")
+        download_url = f"https://github.com/B4N1-com/b4n1-web/releases/download/v{version}/b4n1web-v{version}-{plat}.tar.gz"
         print(f"Latest version: {version}")
         print(f"Downloading from: {download_url}")
     except Exception as e:
         print(f"Error getting version info: {e}")
+        print("\nYou can also install manually:")
+        print("  curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash")
         sys.exit(1)
 
     print(f"\nDownloading B4n1Web {version}...")
     try:
-        resp = requests.get(download_url, timeout=60)
+        resp = requests.get(download_url, timeout=120)
         resp.raise_for_status()
 
         import tarfile

@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const binDir = path.join(__dirname, '..', 'bin');
-const binary = path.join(binDir, 'b4n1web-linux');
+const binary = path.join(binDir, 'b4n1web');
 
 if (fs.existsSync(binary)) {
   try {

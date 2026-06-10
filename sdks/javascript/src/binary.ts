@@ -7,7 +7,7 @@ export function getB4n1webBinary(): string | null {
   const home = os.homedir();
   const paths: string[] = [];
 
-  const bundledBinary = path.join(__dirname, '..', 'bin', 'b4n1web-linux');
+  const bundledBinary = path.join(__dirname, '..', 'bin', 'b4n1web');
   if (fs.existsSync(bundledBinary)) {
     try {
       fs.accessSync(bundledBinary, fs.constants.X_OK);
@@ -63,7 +63,7 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.8.0';
+const SDK_VERSION = '0.9.4';
 
 export function checkVersionCompatibility(): string | null {
   const binaryVersion = getB4n1webVersion();
@@ -75,7 +75,7 @@ export function checkVersionCompatibility(): string | null {
     console.warn(
       `Warning: Version mismatch: SDK v${SDK_VERSION} requires binary v${SDK_VERSION}, ` +
       `but found v${binaryVersion}. Some features may not work correctly. ` +
-      `To update: curl -sL https://web.b4n1.com/install | bash`
+      `To update: curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash`
     );
   }
   return binaryVersion;

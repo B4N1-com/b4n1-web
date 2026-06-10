@@ -47,7 +47,7 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.7.0"
+SDK_VERSION = "0.9.4"
 
 
 def get_b4n1web_binary() -> Optional[str]:
@@ -57,7 +57,7 @@ def get_b4n1web_binary() -> Optional[str]:
         if os.path.exists(env_path) and os.access(env_path, os.X_OK):
             return env_path
 
-    bundled = Path(__file__).parent / "bin" / "b4n1web-linux"
+    bundled = Path(__file__).parent / "bin" / "b4n1web"
     if bundled.exists() and os.access(bundled, os.X_OK):
         return str(bundled)
 

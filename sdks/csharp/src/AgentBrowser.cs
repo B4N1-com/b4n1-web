@@ -20,7 +20,7 @@ namespace B4N1Web;
 /// </example>
 public class AgentBrowser : IDisposable
 {
-    private const string SdkVersion = "0.5.0";
+    private const string SdkVersion = "0.9.4";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
     private Page? _lastPage;
@@ -437,7 +437,7 @@ public class AgentBrowser : IDisposable
         try
         {
             var assembly = typeof(AgentBrowser).Assembly;
-            var resourceName = "B4N1Web.native.linux-x64.b4n1web-linux";
+            var resourceName = "B4N1Web.native.linux-x64.b4n1web";
             using var stream = assembly.GetManifestResourceStream(resourceName);
             if (stream == null) return null;
 

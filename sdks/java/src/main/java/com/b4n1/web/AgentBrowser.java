@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.8.0";
+    private static final String SDK_VERSION = "0.9.4";
     private final BrowserOptions options;
     private final String binaryPath;
 
@@ -270,7 +270,7 @@ public class AgentBrowser implements AutoCloseable {
 
     private String findBinary() {
         try {
-            String resourcePath = "/native/linux-x86_64/b4n1web-linux";
+            String resourcePath = "/native/linux-x86_64/b4n1web";
             java.net.URL url = getClass().getResource(resourcePath);
             if (url != null) {
                 File bundledBinary = extractBundledBinary(resourcePath);

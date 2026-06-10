@@ -1,7 +1,7 @@
 #!/bin/bash
 # B4n1Web Install Script
 # Downloads and installs the B4n1Web binary
-# Usage: curl -sL https://web.b4n1.com/install | bash
+# Usage: curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash
 
 set -e
 

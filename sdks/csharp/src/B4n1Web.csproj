@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B4N1Web</RootNamespace>
     <AssemblyName>B4n1Web</AssemblyName>
-    <Version>0.9.3</Version>
+    <Version>0.9.4</Version>
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine</Description>
@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="native/linux-x64/b4n1web-linux">
-      <LogicalName>B4N1Web.native.linux-x64.b4n1web-linux</LogicalName>
+    <EmbeddedResource Include="native/linux-x64/b4n1web">
+      <LogicalName>B4N1Web.native.linux-x64.b4n1web</LogicalName>
     </EmbeddedResource>
     <None Update="README.md">
       <Pack>true</Pack>

@@ -448,11 +448,12 @@ async fn check_and_update(install: bool) -> Result<(), Box<dyn std::error::Error
     println!("🔍 Checking for updates...");
     println!("Current version: v{}", current_version);
     
-    let client = reqwest::Client::new();
+    let client = reqwest::Client::builder()
+        .user_agent("b4n1web")
+        .build()?;
     
     let response = client
         .get("https://api.github.com/repos/B4N1-com/b4n1-web/releases/latest")
-        .header("User-Agent", "b4n1web")
         .send()
         .await?;
     
@@ -470,25 +471,97 @@ async fn check_and_update(install: bool) -> Result<(), Box<dyn std::error::Error
         println!("\n✅ New version available: v{}", latest);
         
         if install {
-            println!("\n📦 Running installer...\n");
+            println!("\n📦 Installing v{}...\n", latest);
             
-            // Run the install script - this handles the binary replacement correctly
+            // Detect platform
+            let os = std::env::consts::OS;
+            let arch = std::env::consts::ARCH;
+            let platform = match (os, arch) {
+                ("linux", "x86_64") => "linux-x86_64",
+                ("linux", "aarch64") => "linux-aarch64",
+                ("macos", "x86_64") => "macos-x86_64",
+                ("macos", "aarch64") => "macos-aarch64",
+                _ => {
+                    println!("\n⚠️  Unsupported platform: {}-{}", os, arch);
+                    println!("\n💡 To update manually, run:");
+                    println!("   curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash");
+                    return Ok(());
+                }
+            };
+
+            let tarball_url = format!(
+                "https://github.com/B4N1-com/b4n1-web/releases/download/v{}/b4n1web-v{}-{}.tar.gz",
+                latest, latest, platform
+            );
+
+            println!("Downloading from: {}", tarball_url);
+            
+            let tarball_response = client.get(&tarball_url).send().await;
+            
+            match tarball_response {
+                Ok(resp) if resp.status().is_success() => {
+                    let bytes = resp.bytes().await?;
+                    let temp_dir = std::env::temp_dir().join(format!("b4n1web-update-{}", std::process::id()));
+                    std::fs::create_dir_all(&temp_dir)?;
+                    
+                    let tarball_path = temp_dir.join("b4n1web.tar.gz");
+                    std::fs::write(&tarball_path, &bytes)?;
+                    
+                    // Extract
+                    let file = std::fs::File::open(&tarball_path)?;
+                    let decoder = flate2::read::GzDecoder::new(file);
+                    let mut archive = tar::Archive::new(decoder);
+                    archive.unpack(&temp_dir)?;
+                    
+                    // Find the binary
+                    let binary = find_extracted_binary(&temp_dir, "b4n1web");
+                    
+                    if let Some(binary_path) = binary {
+                        // Determine install location (same dir as current binary)
+                        let current_exe = std::env::current_exe()?;
+                        let install_dir = current_exe.parent().unwrap_or(std::path::Path::new("/usr/local/bin"));
+                        let dest = install_dir.join("b4n1web");
+                        
+                        std::fs::copy(&binary_path, &dest)?;
+                        #[cfg(unix)]
+                        {
+                            use std::os::unix::fs::PermissionsExt;
+                            std::fs::set_permissions(&dest, std::fs::Permissions::from_mode(0o755))?;
+                        }
+                        
+                        let _ = std::fs::remove_dir_all(&temp_dir);
+                        
+                        println!("✅ Updated to v{}", latest);
+                        println!("   Location: {}", dest.display());
+                        return Ok(());
+                    } else {
+                        let _ = std::fs::remove_dir_all(&temp_dir);
+                        println!("\n⚠️  Could not find binary in downloaded archive");
+                    }
+                }
+                _ => {
+                    println!("\n⚠️  Could not download from GitHub Releases");
+                }
+            }
+            
+            // Fallback: try install script from raw GitHub
+            println!("\n📦 Trying install script fallback...");
             let result = std::process::Command::new("sh")
                 .arg("-c")
-                .arg("curl -sL https://web.b4n1.com/install | bash")
+                .arg("curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash")
                 .spawn();
             
             match result {
-                Ok(_) => {
-                    println!("✅ Installer started! Run 'b4n1web update' again in a few seconds to verify.");
+                Ok(mut child) => {
+                    let _ = child.wait();
+                    println!("✅ Installer finished. Run 'b4n1web --version' to verify.");
                 }
                 Err(e) => {
                     println!("\n⚠️  Could not run installer: {}", e);
                     println!("\n💡 To update manually, run:");
-                    println!("   curl -sL https://web.b4n1.com/install | bash");
+                    println!("   curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash");
                 }
             }
-            return Ok(());
         } else {
             println!("\n📦 To update, run:");
             println!("   b4n1web update --install");
@@ -498,6 +571,27 @@ async fn check_and_update(install: bool) -> Result<(), Box<dyn std::error::Error
     }
     
     Ok(())
+}
+
+fn find_extracted_binary(dir: &std::path::Path, name: &str) -> Option<std::path::PathBuf> {
+    // Check flat layout first
+    let flat = dir.join(name);
+    if flat.exists() {
+        return Some(flat);
+    }
+    // Check nested directory layout (b4n1web-vX.Y.Z-platform/)
+    if let Ok(entries) = std::fs::read_dir(dir) {
+        for entry in entries.flatten() {
+            let path = entry.path();
+            if path.is_dir() {
+                let nested = path.join(name);
+                if nested.exists() {
+                    return Some(nested);
+                }
+            }
+        }
+    }
+    None
 }
 
 async fn install_render_binary(install: bool) -> Result<(), Box<dyn std::error::Error>> {

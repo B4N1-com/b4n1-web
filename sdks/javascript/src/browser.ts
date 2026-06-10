@@ -36,7 +36,7 @@ export class AgentBrowser {
         `- ${home}/.local/bin/b4n1web\n` +
         `- ${home}/.b4n1web/bin/b4n1web\n` +
         `- PATH: ${pathDirs.join(', ')}\n\n` +
-        `For MCP server: curl -sL https://web.b4n1.com/install | bash`
+        `For MCP server: curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/main/scripts/install.sh | bash`
       );
     }
     this.binaryPath = binary;
