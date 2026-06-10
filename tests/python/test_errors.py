@@ -9,7 +9,7 @@ class TestBinaryNotFoundError:
         error = BinaryNotFoundError()
         message = str(error)
         assert "B4n1Web binary not found" in message
-        assert "curl -sL https://web.b4n1.com/install" in message
+        assert "curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh" in message
 
     def test_is_runtime_error(self):
         error = BinaryNotFoundError()

@@ -490,8 +490,13 @@ public class AgentBrowser : IDisposable
             process.Start();
             var output = process.StandardOutput.ReadToEnd();
             process.WaitForExit(5000);
-            
-            return output.Trim();
+
+            var trimmed = output.Trim();
+            // Parse "b4n1web X.Y.Z" -> "X.Y.Z"
+            var parts = trimmed.Split(' ');
+            if (parts.Length >= 2 && parts[0] == "b4n1web")
+                return parts[1];
+            return trimmed;
         }
         catch
         {

@@ -18,6 +18,7 @@ pub enum RouteResult {
 pub struct NetworkWait {
     page: Page,
     pattern: String,
+    #[allow(dead_code)]
     wait_type: NetworkWaitType,
     timeout_ms: u64,
 }
@@ -230,7 +231,6 @@ pub fn wait_for_response(page: &Page, pattern: &str, timeout_ms: u64) -> Network
 
 #[cfg(test)]
 mod tests {
-    use super::*;
 
     #[test]
     fn test_block_resources_js_generation() {

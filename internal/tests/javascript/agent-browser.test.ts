@@ -101,7 +101,7 @@ describe('AgentBrowser', () => {
 
     it('should throw BinaryNotFoundError with install info in message', () => {
       mockedFs.existsSync.mockReturnValue(false);
-      expect(() => new AgentBrowser()).toThrow(/curl.*b4n1\.com.*install/);
+      expect(() => new AgentBrowser()).toThrow(/curl.*raw\.githubusercontent\.com.*install/);
     });
 
     it('should throw BinaryNotFoundError when no paths have executable', () => {

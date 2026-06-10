@@ -4,7 +4,6 @@
 
 use std::path::Path;
 use crate::Result;
-use std::sync::atomic::{AtomicU32, Ordering};
 
 /// Result of a visual comparison
 pub struct VisualDiff {
@@ -102,6 +101,7 @@ pub fn generate_report(diffs: &[(&str, &VisualDiff)]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::{AtomicU32, Ordering};
 
     fn create_test_png(r: u8, g: u8, b: u8) -> Vec<u8> {
         let mut pix = tiny_skia::Pixmap::new(10, 10).unwrap();

@@ -13,7 +13,7 @@ Go bindings for B4n1Web: The Agentic Browser Engine.
 ### 1. Install the B4n1Web Binary
 
 ```bash
-curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.9.3-linux-amd64.tar.gz | tar -xz && ./b4n1web --version
+curl -sL https://github.com/B4N1-com/b4n1-web/releases/latest/download/b4n1web-v0.9.4-linux-amd64.tar.gz | tar -xz && ./b4n1web --version
 ```
 
 ### 2. Install the Go SDK

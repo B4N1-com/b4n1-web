@@ -45,7 +45,7 @@ describe('Errors', () => {
       const error = new BinaryNotFoundError();
       expect(error.message).toContain('B4n1Web binary not found');
       expect(error.message).toContain('curl');
-      expect(error.message).toContain('https://web.b4n1.com/install');
+      expect(error.message).toContain('https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh');
     });
 
     it('should be an instanceof Error', () => {
@@ -76,7 +76,7 @@ describe('Errors', () => {
         fail('Expected BinaryNotFoundError to be thrown');
       } catch (e: any) {
         expect(e.name).toBe('BinaryNotFoundError');
-        expect(e.message).toContain('curl -sL https://web.b4n1.com/install | bash');
+        expect(e.message).toContain('curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash');
       }
     });
 

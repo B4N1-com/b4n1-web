@@ -1,5 +1,16 @@
 # CHANGELOG — b4n1-web
 
+## v0.9.4 — 2026-06-09
+
+### Fixed
+- **Install URLs**: Replaced dead `web.b4n1.com` URLs with `raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh` across all SDKs.
+- **SDK version consistency**: Unified all SDK_VERSION constants to 0.9.4 (Python, JS, Java, C#).
+- **Binary naming**: SDKs now look for `b4n1web` (not legacy `b4n1web-linux`).
+- **Tests (JS/Python)**: Fixed 4 stale URL assertions failing due to install URL migration.
+
+### Changed
+- **Self-contained update**: `b4n1web update --install` downloads tarball directly from GitHub Releases (no external script required).
+
 ## v0.9.3 — 2026-06-08
 
 ### Refactored

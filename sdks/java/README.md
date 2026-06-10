@@ -11,7 +11,7 @@
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.4.0</version>
+    <version>0.9.4</version>
 </dependency>
 ```
 
@@ -44,24 +44,14 @@ new AgentBrowser(new BrowserOptions(BrowserMode.JS));
 new AgentBrowser(new BrowserOptions(BrowserMode.RENDER));
 ```
 
-## Security
-
-```java
-SecurityShield shield = new SecurityShield();
-shield.markDomain("evil.com", false);
-SecurityCheckResult result = shield.isUrlSafe("https://evil.com");
-// result.isSafe(), result.needsApiCheck()
-```
-
 ## Version
 
-SDK: **0.4.0** | Binary: **0.4.0** (bundled)
+SDK: **0.9.4** | Binary: **0.9.4** (bundled)
 
 ## Links
 
 - [Maven Central](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [Website](https://web.b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

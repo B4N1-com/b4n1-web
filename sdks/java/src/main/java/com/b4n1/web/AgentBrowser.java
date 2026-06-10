@@ -1,5 +1,10 @@
 package com.b4n1.web;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -247,6 +252,17 @@ public class AgentBrowser implements AutoCloseable {
         return page;
     }
 
+    /**
+     * Parse a JSON array of link objects or strings into a list of URLs.
+     * <p>
+     * Supports two input formats:
+     * <ul>
+     *   <li>{@code [{"url": "...", "text": "..."}, ...]} — extracts the "url" field</li>
+     *   <li>{@code ["url1", "url2", ...]} — treats each string as a URL directly</li>
+     * </ul>
+     * Uses Gson for robust parsing. Falls back to the original manual
+     * string-splitting logic if Gson is unavailable or the JSON is malformed.
+     */
     private List<String> parseLinksJson(String json) {
         if (json == null || json.isEmpty() || json.equals("[]")) {
             return new ArrayList<>();
@@ -255,6 +271,15 @@ public class AgentBrowser implements AutoCloseable {
         if (!json.startsWith("[")) {
             return new ArrayList<>();
         }
+
+        // Primary: parse with Gson
+        try {
+            return parseJsonArray(json);
+        } catch (Exception ignored) {
+            // Fall through to legacy parser
+        }
+
+        // Legacy fallback: manual string splitting (fragile, kept for backward compatibility)
         List<String> result = new ArrayList<>();
         json = json.substring(1, json.length() - 1);
         for (String item : json.split(",")) {
@@ -263,6 +288,31 @@ public class AgentBrowser implements AutoCloseable {
                 result.add(item.substring(1, item.length() - 1));
             } else if (item.startsWith("\"") && item.endsWith("\"")) {
                 result.add(item.substring(1, item.length() - 1));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Parse a JSON array string into a list of URLs using Gson.
+     * <p>
+     * Handles both {@code [{"url": "...", ...}]} and {@code ["...", "..."]} formats.
+     *
+     * @param json the JSON array string
+     * @return list of extracted URLs
+     * @throws com.google.gson.JsonSyntaxException if the input is not valid JSON
+     */
+    private List<String> parseJsonArray(String json) {
+        JsonArray array = JsonParser.parseString(json).getAsJsonArray();
+        List<String> result = new ArrayList<>(array.size());
+        for (JsonElement element : array) {
+            if (element.isJsonObject()) {
+                JsonObject obj = element.getAsJsonObject();
+                if (obj.has("url") && !obj.get("url").isJsonNull()) {
+                    result.add(obj.get("url").getAsString());
+                }
+            } else if (element.isJsonPrimitive()) {
+                result.add(element.getAsString());
             }
         }
         return result;
@@ -337,9 +387,15 @@ public class AgentBrowser implements AutoCloseable {
                     Process pb = new ProcessBuilder(path, "--version").start();
                     String version = new BufferedReader(new InputStreamReader(pb.getInputStream()))
                             .lines()
-                            .collect(Collectors.joining("\n"));
+                            .collect(Collectors.joining("\n"))
+                            .trim();
                     pb.waitFor(5, java.util.concurrent.TimeUnit.SECONDS);
-                    return version.trim();
+                    // Parse "b4n1web X.Y.Z" -> "X.Y.Z"
+                    String[] parts = version.split(" ");
+                    if (parts.length >= 2 && parts[0].equals("b4n1web")) {
+                        return parts[1];
+                    }
+                    return version;
                 } catch (Exception e) {
                 }
             }

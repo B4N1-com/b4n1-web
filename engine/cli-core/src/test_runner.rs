@@ -2,9 +2,6 @@
 //!
 //! Provides test(), expect(), describe() for browser-based testing.
 
-use std::sync::atomic::{AtomicUsize, Ordering};
-
-static TEST_COUNTER: AtomicUsize = AtomicUsize::new(0);
 
 /// Test result
 #[derive(Debug, Clone)]
