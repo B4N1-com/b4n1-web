@@ -1,6 +1,6 @@
 {
   "name": "b4n1-web",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,8 @@
   ],
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prepublishOnly": "npm run build",
     "postinstall": "node scripts/postinstall.js"
   },

@@ -84,8 +84,9 @@ class SecurityShield:
                 url = url.split("://", 1)[1]
             host = url.split("/", 1)[0]
             host = host.split("?", 1)[0]
-            host = host.split("@", 1)[-1]    # strip userinfo
-            host = host.split(":", 1)[0]      # strip port
+            host = host.split("#", 1)[0]       # strip fragment
+            host = host.split("@", 1)[-1]      # strip userinfo
+            host = host.split(":", 1)[0]        # strip port
             if not host or "." not in host and host != "localhost":
                 return ""
             return host.lower()

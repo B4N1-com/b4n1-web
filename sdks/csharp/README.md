@@ -46,15 +46,24 @@ new AgentBrowser(new BrowserOptions { Mode = BrowserMode.JS });
 new AgentBrowser(new BrowserOptions { Mode = BrowserMode.Render });
 ```
 
+## Security
+
+```csharp
+var shield = new SecurityShield();
+shield.MarkDomain("evil.com", isSafe: false);
+var result = shield.IsUrlSafe("https://evil.com");
+// result.IsSafe, result.NeedsApiCheck
+```
+
 ## Version
 
-SDK: **0.9.4** | Binary: **0.9.4** (bundled)
+SDK: **0.4.0** | Binary: **0.4.0** (bundled)
 
 ## Links
 
 - [NuGet](https://www.nuget.org/packages/B4n1Web)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [GitHub](https://github.com/B4N1-com/b4n1-web)
+- [Website](https://web.b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

@@ -60,7 +60,7 @@ class McpClient:
             "initialize",
             {
                 "protocolVersion": "2025-11-25",
-                "clientInfo": {"name": "b4n1web-python-sdk", "version": "0.9.4"},
+                "clientInfo": {"name": "b4n1web-python-sdk", "version": "0.8.0"},
             },
         )
 

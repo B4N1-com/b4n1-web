@@ -2,13 +2,13 @@ import { defineConfig } from 'vitest/config';
 import path from 'path';
 
 export default defineConfig({
-  root: '../../internal/tests/javascript',
   resolve: {
     alias: {
-      '@sdk': path.resolve(__dirname, '..', 'src'),
+      '@sdk': path.resolve(__dirname, 'src'),
     },
   },
   test: {
     globals: false,
+    include: ['tests/**/*.test.ts'],
   },
 });
