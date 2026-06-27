@@ -96,3 +96,15 @@ internal/
 .b4n1/
 test_all.sh
 Containerfile
+engine/
+scripts/
+tests/
+docs/
+internal/
+.b4n1/
+test_all.sh
+Containerfile
+RELEASE_CHECKLIST.md
+MANIFEST.md
+releases/
+sdks/*.tar.gz
