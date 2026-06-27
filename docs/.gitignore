@@ -1,8 +1,0 @@
-target/
-*.tar.gz
-*.egg-info
-build/
-dist/
-__pycache__/
-*.pyc
-.env

@@ -87,15 +87,12 @@ Thumbs.db
 .env.*.local
 secrets/
 
-# Internal (not for public consumption)
+# Internal source (not for public)
+engine/
+scripts/
+tests/
+docs/
 internal/
-tests/e2e/
-
-# Test artifacts
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-
-# Logs
-*.log
+.b4n1/
+test_all.sh
+Containerfile
