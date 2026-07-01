@@ -1,5 +1,16 @@
 # CHANGELOG — b4n1-web
 
+## v0.10.0 — 2026-07-01
+
+### Fixed
+- **PDF generation**: `goto` MCP handler now shares session ChromiumBrowser with `pdf`/`screenshot` instead of creating a separate ephemeral browser per call. PDFs are no longer blank (848 bytes → real content).
+- **Hardcoded version**: MCP server now uses `env!("CARGO_PKG_VERSION")` at compile time instead of hardcoded `"0.8.0"`.
+
+### Changed
+- **Version bump automation**: `bump-version.sh` now updates 15 files (was 5). Covers all SDK runtime constants (`__init__.py`, `browser.py`, `binary.ts`, `AgentBrowser.java`), `MANIFEST.md`, and docs.
+- **BREAKING**: All components now at **v0.10.0** — unified version across Rust engine, Python SDK, JS SDK, C# SDK, Java SDK, MCP server, and docs.
+- **RELEASE_CHECKLIST.md**: Rewritten with complete end-to-end pipeline.
+
 ## v0.9.11 — 2026-07-01
 
 ### Fixed
