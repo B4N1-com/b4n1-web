@@ -39,10 +39,10 @@ browser.close()
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.9.5 | Bundled |
-| JavaScript/TypeScript | `b4n1-web` | 0.9.5 | Bundled |
-| Java | `com.b4n1:b4n1-web` | 0.9.5 | Bundled |
-| C# (.NET) | `B4n1Web` | 0.9.5 | Bundled |
+| Python | `b4n1-web` | 0.9.8 | Bundled |
+| JavaScript/TypeScript | `b4n1-web` | 0.9.11 | Bundled |
+| Java | `com.b4n1:b4n1-web` | 0.9.8 | Bundled |
+| C# (.NET) | `B4n1Web` | 0.9.8 | Bundled |
 
 ## Browser Modes
 
