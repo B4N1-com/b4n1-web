@@ -104,13 +104,4 @@ public class Page {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Convenience: fetch links directly from a URL using a temporary browser.
-     */
-    public static List<String> getLinksFromPage(String url) {
-        try (AgentBrowser browser = new AgentBrowser()) {
-            Page page = browser.goto_(url);
-            return page.getLinks();
-        }
-    }
 }

@@ -162,10 +162,3 @@ export class SecurityShield {
     return r ?? '';
   }
 }
-
-function _stripPort(host: string): string {
-  const at = host.indexOf('@');
-  const colon = host.indexOf(':', at >= 0 ? at + 1 : 0);
-  if (colon >= 0) return host.slice(0, colon);
-  return host;
-}

@@ -1,18 +1,23 @@
 #!/usr/bin/env node
 /**
- * Post-install script: Make bundled binary executable
+ * Post-install script: Make all bundled binaries executable
  */
 const fs = require('fs');
 const path = require('path');
 
 const binDir = path.join(__dirname, '..', 'bin');
-const binary = path.join(binDir, 'b4n1web');
+const binaries = [
+  'b4n1web-linux-amd64',
+  'b4n1web-linux-arm64',
+  'b4n1web-macos-x64',
+  'b4n1web-macos-arm64',
+];
 
-if (fs.existsSync(binary)) {
-  try {
-    fs.chmodSync(binary, 0o755);
-    console.log('✅ b4n1web binary installed');
-  } catch (err) {
-    console.warn('⚠️  Could not chmod binary:', err.message);
+for (const name of binaries) {
+  const p = path.join(binDir, name);
+  if (fs.existsSync(p)) {
+    try {
+      fs.chmodSync(p, 0o755);
+    } catch {}
   }
 }

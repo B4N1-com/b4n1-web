@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace B4N1Web;
 
@@ -20,15 +21,21 @@ namespace B4N1Web;
 /// </example>
 public class AgentBrowser : IDisposable
 {
-    private const string SdkVersion = "0.9.4";
+    private const string SdkVersion = "0.9.8";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
+    private readonly IProcessRunner _runner;
     private Page? _lastPage;
     private bool _disposed;
 
-    public AgentBrowser(BrowserOptions? options = null)
+    public AgentBrowser(BrowserOptions? options = null) : this(options, new RealProcessRunner())
+    {
+    }
+
+    public AgentBrowser(BrowserOptions? options, IProcessRunner runner)
     {
         _options = options ?? new BrowserOptions();
+        _runner = runner ?? new RealProcessRunner();
 
         _binaryPath = FindBinary();
         if (string.IsNullOrEmpty(_binaryPath))
@@ -44,9 +51,9 @@ public class AgentBrowser : IDisposable
     /// Check if binary version matches SDK version.
     /// Prints warning to stderr if mismatch detected.
     /// </summary>
-    private static void CheckVersionCompatibility()
+    private static void CheckVersionCompatibility(IProcessRunner? runner = null)
     {
-        var binaryVersion = GetVersion();
+        var binaryVersion = GetVersion(runner);
         if (binaryVersion == "unknown")
         {
             return;
@@ -71,36 +78,20 @@ public class AgentBrowser : IDisposable
             args += $" --wait-for \"{waitFor}\"";
         }
 
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = _binaryPath,
-            Arguments = args,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
+        var startInfo = CreateStartInfo(args);
+        var result = await _runner.RunAsync(startInfo, _options.Timeout * 1000);
 
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        var output = await process.StandardOutput.ReadToEndAsync();
-        var error = await process.StandardError.ReadToEndAsync();
-        
-        var timedOut = await Task.Run(() => process.WaitForExit(_options.Timeout * 1000));
-        
-        if (!timedOut)
+        if (result.TimedOut)
         {
-            process.Kill();
             throw new Exception($"Binary timed out after {_options.Timeout}s");
         }
 
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            throw new Exception($"Binary error: {error}");
+            throw new Exception($"Binary error: {result.StdErr}");
         }
 
-        var page = ParseOutput(url, output);
+        var page = ParseOutput(url, result.StdOut);
         _lastPage = page;
         return page;
     }
@@ -121,36 +112,20 @@ public class AgentBrowser : IDisposable
         if (_lastPage == null)
             throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
 
-        var startInfo = new ProcessStartInfo
+        var startInfo = CreateStartInfo($"screenshot --url {_lastPage.Url} --width {width} --height {height}");
+        var result = _runner.Run(startInfo, _options.Timeout * 1000);
+
+        if (result.TimedOut)
         {
-            FileName = _binaryPath,
-            Arguments = $"screenshot --url {_lastPage.Url} --width {width} --height {height}",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
-
-        var timedOut = process.WaitForExit(_options.Timeout * 1000);
-
-        if (!timedOut)
-        {
-            process.Kill();
             throw new Exception($"Binary timed out after {_options.Timeout}s");
         }
 
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            throw new Exception($"Binary error: {error}");
+            throw new Exception($"Binary error: {result.StdErr}");
         }
 
-        foreach (var line in output.Split('\n'))
+        foreach (var line in result.StdOut.Split('\n'))
         {
             if (line.StartsWith("Screenshot:"))
             {
@@ -171,36 +146,20 @@ public class AgentBrowser : IDisposable
         if (_lastPage == null)
             throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
 
-        var startInfo = new ProcessStartInfo
+        var startInfo = CreateStartInfo($"wait-for-selector \"{selector}\" --url {_lastPage.Url} --timeout {timeoutMs}");
+        var result = _runner.Run(startInfo, _options.Timeout * 1000);
+
+        if (result.TimedOut)
         {
-            FileName = _binaryPath,
-            Arguments = $"wait-for-selector \"{selector}\" --url {_lastPage.Url} --timeout {timeoutMs}",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
-
-        var timedOut = process.WaitForExit(_options.Timeout * 1000);
-
-        if (!timedOut)
-        {
-            process.Kill();
             throw new Exception($"Binary timed out after {_options.Timeout}s");
         }
 
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            throw new Exception($"Binary error: {error}");
+            throw new Exception($"Binary error: {result.StdErr}");
         }
 
-        foreach (var line in output.Split('\n'))
+        foreach (var line in result.StdOut.Split('\n'))
         {
             if (line.StartsWith("Found:"))
             {
@@ -219,31 +178,17 @@ public class AgentBrowser : IDisposable
         if (_lastPage == null)
             throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
 
-        var startInfo = new ProcessStartInfo
+        var startInfo = CreateStartInfo($"click \"{selector}\" --url {_lastPage.Url}");
+        var result = _runner.Run(startInfo, _options.Timeout * 1000);
+
+        if (result.TimedOut)
         {
-            FileName = _binaryPath,
-            Arguments = $"click \"{selector}\" --url {_lastPage.Url}",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        var error = process.StandardError.ReadToEnd();
-        var timedOut = process.WaitForExit(_options.Timeout * 1000);
-
-        if (!timedOut)
-        {
-            process.Kill();
             throw new Exception($"Binary timed out after {_options.Timeout}s");
         }
 
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            throw new Exception($"Binary error: {error}");
+            throw new Exception($"Binary error: {result.StdErr}");
         }
     }
 
@@ -256,31 +201,17 @@ public class AgentBrowser : IDisposable
             throw new InvalidOperationException("No page loaded. Call Goto or GotoAsync first.");
 
         var clearArg = clearFirst ? " --clear-first" : "";
-        var startInfo = new ProcessStartInfo
+        var startInfo = CreateStartInfo($"type-text \"{selector}\" \"{text}\" --url {_lastPage.Url}{clearArg}");
+        var result = _runner.Run(startInfo, _options.Timeout * 1000);
+
+        if (result.TimedOut)
         {
-            FileName = _binaryPath,
-            Arguments = $"type-text \"{selector}\" \"{text}\" --url {_lastPage.Url}{clearArg}",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        var error = process.StandardError.ReadToEnd();
-        var timedOut = process.WaitForExit(_options.Timeout * 1000);
-
-        if (!timedOut)
-        {
-            process.Kill();
             throw new Exception($"Binary timed out after {_options.Timeout}s");
         }
 
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            throw new Exception($"Binary error: {error}");
+            throw new Exception($"Binary error: {result.StdErr}");
         }
     }
 
@@ -295,12 +226,13 @@ public class AgentBrowser : IDisposable
     /// <summary>
     /// Fetch links from a URL without creating a browser instance (static)
     /// </summary>
-    public static string[] GetLinksFromPage(string url)
+    public static string[] GetLinksFromPage(string url, IProcessRunner? runner = null)
     {
         var binaryPath = FindBinary();
         if (string.IsNullOrEmpty(binaryPath))
             throw new BinaryNotFoundException();
 
+        runner ??= new RealProcessRunner();
         var startInfo = new ProcessStartInfo
         {
             FileName = binaryPath,
@@ -311,16 +243,12 @@ public class AgentBrowser : IDisposable
             CreateNoWindow = true
         };
 
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
+        var result = runner.Run(startInfo, 30000);
 
-        var output = process.StandardOutput.ReadToEnd();
-        process.WaitForExit(30000);
-
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
             return Array.Empty<string>();
 
-        foreach (var line in output.Split('\n'))
+        foreach (var line in result.StdOut.Split('\n'))
         {
             if (line.StartsWith("Links:"))
             {
@@ -402,7 +330,7 @@ public class AgentBrowser : IDisposable
     /// </summary>
     private static string FindBinary()
     {
-        // 1. Check bundled binary (bundled as embedded resource)
+        // 1. Check bundled binary (extracted from embedded resource for current platform)
         var bundledPath = ExtractBundledBinary();
         if (!string.IsNullOrEmpty(bundledPath))
         {
@@ -430,28 +358,91 @@ public class AgentBrowser : IDisposable
     }
 
     /// <summary>
-    /// Extract bundled binary from embedded resources to temp directory
+    /// Get the platform-specific embedded resource name for the current OS/arch
+    /// </summary>
+    private static string? GetPlatformResourceName()
+    {
+        string os;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            os = "linux";
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            os = "macos";
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            os = "windows";
+        else
+            return null;
+
+        string arch = RuntimeInformation.OSArchitecture switch
+        {
+            Architecture.X64 => "amd64",
+            Architecture.Arm64 => "arm64",
+            _ => null!
+        };
+        if (arch == null) return null;
+
+        string ext = os == "windows" ? ".exe" : "";
+        return $"B4N1Web.native.{os}-{arch}.b4n1web{ext}";
+    }
+
+    /// <summary>
+    /// Extract bundled binary for current platform from embedded resources to temp directory
     /// </summary>
     private static string? ExtractBundledBinary()
     {
+        var resourceName = GetPlatformResourceName();
+        if (resourceName == null) return null;
+
+        string ext = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : "";
+        var tempBinary = Path.Combine(Path.GetTempPath(), "b4n1web", $"b4n1web{ext}");
+
+        if (File.Exists(tempBinary))
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = tempBinary,
+                    Arguments = "--version",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+                using var proc = new Process { StartInfo = psi };
+                proc.Start();
+                var output = proc.StandardOutput.ReadToEnd().Trim();
+                proc.WaitForExit(3000);
+                if (proc.ExitCode == 0 && !string.IsNullOrEmpty(output))
+                    return tempBinary;
+            }
+            catch
+            {
+            }
+        }
+
         try
         {
             var assembly = typeof(AgentBrowser).Assembly;
-            var resourceName = "B4N1Web.native.linux-x64.b4n1web";
             using var stream = assembly.GetManifestResourceStream(resourceName);
             if (stream == null) return null;
 
             var tempDir = Path.Combine(Path.GetTempPath(), "b4n1web");
             Directory.CreateDirectory(tempDir);
-            var tempBinary = Path.Combine(tempDir, "b4n1web");
 
             using var fs = new FileStream(tempBinary, FileMode.Create, FileAccess.Write);
             stream.CopyTo(fs);
 
             // Make executable on Unix
-            if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                var chmod = new Process { StartInfo = new ProcessStartInfo("chmod", $"755 {tempBinary}") { UseShellExecute = false } };
+                var chmod = new Process
+                {
+                    StartInfo = new ProcessStartInfo("chmod", $"+x {tempBinary}")
+                    {
+                        UseShellExecute = false
+                    }
+                };
                 chmod.Start();
                 chmod.WaitForExit();
             }
@@ -467,7 +458,7 @@ public class AgentBrowser : IDisposable
     /// <summary>
     /// Get B4n1Web binary version
     /// </summary>
-    public static string GetVersion()
+    public static string GetVersion(IProcessRunner? runner = null)
     {
         var path = FindBinary();
         if (string.IsNullOrEmpty(path))
@@ -477,6 +468,7 @@ public class AgentBrowser : IDisposable
 
         try
         {
+            runner ??= new RealProcessRunner();
             var startInfo = new ProcessStartInfo
             {
                 FileName = path,
@@ -486,12 +478,8 @@ public class AgentBrowser : IDisposable
                 CreateNoWindow = true
             };
 
-            using var process = new Process { StartInfo = startInfo };
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit(5000);
-            
-            return output.Trim();
+            var result = runner.Run(startInfo, 5000);
+            return result.StdOut.Trim();
         }
         catch
         {
@@ -514,5 +502,18 @@ public class AgentBrowser : IDisposable
             _disposed = true;
         }
         GC.SuppressFinalize(this);
+    }
+
+    private ProcessStartInfo CreateStartInfo(string arguments)
+    {
+        return new ProcessStartInfo
+        {
+            FileName = _binaryPath,
+            Arguments = arguments,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
     }
 }

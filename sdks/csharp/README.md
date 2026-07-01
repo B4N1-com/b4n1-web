@@ -57,13 +57,13 @@ var result = shield.IsUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.4.0** | Binary: **0.4.0** (bundled)
+SDK: **0.9.8** | Binary: **0.9.6** (bundled)
 
 ## Links
 
 - [NuGet](https://www.nuget.org/packages/B4n1Web)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [Website](https://web.b4n1.com)
+- [Website](https://b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

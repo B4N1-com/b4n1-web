@@ -6,13 +6,16 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B4N1Web</RootNamespace>
     <AssemblyName>B4n1Web</AssemblyName>
-    <Version>0.9.5</Version>
+    <Version>0.9.8</Version>
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
-    <Description>B4n1Web SDK for .NET - Agentic Browser Engine</Description>
+    <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>browser;automation;agent;AI;headless</PackageTags>
+    <PackageProjectUrl>https://b4n1.com</PackageProjectUrl>
+    <PackageIconUrl>https://b4n1.com/favicon.ico</PackageIconUrl>
+    <Company>B4N1</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
@@ -22,12 +25,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="native/linux-x64/b4n1web">
-      <LogicalName>B4N1Web.native.linux-x64.b4n1web</LogicalName>
+    <EmbeddedResource Include="native/linux-amd64/b4n1web">
+      <LogicalName>B4N1Web.native.linux-amd64.b4n1web</LogicalName>
     </EmbeddedResource>
-    <None Update="README.md">
-      <Pack>true</Pack>
-    </None>
+    <EmbeddedResource Include="native/linux-arm64/b4n1web">
+      <LogicalName>B4N1Web.native.linux-arm64.b4n1web</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="native/macos-x64/b4n1web">
+      <LogicalName>B4N1Web.native.macos-x64.b4n1web</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="native/macos-arm64/b4n1web">
+      <LogicalName>B4N1Web.native.macos-arm64.b4n1web</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="native/windows-amd64/b4n1web.exe">
+      <LogicalName>B4N1Web.native.windows-amd64.b4n1web.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="native/windows-arm64/b4n1web.exe">
+      <LogicalName>B4N1Web.native.windows-arm64.b4n1web.exe</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

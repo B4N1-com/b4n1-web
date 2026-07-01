@@ -65,7 +65,7 @@ try {
   const browser = new AgentBrowser();
 } catch (e) {
   if (e instanceof BinaryNotFoundError) {
-    console.error('Install binary: curl -sL https://web.b4n1.com/install | bash');
+    console.error('Install binary: curl -sL https://b4n1.com/install | bash');
   }
 }
 ```
@@ -96,13 +96,13 @@ try {
 
 ## Version
 
-SDK: **0.4.0** | Binary: **0.4.0** (bundled)
+SDK: **0.9.8** | Binary: **0.9.6** (bundled)
 
 ## Links
 
 - [npm](https://www.npmjs.com/package/b4n1-web)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [Website](https://web.b4n1.com)
+- [Website](https://b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

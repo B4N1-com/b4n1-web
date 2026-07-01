@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.9.4";
+    private static final String SDK_VERSION = "0.9.8";
     private final BrowserOptions options;
     private final String binaryPath;
 
@@ -39,6 +40,20 @@ public class AgentBrowser implements AutoCloseable {
         }
         this.binaryPath = path;
 
+        checkVersionCompatibility();
+    }
+
+    AgentBrowser(BrowserOptions options, String testBinaryPath) {
+        this.options = Objects.requireNonNull(options, "options cannot be null");
+        if (testBinaryPath != null) {
+            this.binaryPath = testBinaryPath;
+        } else {
+            String path = findBinary();
+            if (path == null || path.isEmpty()) {
+                throw new BinaryNotFoundException();
+            }
+            this.binaryPath = path;
+        }
         checkVersionCompatibility();
     }
 
@@ -106,13 +121,6 @@ public class AgentBrowser implements AutoCloseable {
         } catch (Exception e) {
             throw new NavigationException(url, e);
         }
-    }
-
-    /**
-     * Navigate to URL (alias for goto to avoid reserved keyword).
-     */
-    public Page navigate(String url) {
-        return goto_(url);
     }
 
     /**
@@ -202,16 +210,6 @@ public class AgentBrowser implements AutoCloseable {
         }
     }
 
-    /**
-     * Convenience: fetch links directly from a URL.
-     */
-    public static String[] getLinksFromPage(String url) {
-        try (AgentBrowser browser = new AgentBrowser()) {
-            Page page = browser.goto_(url);
-            return page.getLinksArray();
-        }
-    }
-
     private Page parseOutput(String url, String output) {
         StringBuilder markdown = new StringBuilder();
         List<String> links = new ArrayList<>();
@@ -223,12 +221,8 @@ public class AgentBrowser implements AutoCloseable {
             } else if (line.startsWith("Markdown:")) {
                 continue;
             } else if (line.startsWith("Links:")) {
-                try {
-                    String linksJson = line.substring(6).trim();
-                    links = parseLinksJson(linksJson);
-                } catch (Exception e) {
-                    links = new ArrayList<>();
-                }
+                String linksJson = line.substring(6).trim();
+                links = parseLinksJson(linksJson);
             } else if (line.startsWith("JSOutput:")) {
                 jsOutput = line.substring(9).trim();
             } else {
@@ -270,12 +264,14 @@ public class AgentBrowser implements AutoCloseable {
 
     private String findBinary() {
         try {
-            String resourcePath = "/native/linux-x86_64/b4n1web";
-            java.net.URL url = getClass().getResource(resourcePath);
-            if (url != null) {
-                File bundledBinary = extractBundledBinary(resourcePath);
-                if (bundledBinary != null && bundledBinary.canExecute()) {
-                    return bundledBinary.getAbsolutePath();
+            String resourcePath = getPlatformResourcePath();
+            if (resourcePath != null) {
+                java.net.URL url = getClass().getResource(resourcePath);
+                if (url != null) {
+                    File bundledBinary = extractBundledBinary(resourcePath);
+                    if (bundledBinary != null && bundledBinary.canExecute()) {
+                        return bundledBinary.getAbsolutePath();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -297,11 +293,40 @@ public class AgentBrowser implements AutoCloseable {
         return null;
     }
 
+    private static String getPlatformResourcePath() {
+        String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        String arch = System.getProperty("os.arch").toLowerCase(Locale.ROOT);
+
+        String osPart;
+        if (os.contains("linux")) {
+            osPart = "linux";
+        } else if (os.contains("mac") || os.contains("darwin")) {
+            osPart = "macos";
+        } else if (os.contains("windows")) {
+            osPart = "windows";
+        } else {
+            return null;
+        }
+
+        String archPart;
+        if (arch.equals("amd64") || arch.equals("x86_64")) {
+            archPart = "amd64";
+        } else if (arch.equals("aarch64") || arch.equals("arm64")) {
+            archPart = "arm64";
+        } else {
+            return null;
+        }
+
+        String ext = os.contains("windows") ? ".exe" : "";
+        return "/native/" + osPart + "-" + archPart + "/b4n1web" + ext;
+    }
+
     private File extractBundledBinary(String resourcePath) {
         try {
+            String ext = resourcePath.endsWith(".exe") ? ".exe" : "";
             File tempDir = new File(System.getProperty("java.io.tmpdir"), "b4n1web");
             tempDir.mkdirs();
-            File tempBinary = new File(tempDir, "b4n1web");
+            File tempBinary = new File(tempDir, "b4n1web" + ext);
 
             try (java.io.InputStream in = getClass().getResourceAsStream(resourcePath);
                  java.io.FileOutputStream out = new java.io.FileOutputStream(tempBinary)) {

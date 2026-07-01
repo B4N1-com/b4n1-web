@@ -2,7 +2,7 @@ using B4N1Web;
 
 // B4n1Web SDK Basic Example
 // Requires the b4n1web binary installed:
-//   curl -sL https://web.b4n1.com/install | bash
+//   curl -sL https://b4n1.com/install | bash
 //
 // Run: dotnet run --project examples/Basic.csproj
 

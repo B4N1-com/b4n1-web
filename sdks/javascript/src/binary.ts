@@ -3,18 +3,44 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
 
+const PLATFORM_BINARIES: Record<string, string> = {
+  'linux-x64': 'b4n1web-linux-amd64',
+  'linux-arm64': 'b4n1web-linux-arm64',
+  'darwin-x64': 'b4n1web-macos-x64',
+  'darwin-arm64': 'b4n1web-macos-arm64',
+  'win32-x64': 'b4n1web-windows-amd64.exe',
+  'win32-arm64': 'b4n1web-windows-arm64.exe',
+};
+
+function getPlatformBinaryName(): string | null {
+  const plat = os.platform();
+  const arch = os.arch();
+  return PLATFORM_BINARIES[`${plat}-${arch}`] ?? null;
+}
+
 export function getB4n1webBinary(): string | null {
+  const envPath = process.env.B4N1WEB_BIN_PATH;
+  if (envPath) {
+    try {
+      fs.accessSync(envPath, fs.constants.X_OK);
+      return envPath;
+    } catch {}
+  }
+
+  const binName = getPlatformBinaryName();
+  if (binName) {
+    const bundled = path.join(__dirname, '..', 'bin', binName);
+    try {
+      fs.chmodSync(bundled, 0o755);
+    } catch {}
+    try {
+      fs.accessSync(bundled, fs.constants.X_OK);
+      return bundled;
+    } catch {}
+  }
+
   const home = os.homedir();
   const paths: string[] = [];
-
-  const bundledBinary = path.join(__dirname, '..', 'bin', 'b4n1web');
-  if (fs.existsSync(bundledBinary)) {
-    try {
-      fs.accessSync(bundledBinary, fs.constants.X_OK);
-      return bundledBinary;
-    } catch {
-    }
-  }
 
   const envBinary = process.env.B4N1WEB_BINARY;
   if (envBinary) paths.push(envBinary);
@@ -40,8 +66,7 @@ export function getB4n1webBinary(): string | null {
           return filePath;
         }
       }
-    } catch {
-    }
+    } catch {}
   }
   return null;
 }
@@ -63,7 +88,7 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.9.4';
+const SDK_VERSION = '0.9.10';
 
 export function checkVersionCompatibility(): string | null {
   const binaryVersion = getB4n1webVersion();

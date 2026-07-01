@@ -4,7 +4,7 @@ async function main() {
   // Check binary location
   const binaryPath = AgentBrowser.findBinary();
   if (!binaryPath) {
-    console.error('b4n1web binary not found. Install: curl -sL https://web.b4n1.com/install | bash');
+    console.error('b4n1web binary not found. Install: curl -sL https://b4n1.com/install | bash');
     process.exit(1);
   }
   console.log('Binary found at:', binaryPath);

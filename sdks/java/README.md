@@ -11,7 +11,7 @@
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.4.0</version>
+    <version>0.9.5</version>
 </dependency>
 ```
 
@@ -55,13 +55,13 @@ SecurityCheckResult result = shield.isUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.4.0** | Binary: **0.4.0** (bundled)
+SDK: **0.9.8** | Binary: **0.9.6** (bundled)
 
 ## Links
 
 - [Maven Central](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [Website](https://web.b4n1.com)
+- [Website](https://b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

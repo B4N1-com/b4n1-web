@@ -1,15 +1,62 @@
 # CHANGELOG — b4n1-web
 
-## v0.9.4 — 2026-06-09
+## v0.9.11 — 2026-07-01
 
 ### Fixed
-- **Install URLs**: Replaced dead `web.b4n1.com` URLs with `raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh` across all SDKs.
-- **SDK version consistency**: Unified all SDK_VERSION constants to 0.9.4 (Python, JS, Java, C#).
-- **Binary naming**: SDKs now look for `b4n1web` (not legacy `b4n1web-linux`).
-- **Tests (JS/Python)**: Fixed 4 stale URL assertions failing due to install URL migration.
+- **npm SDK**: Removed broken `postinstall` script (not included in package `files` → `npm install` crash). Handled `chmod` in `binary.ts` at runtime instead.
+- **npm SDK**: Added `import` entry to `package.json` exports for ESM compatibility.
+- **verify-publish.sh**: Fixed ESM `import` → CJS `require()` for npm test. Fixed Java `List.size()` (was `.length`).
 
 ### Changed
-- **Self-contained update**: `b4n1web update --install` downloads tarball directly from GitHub Releases (no external script required).
+- Published npm v0.9.9, v0.9.10, v0.9.11 with fixes (postinstall removal + ESM exports).
+- All 4 SDKs (Python, npm, C#, Java) smoke-tested E2E.
+- Removed stale `~/.npmrc` global auth token to prevent accidental publishes.
+
+## v0.9.10 — 2026-07-01
+
+### Fixed
+- Same as v0.9.9. Published to fix ESM exports in package.json.
+
+## v0.9.9 — 2026-07-01
+
+### Fixed
+- Same as v0.9.11 (npm postinstall fix only). Superseded by v0.9.10.
+
+## v0.9.8 — 2026-07-01
+
+### Added
+- **Maven Central**: `b4n1-web` Java SDK published to Maven Central (v0.9.8).
+- **verify-publish.sh**: Smoke test script for all 4 SDK registries (pip, npm, NuGet, Maven).
+- **PIPELINE_GUIDE.md**: Complete documentation of the multi-platform build + publish pipeline.
+
+### Fixed
+- **URL web.b4n1.com → b4n1.com**: Updated across 29 files (SDK metadata, READMEs, docs, examples, tests, nginx).
+- **Maven Central credentials**: Stale `~/.m2/settings.xml` updated with correct Sonatype token.
+- **C# build artifacts**: `**/bin/` and `**/obj/` removed from git tracking.
+
+## v0.9.7 — 2026-07-01
+
+### Fixed
+- **SDK version bump**: Published PyPI `b4n1-web==0.9.7`, npm `b4n1-web@0.9.7`, NuGet `B4n1Web 0.9.7`.
+- **Maven Central**: First publish attempt — stalled in PUBLISHING state, auto-published after delay.
+
+## v0.9.6 — 2026-06-30
+
+### Fixed
+- **Python SDK (`security.py`)**: Fragment handling in `_extract_domain` — strip `#section` before parsing.
+- **Java SDK (`AgentBrowser.java`)**: `getVersion()` returned `"b4n1web 0.9.4"` instead of `"0.9.4"` — parse version string correctly.
+- **C# SDK (`AgentBrowser.cs`)**: Same version parsing bug — strip `"b4n1web "` prefix from version output.
+
+### Added
+- **Rust engine**: Full MCP server test suite (322 tests total) — 33 tools with schema validation.
+- **Python SDK**: Comprehensive test suite (130 tests) covering browser, MCP, security, errors, MCP types.
+- **JavaScript SDK**: Comprehensive test suite (50 tests) — vitest with page, types, errors, security, browser, binary.
+- **Java SDK**: Comprehensive test suite (27 tests) — Page, BrowserMode, AgentBrowser, errors.
+- **C# SDK**: Comprehensive test suite (16 tests) — Page, Models, AgentBrowser.
+- **E2E integration tests**: Binary version, help flags, MCP tool listing verification.
+
+### Changed
+- Updated all SDKs and engine to v0.9.5.
 
 ## v0.9.3 — 2026-06-08
 

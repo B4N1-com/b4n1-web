@@ -100,19 +100,19 @@ try:
     browser = AgentBrowser()
 except BinaryNotFoundError:
     print("b4n1web binary not found. Install with:")
-    print("  curl -sL https://web.b4n1.com/install | bash")
+    print("  curl -sL https://b4n1.com/install | bash")
 ```
 
 ## Version
 
-SDK version: **0.4.0**
-Bundled binary version: **0.4.0**
+SDK version: **0.9.8**
+Bundled binary version: **0.9.6**
 
 ## Links
 
 - [PyPI](https://pypi.org/project/b4n1-web/)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
-- [Website](https://web.b4n1.com)
+- [Website](https://b4n1.com)
 
 ---
 *Built by B4N1 with ❤️ · All rights reserved.*

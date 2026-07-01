@@ -6,13 +6,13 @@
 
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.8</version>
     <packaging>jar</packaging>
 
     <name>B4n1Web Java SDK</name>
-    <description>B4n1Web SDK for Java - Agentic Browser Engine</description>
+    <description>B4n1Web SDK for Java - Agentic Browser Engine with bundled binary</description>
 
-    <url>https://web.b4n1.com</url>
+    <url>https://b4n1.com</url>
     <scm>
         <connection>scm:git:https://github.com/B4N1-com/b4n1-web.git</connection>
         <url>https://github.com/B4N1-com/b4n1-web</url>
@@ -53,6 +53,14 @@
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Mockito for ProcessBuilder mocking -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
@@ -84,9 +92,25 @@
                 <version>3.1.2</version>
             </plugin>
             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals><goal>report</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -118,9 +142,9 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.central</groupId>
+                <groupId>io.github.mavenplugins</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.5.0</version>
+                <version>1.2.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>

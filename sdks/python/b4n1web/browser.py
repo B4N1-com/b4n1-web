@@ -7,7 +7,9 @@ The B4n1Web binary is bundled with this package.
 
 import ast
 import os
+import platform
 import subprocess
+import sys
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -47,19 +49,34 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.9.4"
+SDK_VERSION = "0.9.8"
+
+_PLATFORM_BINARIES = {
+    ("linux", "x86_64"): "b4n1web-linux-amd64",
+    ("linux", "aarch64"): "b4n1web-linux-arm64",
+    ("darwin", "x86_64"): "b4n1web-macos-x64",
+    ("darwin", "arm64"): "b4n1web-macos-arm64",
+    ("windows", "AMD64"): "b4n1web-windows-amd64.exe",
+    ("windows", "ARM64"): "b4n1web-windows-arm64.exe",
+}
+
+
+def _get_platform_binary_name() -> Optional[str]:
+    key = (sys.platform, platform.machine())
+    return _PLATFORM_BINARIES.get(key)
 
 
 def get_b4n1web_binary() -> Optional[str]:
-    """Find b4n1web binary in bundled location or system install."""
     if "B4N1WEB_BIN_PATH" in os.environ:
         env_path = os.environ["B4N1WEB_BIN_PATH"]
         if os.path.exists(env_path) and os.access(env_path, os.X_OK):
             return env_path
 
-    bundled = Path(__file__).parent / "bin" / "b4n1web"
-    if bundled.exists() and os.access(bundled, os.X_OK):
-        return str(bundled)
+    bin_name = _get_platform_binary_name()
+    if bin_name:
+        bundled = Path(__file__).parent / "bin" / bin_name
+        if bundled.exists() and os.access(bundled, os.X_OK):
+            return str(bundled)
 
     possible = []
     env_binary = os.getenv("B4N1WEB_BINARY")
@@ -105,6 +122,19 @@ def get_b4n1web_version() -> Optional[str]:
         return None
 
 
+def check_version_compatibility() -> None:
+    """Check binary version matches SDK version. Warns stderr if mismatch."""
+    binary_version = get_b4n1web_version()
+    if binary_version is None:
+        return
+    if binary_version != SDK_VERSION:
+        print(
+            f"Warning: Version mismatch. SDK v{SDK_VERSION} requires binary v{SDK_VERSION}, "
+            f"but found v{binary_version}. Some features may not work correctly.",
+            file=__import__("sys").stderr,
+        )
+
+
 from .errors import BinaryNotFoundError
 
 
@@ -146,6 +176,7 @@ class AgentBrowser:
         binary_path = get_b4n1web_binary()
         if not binary_path:
             raise BinaryNotFoundError()
+        check_version_compatibility()
 
     @property
     def binary_path(self) -> str:
