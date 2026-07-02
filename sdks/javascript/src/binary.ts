@@ -88,7 +88,7 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.9.10';
+const SDK_VERSION = '0.11.0';
 
 export function checkVersionCompatibility(): string | null {
   const binaryVersion = getB4n1webVersion();

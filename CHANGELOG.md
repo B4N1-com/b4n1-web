@@ -1,5 +1,15 @@
 # CHANGELOG — b4n1-web
 
+## v0.11.0 — 2026-07-01
+
+### Added
+- **Cross-platform builds**: 8 binary targets (linux amd64/arm64/ia32, macOS x64/arm64, Windows amd64/arm64/ia32).
+- **32-bit support**: i686 Linux and Windows builds added to release matrix.
+
+### Changed
+- All SDK native binaries updated to v0.11.0 builds.
+- Version bumped across all 15 files (engine, SDKs, docs).
+
 ## v0.10.0 — 2026-07-01
 
 ### Fixed

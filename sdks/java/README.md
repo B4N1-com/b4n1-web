@@ -11,7 +11,7 @@
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.9.8</version>
+    <version>0.9.5</version>
 </dependency>
 ```
 

@@ -6,7 +6,7 @@
 
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.9.8</version>
+    <version>0.11.0</version>
     <packaging>jar</packaging>
 
     <name>B4n1Web Java SDK</name>
@@ -39,22 +39,17 @@
     </properties>
 
     <dependencies>
-        <!-- JSON processing -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-
-        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Mockito for ProcessBuilder mocking -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
