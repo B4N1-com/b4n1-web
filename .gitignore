@@ -17,6 +17,9 @@ node_modules/
 build/
 out/
 
+# Tests (dev-only, not shipped to consumers)
+**/tests/
+
 # Binary artifacts (bundled during publish, not in source)
 **/native/
 **/bin/
