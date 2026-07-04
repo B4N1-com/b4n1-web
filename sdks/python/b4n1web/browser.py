@@ -49,7 +49,7 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.11.0"
+SDK_VERSION = "0.12.0"
 
 _PLATFORM_BINARIES = {
     ("linux", "x86_64"): "b4n1web-linux-amd64",
@@ -122,19 +122,6 @@ def get_b4n1web_version() -> Optional[str]:
         return None
 
 
-def check_version_compatibility() -> None:
-    """Check binary version matches SDK version. Warns stderr if mismatch."""
-    binary_version = get_b4n1web_version()
-    if binary_version is None:
-        return
-    if binary_version != SDK_VERSION:
-        print(
-            f"Warning: Version mismatch. SDK v{SDK_VERSION} requires binary v{SDK_VERSION}, "
-            f"but found v{binary_version}. Some features may not work correctly.",
-            file=__import__("sys").stderr,
-        )
-
-
 from .errors import BinaryNotFoundError
 
 
@@ -176,8 +163,6 @@ class AgentBrowser:
         binary_path = get_b4n1web_binary()
         if not binary_path:
             raise BinaryNotFoundError()
-        check_version_compatibility()
-
     @property
     def binary_path(self) -> str:
         """Get b4n1web binary path."""

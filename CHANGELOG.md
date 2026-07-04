@@ -1,5 +1,17 @@
 # CHANGELOG — b4n1-web
 
+## v0.12.0 — 2026-07-03
+
+### Added
+- **Auto-update check on startup**: `b4n1web` now checks for newer versions in background after every command. Non-blocking, fast, prints warning if upgrade available.
+- **Stratlogos vision spec**: Distributed community training network registered in projects.
+
+### Removed
+- **Version mismatch warnings**: Removed `checkVersionCompatibility()` from all 4 SDKs (Python, JS, C#, Java). Since the binary is bundled with the SDK, the warning only confused users.
+
+### Changed
+- All components bumped to v0.12.0 (engine, 4 SDKs, docs).
+
 ## v0.11.0 — 2026-07-01
 
 ### Added

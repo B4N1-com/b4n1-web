@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.11.0";
+    private static final String SDK_VERSION = "0.12.0";
     private final BrowserOptions options;
     private final String binaryPath;
 
@@ -39,8 +39,6 @@ public class AgentBrowser implements AutoCloseable {
             throw new BinaryNotFoundException();
         }
         this.binaryPath = path;
-
-        checkVersionCompatibility();
     }
 
     AgentBrowser(BrowserOptions options, String testBinaryPath) {
@@ -53,23 +51,6 @@ public class AgentBrowser implements AutoCloseable {
                 throw new BinaryNotFoundException();
             }
             this.binaryPath = path;
-        }
-        checkVersionCompatibility();
-    }
-
-    /**
-     * Check if binary version matches SDK version.
-     * Prints warning to stderr if mismatch detected.
-     */
-    private static void checkVersionCompatibility() {
-        String binaryVersion = getVersion();
-        if (binaryVersion.equals("unknown")) {
-            return;
-        }
-
-        if (!binaryVersion.equals(SDK_VERSION)) {
-            System.err.println("Version mismatch: SDK v" + SDK_VERSION + " requires binary v" + SDK_VERSION +
-                ", but found v" + binaryVersion + ". Some features may not work correctly.");
         }
     }
 

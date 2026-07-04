@@ -21,7 +21,7 @@ namespace B4N1Web;
 /// </example>
 public class AgentBrowser : IDisposable
 {
-    private const string SdkVersion = "0.9.8";
+    private const string SdkVersion = "0.12.0";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
     private readonly IProcessRunner _runner;
@@ -43,28 +43,6 @@ public class AgentBrowser : IDisposable
             throw new BinaryNotFoundException();
         }
 
-        // Check version compatibility (non-fatal warning)
-        CheckVersionCompatibility();
-    }
-
-    /// <summary>
-    /// Check if binary version matches SDK version.
-    /// Prints warning to stderr if mismatch detected.
-    /// </summary>
-    private static void CheckVersionCompatibility(IProcessRunner? runner = null)
-    {
-        var binaryVersion = GetVersion(runner);
-        if (binaryVersion == "unknown")
-        {
-            return;
-        }
-
-        if (binaryVersion != SdkVersion)
-        {
-            Console.Error.WriteLine(
-                $"⚠️  Version mismatch: SDK v{SdkVersion} requires binary v{SdkVersion}, " +
-                $"but found v{binaryVersion}. Some features may not work correctly.");
-        }
     }
 
     /// <summary>

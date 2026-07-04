@@ -4,7 +4,7 @@ import { BrowserMode, type BrowserOptions, BinaryNotFoundError } from './types';
 import { Page } from './page';
 import { getB4n1webBinary } from './binary';
 
-export { getB4n1webBinary, getB4n1webVersion, checkVersionCompatibility } from './binary';
+export { getB4n1webBinary, getB4n1webVersion } from './binary';
 export { Page } from './page';
 
 export class AgentBrowser {
