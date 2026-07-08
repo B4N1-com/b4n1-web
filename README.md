@@ -35,14 +35,25 @@ print(page.markdown)
 browser.close()
 ```
 
+### MCP Server
+
+```bash
+# stdio mode (default)
+b4n1web mcp
+
+# Or with each SDK
+npx b4n1-web mcp
+uvx b4n1-web mcp
+```
+
 ## SDK Matrix
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.9.8 | Bundled |
-| JavaScript/TypeScript | `b4n1-web` | 0.9.11 | Bundled |
-| Java | `com.b4n1:b4n1-web` | 0.9.8 | Bundled |
-| C# (.NET) | `B4n1Web` | 0.9.8 | Bundled |
+| Python | `b4n1-web` | 0.12.2 | Bundled (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.2 | Bundled (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.2 | Bundled (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.2 | Bundled (musl) |
 
 ## Browser Modes
 
@@ -56,10 +67,12 @@ browser.close()
 
 - **33 MCP tools** for AI agent integration
 - **4 language SDKs** (Python, JS, Java, C#)
-- **Self-contained binary** ~12MB, no dependencies
+- **Self-contained binary** ~11MB, no dependencies
+- **Static linking** (musl) — works on any Linux, no glibc required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## Documentation
 
