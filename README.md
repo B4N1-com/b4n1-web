@@ -1,4 +1,8 @@
-# B4n1Web — Agentic Browser Engine
+<div align="center">
+
+# 🌐 B4n1Web — Agentic Browser Engine
+
+**Ultra-lightweight headless browser for AI agents.**
 
 [![GitHub](https://img.shields.io/github/license/B4N1-com/b4n1-web)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -7,24 +11,57 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+Single Rust binary · 4 language SDKs · 33 MCP tools.
+Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
 
+**[📊 Project Stats → STATS.md](STATS.md)**
 
-Ultra-lightweight headless browser for AI agents.
+---
 
-📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/ Single Rust binary, 4 language SDKs. Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
+## 🌍 Languages / Idiomas / 语言
+
+|  |  |  |  |  |  |
+|--|--|--|--|--|--|
+| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
+| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+
+---
+
+## Features
+
+- **33 MCP tools** for AI agent integration
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
+
+## Browser Modes
+
+| Mode | Description | RAM | Startup |
+|------|-------------|-----|---------|
+| Light | HTTP fetch + HTML parsing | ~15MB | Instant |
+| JS | Light + JavaScript extraction | ~15MB | Instant |
+| Render | Full Chromium + screenshots | ~100MB | ~2s |
 
 ## Quick Start
 
+Install the binary or use your preferred package manager:
+
 ```bash
-# Install the binary
+# Binary (any Linux, no dependencies)
 curl -sL https://b4n1.com/install | bash
 
-# Or use your preferred package manager
+# Or via package managers
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
 # Java: add dependency from Maven Central
 ```
+
+Basic usage:
 
 ```python
 from b4n1web import AgentBrowser
@@ -40,8 +77,6 @@ browser.close()
 ```bash
 # stdio mode (default)
 b4n1web mcp
-
-# Or with each SDK
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
@@ -50,35 +85,16 @@ uvx b4n1-web mcp
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.2 | Bundled (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.2 | Bundled (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.12.2 | Bundled (musl) |
-| C# (.NET) | `B4n1Web` | 0.12.2 | Bundled (musl) |
-
-## Browser Modes
-
-| Mode | Description | RAM | Startup |
-|------|-------------|-----|---------|
-| Light | HTTP fetch + HTML parsing | ~15MB | Instant |
-| JS | Light + JavaScript extraction | ~15MB | Instant |
-| Render | Full Chromium + screenshots | ~100MB | ~2s |
-
-## Features
-
-- **33 MCP tools** for AI agent integration
-- **4 language SDKs** (Python, JS, Java, C#)
-- **Self-contained binary** ~11MB, no dependencies
-- **Static linking** (musl) — works on any Linux, no glibc required
-- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
-- **Security shield**: domain filtering, safe browsing
-- **Network interception**: block resources, mock responses
-- **MCP Server**: stdio transport, no port needed
+| Python | `b4n1-web` | 0.12.3 | Bundled (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Bundled (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | Bundled (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.3 | Bundled (musl) |
 
 ## Documentation
 
-- [SDK Docs](docs/README.md) — Full documentation
-- [Agent Reference](docs/AGENTS.md) — AI agent integration
+- [📖 Full Documentation](https://B4N1-com.github.io/b4n1-web/) — mdBook
 - [MCP Tools](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📊 Project Stats](STATS.md) — downloads, versions, releases
 
 ## Links
 
