@@ -1,7 +1,7 @@
 # B4n1Web Python SDK
 
 [![PyPI version](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
 > Ultra-lightweight agentic browser engine with bundled binary. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows.

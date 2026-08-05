@@ -10,7 +10,7 @@
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>browser;automation;agent;AI;headless</PackageTags>
     <PackageProjectUrl>https://b4n1.com</PackageProjectUrl>

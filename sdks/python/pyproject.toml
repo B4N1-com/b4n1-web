@@ -9,7 +9,7 @@ description = "B4n1Web - Agentic Browser Engine for AI agents. Ultra-lightweight
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}
 ]
-license = {text = "MIT"}
+license = {text = "Apache-2.0"}
 keywords = ["browser", "agent", "automation", "web-scraping", "headless", "ai"]
 readme = "README.md"
 requires-python = ">=3.8"

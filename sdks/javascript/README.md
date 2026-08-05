@@ -1,7 +1,7 @@
 # B4n1Web JavaScript/TypeScript SDK
 
 [![npm version](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-blue.svg)](https://nodejs.org/)
 
 > Ultra-lightweight agentic browser engine with bundled binary.
