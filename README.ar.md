@@ -107,4 +107,4 @@ uvx b4n1-web mcp
 
 ## الترخيص
 
-MIT
+Apache License 2.0
