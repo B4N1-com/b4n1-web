@@ -4,7 +4,7 @@
 
 **AI एजेंटों के लिए अल्ट्रा-लाइटवेट हेडलेस ब्राउज़र।**
 
-[![GitHub](https://img.shields.io/github/license/B4N1-com/b4n1-web)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
 [![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
