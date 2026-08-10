@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+
 # 🌐 B4n1Web — Agentischer Browser-Engine
 
 **Ultra-leichter headless Browser für KI-Agenten.**
@@ -11,14 +13,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 Ein einzelnes Rust-Binary · 4 Sprach-SDKs · 33 MCP-Tools.
 URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) und autonome Agenten-Workflows aufbauen.
 
-**[📊 Project Stats → STATS.md](STATS.md)**
-
 ---
 
-## 🌍 Sprachen
+## 🌍 Languages / Idiomas / 语言
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
@@ -27,31 +33,41 @@ URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) 
 
 ---
 
+## 🖥 🖥 Plattform-Unterstützung
+
+8 vor-kompilierte Binaries — funktioniert überall:
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
 ## Funktionen
 
-- **33 MCP-Tools** für die KI-Agenten-Integration
-- **Ein einzelnes autarkes Rust-Binary** ~11 MB, ohne Laufzeit-Abhängigkeiten
-- **4 Sprach-SDKs** (Python, JS, Java, C#) mit integriertem Binary
-- **Statisches Linking (musl)** — funktioniert auf jedem Linux, ohne glibc
-- **Drei Modi**: Light (sofort), JS (Skripte), Render (Chromium)
-- **Sicherheitsschild**: Domain-Filterung, sicheres Surfen
-- **Netzwerk-Interception**: Ressourcen blockieren, Antworten simulieren
-- **MCP-Server**: stdio-Transport, kein Port nötig
+- **33 MCP tools** — KI-Agenten-Integration
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## Browser-Modi
 
 | Modus | Beschreibung | RAM | Start |
-|-------|--------------|-----|-------|
-| Light | HTTP-Abruf + HTML-Parsing | ~15 MB | Sofort |
-| JS | Light + JavaScript-Extraktion | ~15 MB | Sofort |
-| Render | Volles Chromium + Screenshots | ~100 MB | ~2 s |
+|------|-------------|-----|---------|
+| Light | HTTP-Abruf + HTML-Parsing | ~15MB | Instant |
+| JS | Light + JavaScript-Extraktion | ~15MB | Instant |
+| Render | Volles Chromium + Screenshots | ~100MB | ~2s |
 
 ## Schnellstart
 
 Installieren Sie das Binary oder verwenden Sie Ihren bevorzugten Paketmanager:
 
 ```bash
-# Binary (jedes Linux, ohne Abhängigkeiten)
+# Binary (Linux, macOS, Windows — ohne Abhängigkeiten)
 curl -sL https://b4n1.com/install | bash
 
 # Oder über Paketmanager
@@ -83,8 +99,8 @@ uvx b4n1-web mcp
 
 ## SDK-Matrix
 
-| Sprache | Paket | Version | Binary |
-|---------|-------|---------|--------|
+| Sprache | Package | Version | Binary |
+|----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | Integriert (musl) |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integriert (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | Integriert (musl) |
@@ -93,8 +109,7 @@ uvx b4n1-web mcp
 ## Dokumentation
 
 - [📖 Vollständige Dokumentation](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCP-Tools](https://mcp.so/server/b4n1web/B4N1-com) — MCP-Registry
-- [📊 Projektstatistiken](STATS.md) — Downloads, Versionen, Releases
+- [MCP-Tools](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 
@@ -105,6 +120,6 @@ uvx b4n1-web mcp
 - NuGet: https://www.nuget.org/packages/B4n1Web
 - Maven Central: https://central.sonatype.com/artifact/com.b4n1/b4n1-web
 
-## Lizenz
+## License
 
 Apache License 2.0

@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web Presentation" width="100%">
+
 # 🌐 B4n1Web — Agentic Browser Engine
 
 **Ultra-lightweight headless browser for AI agents.**
@@ -11,10 +13,14 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 Single Rust binary · 4 language SDKs · 33 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
-
-**[📊 Project Stats → STATS.md](STATS.md)**
 
 ---
 
@@ -26,6 +32,18 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 | 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
 
 ---
+
+## 🖥 Platform Support
+
+**8 pre-built binaries** — works everywhere:
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
+The SDKs bundle the correct binary automatically — no separate install needed.
 
 ## Features
 
@@ -51,7 +69,7 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 Install the binary or use your preferred package manager:
 
 ```bash
-# Binary (any Linux, no dependencies)
+# Binary (Linux, macOS, Windows — no dependencies)
 curl -sL https://b4n1.com/install | bash
 
 # Or via package managers
@@ -94,7 +112,6 @@ uvx b4n1-web mcp
 
 - [📖 Full Documentation](https://B4N1-com.github.io/b4n1-web/) — mdBook
 - [MCP Tools](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
-- [📊 Project Stats](STATS.md) — downloads, versions, releases
 
 ## Links
 

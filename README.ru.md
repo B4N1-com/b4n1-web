@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+
 # 🌐 B4n1Web — Агентный браузерный движок
 
 **Сверхлёгкий headless-браузер для ИИ-агентов.**
@@ -11,14 +13,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 Один Rust-бинарник · 4 SDK · 33 MCP-инструмента.
 Переходите по URL, извлекайте структурированный контент (markdown, ссылки, скриншоты) и создавайте автономные рабочие процессы для агентов.
 
-**[📊 Project Stats → STATS.md](STATS.md)**
-
 ---
 
-## 🌍 Языки
+## 🌍 Languages / Idiomas / 语言
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
@@ -27,31 +33,41 @@
 
 ---
 
+## 🖥 🖥 Поддержка платформ
+
+8 предкомпилированных бинарников — работает везде:
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
 ## Возможности
 
-- **33 MCP-инструмента** для интеграции с ИИ-агентами
-- **Один автономный Rust-бинарник** ~11 МБ, без зависимостей времени выполнения
-- **4 SDK** (Python, JS, Java, C#) со встроенным бинарником
-- **Статическая линковка (musl)** — работает на любом Linux, без glibc
-- **Три режима**: Light (мгновенный), JS (скрипты), Render (Chromium)
-- **Защитный экран**: фильтрация доменов, безопасный просмотр
-- **Перехват сети**: блокировка ресурсов, имитация ответов
-- **MCP-сервер**: stdio-транспорт, порт не нужен
+- **33 MCP tools** — интеграция с ИИ-агентами
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## Режимы браузера
 
 | Режим | Описание | RAM | Запуск |
-|-------|----------|-----|--------|
-| Light | HTTP-загрузка + парсинг HTML | ~15 МБ | Мгновенно |
-| JS | Light + извлечение JavaScript | ~15 МБ | Мгновенно |
-| Render | Полный Chromium + скриншоты | ~100 МБ | ~2 с |
+|------|-------------|-----|---------|
+| Light | HTTP-загрузка + парсинг HTML | ~15MB | Instant |
+| JS | Light + извлечение JavaScript | ~15MB | Instant |
+| Render | Полный Chromium + скриншоты | ~100MB | ~2s |
 
 ## Быстрый старт
 
 Установите бинарник или используйте ваш любимый менеджер пакетов:
 
 ```bash
-# Бинарник (любой Linux, без зависимостей)
+# Бинарник (Linux, macOS, Windows — без зависимостей)
 curl -sL https://b4n1.com/install | bash
 
 # Или через менеджеры пакетов
@@ -83,8 +99,8 @@ uvx b4n1-web mcp
 
 ## Матрица SDK
 
-| Язык | Пакет | Версия | Бинарник |
-|------|-------|--------|----------|
+| Язык | Package | Version | Бинарник |
+|----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | Встроенный (musl) |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Встроенный (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | Встроенный (musl) |
@@ -93,18 +109,17 @@ uvx b4n1-web mcp
 ## Документация
 
 - [📖 Полная документация](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCP-инструменты](https://mcp.so/server/b4n1web/B4N1-com) — реестр MCP
-- [📊 Статистика проекта](STATS.md) — загрузки, версии, релизы
+- [MCP-инструменты](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
-## Ссылки
+## Links
 
-- Сайт: https://b4n1.com
+- Website: https://b4n1.com
 - GitHub: https://github.com/B4N1-com/b4n1-web
 - PyPI: https://pypi.org/project/b4n1-web
 - npm: https://www.npmjs.com/package/b4n1-web
 - NuGet: https://www.nuget.org/packages/B4n1Web
 - Maven Central: https://central.sonatype.com/artifact/com.b4n1/b4n1-web
 
-## Лицензия
+## License
 
 Apache License 2.0

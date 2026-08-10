@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+
 # 🌐 B4n1Web — 智能体浏览器引擎
 
 **面向 AI 智能体的超轻量无头浏览器。**
@@ -11,14 +13,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 单个 Rust 二进制文件 · 4 种语言 SDK · 33 个 MCP 工具。
 导航 URL、提取结构化内容（Markdown、链接、截图），并为智能体构建自主工作流。
 
-**[📊 项目统计 → STATS.md](STATS.md)**
-
 ---
 
-## 🌍 语言
+## 🌍 Languages / Idiomas / 语言
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
@@ -27,31 +33,41 @@
 
 ---
 
+## 🖥 🖥 平台支持
+
+8 个预编译二进制文件——适用于所有平台：
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
 ## 特性
 
-- **33 个 MCP 工具**，用于 AI 智能体集成
-- **单个自包含的 Rust 二进制文件**（约 11MB），无运行时依赖
-- **4 种语言 SDK**（Python、JS、Java、C#），内置二进制文件
-- **静态链接（musl）**——可在任何 Linux 上运行，无需 glibc
-- **三种模式**：Light（即时）、JS（脚本）、Render（Chromium）
-- **安全护盾**：域名过滤、安全浏览
-- **网络拦截**：阻止资源、模拟响应
-- **MCP 服务器**：stdio 传输，无需端口
+- **33 MCP tools** — AI 智能体集成
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## 浏览器模式
 
 | 模式 | 描述 | 内存 | 启动 |
-|------|------|------|------|
-| Light | HTTP 抓取 + HTML 解析 | ~15MB | 即时 |
-| JS | Light + JavaScript 提取 | ~15MB | 即时 |
-| Render | 完整 Chromium + 截图 | ~100MB | ~2 秒 |
+|------|-------------|-----|---------|
+| Light | HTTP 抓取 + HTML 解析 | ~15MB | Instant |
+| JS | Light + JavaScript 提取 | ~15MB | Instant |
+| Render | 完整 Chromium + 截图 | ~100MB | ~2s |
 
 ## 快速开始
 
 安装二进制文件或使用您偏好的包管理器：
 
 ```bash
-# 二进制文件（任何 Linux，无依赖）
+# 二进制文件（Linux、macOS、Windows——无依赖）
 curl -sL https://b4n1.com/install | bash
 
 # 或通过包管理器
@@ -83,8 +99,8 @@ uvx b4n1-web mcp
 
 ## SDK 矩阵
 
-| 语言 | 包 | 版本 | 二进制 |
-|------|-----|------|--------|
+| 语言 | Package | Version | 二进制 |
+|----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | 内置（musl） |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | 内置（musl） |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | 内置（musl） |
@@ -93,18 +109,17 @@ uvx b4n1-web mcp
 ## 文档
 
 - [📖 完整文档](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCP 工具](https://mcp.so/server/b4n1web/B4N1-com) — MCP 注册表
-- [📊 项目统计](STATS.md) — 下载量、版本、发布
+- [MCP 工具](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
-## 链接
+## Links
 
-- 网站：https://b4n1.com
-- GitHub：https://github.com/B4N1-com/b4n1-web
-- PyPI：https://pypi.org/project/b4n1-web
-- npm：https://www.npmjs.com/package/b4n1-web
-- NuGet：https://www.nuget.org/packages/B4n1Web
-- Maven Central：https://central.sonatype.com/artifact/com.b4n1/b4n1-web
+- Website: https://b4n1.com
+- GitHub: https://github.com/B4N1-com/b4n1-web
+- PyPI: https://pypi.org/project/b4n1-web
+- npm: https://www.npmjs.com/package/b4n1-web
+- NuGet: https://www.nuget.org/packages/B4n1Web
+- Maven Central: https://central.sonatype.com/artifact/com.b4n1/b4n1-web
 
-## 许可证
+## License
 
 Apache License 2.0

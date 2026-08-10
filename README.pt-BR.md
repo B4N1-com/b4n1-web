@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+
 # 🌐 B4n1Web — Mecanismo de Navegação Agêntico
 
 **Navegador headless ultraleve para agentes de IA.**
@@ -11,14 +13,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 Um único binário Rust · 4 SDKs de linguagem · 33 ferramentas MCP.
 Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e construa fluxos de trabalho autônomos para agentes.
 
-**[📊 Estatísticas do projeto → STATS.md](STATS.md)**
-
 ---
 
-## 🌍 Idiomas
+## 🌍 Languages / Idiomas / 语言
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
@@ -27,31 +33,41 @@ Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e
 
 ---
 
+## 🖥 🖥 Suporte a plataformas
+
+8 binários pré-compilados — funciona em qualquer lugar:
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
 ## Recursos
 
-- **33 ferramentas MCP** para integração com agentes de IA
-- **Um único binário Rust autônomo** ~11 MB, sem dependências de runtime
-- **4 SDKs de linguagem** (Python, JS, Java, C#) com binário integrado
-- **Ligação estática (musl)** — funciona em qualquer Linux, sem glibc
-- **Três modos**: Light (instantâneo), JS (scripts), Render (Chromium)
-- **Escudo de segurança**: filtragem de domínios, navegação segura
-- **Interceptação de rede**: bloquear recursos, simular respostas
-- **Servidor MCP**: transporte stdio, sem necessidade de porta
+- **33 MCP tools** — integração com agentes de IA
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## Modos do Navegador
 
 | Modo | Descrição | RAM | Inicialização |
-|------|-----------|-----|---------------|
-| Light | Busca HTTP + parsing de HTML | ~15 MB | Instantânea |
-| JS | Light + extração de JavaScript | ~15 MB | Instantânea |
-| Render | Chromium completo + screenshots | ~100 MB | ~2 s |
+|------|-------------|-----|---------|
+| Light | Busca HTTP + parsing de HTML | ~15MB | Instant |
+| JS | Light + extração de JavaScript | ~15MB | Instant |
+| Render | Chromium completo + screenshots | ~100MB | ~2s |
 
 ## Início Rápido
 
 Instale o binário ou use seu gerenciador de pacotes preferido:
 
 ```bash
-# Binário (qualquer Linux, sem dependências)
+# Binário (Linux, macOS, Windows — sem dependências)
 curl -sL https://b4n1.com/install | bash
 
 # Ou via gerenciadores de pacotes
@@ -83,8 +99,8 @@ uvx b4n1-web mcp
 
 ## Matriz de SDKs
 
-| Linguagem | Pacote | Versão | Binário |
-|-----------|--------|--------|---------|
+| Linguagem | Package | Version | Binário |
+|----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | Integrado (musl) |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integrado (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | Integrado (musl) |
@@ -93,18 +109,17 @@ uvx b4n1-web mcp
 ## Documentação
 
 - [📖 Documentação completa](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [Ferramentas MCP](https://mcp.so/server/b4n1web/B4N1-com) — registro MCP
-- [📊 Estatísticas do projeto](STATS.md) — downloads, versões, releases
+- [Ferramentas MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 
-- Site: https://b4n1.com
+- Website: https://b4n1.com
 - GitHub: https://github.com/B4N1-com/b4n1-web
 - PyPI: https://pypi.org/project/b4n1-web
 - npm: https://www.npmjs.com/package/b4n1-web
 - NuGet: https://www.nuget.org/packages/B4n1Web
 - Maven Central: https://central.sonatype.com/artifact/com.b4n1/b4n1-web
 
-## Licença
+## License
 
 Apache License 2.0

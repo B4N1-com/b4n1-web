@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+
 # 🌐 B4n1Web — एजेंटिक ब्राउज़र इंजन
 
 **AI एजेंटों के लिए अल्ट्रा-लाइटवेट हेडलेस ब्राउज़र।**
@@ -11,14 +13,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
 [![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
 
+[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
+[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
+[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+
 एकल Rust बाइनरी · 4 भाषा SDK · 33 MCP टूल।
 URL नेविगेट करें, संरचित सामग्री (मार्कडाउन, लिंक, स्क्रीनशॉट) निकालें, और एजेंटों के लिए स्वायत्त वर्कफ़्लो बनाएं।
 
-**[📊 Project Stats → STATS.md](STATS.md)**
-
 ---
 
-## 🌍 भाषाएँ
+## 🌍 Languages / Idiomas / 语言
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
@@ -27,31 +33,41 @@ URL नेविगेट करें, संरचित सामग्री
 
 ---
 
+## 🖥 🖥 प्लेटफ़ॉर्म समर्थन
+
+8 पूर्व-संकलित बाइनरी — हर जगह काम करता है:
+
+| Platform | Architectures | Binary |
+|----------|---------------|--------|
+| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
+| **macOS** | x86_64, arm64 | `universal` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
+
 ## विशेषताएँ
 
-- **33 MCP टूल** — AI एजेंट एकीकरण के लिए
-- **एकल स्व-निहित Rust बाइनरी** ~11MB, कोई रनटाइम निर्भरता नहीं
-- **4 भाषा SDK** (Python, JS, Java, C#) — बंडल बाइनरी के साथ
-- **स्टैटिक लिंकिंग (musl)** — किसी भी Linux पर काम करता है, glibc आवश्यक नहीं
-- **तीन मोड**: Light (तत्काल), JS (स्क्रिप्ट), Render (Chromium)
-- **सुरक्षा कवच**: डोमेन फ़िल्टरिंग, सुरक्षित ब्राउज़िंग
-- **नेटवर्क इंटरसेप्शन**: संसाधन ब्लॉक करें, प्रतिक्रियाएँ मॉक करें
-- **MCP सर्वर**: stdio ट्रांसपोर्ट, कोई पोर्ट आवश्यक नहीं
+- **33 MCP tools** — AI एजेंट एकीकरण
+- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **Static linking (musl)** — works on any Linux, no glibc required
+- **Three modes**: Light (instant), JS (scripts), Render (Chromium)
+- **Security shield**: domain filtering, safe browsing
+- **Network interception**: block resources, mock responses
+- **MCP Server**: stdio transport, no port needed
 
 ## ब्राउज़र मोड
 
 | मोड | विवरण | RAM | स्टार्टअप |
-|------|--------|-----|-----------|
-| Light | HTTP फ़ेच + HTML पार्सिंग | ~15MB | तत्काल |
-| JS | Light + JavaScript निष्कर्षण | ~15MB | तत्काल |
-| Render | पूर्ण Chromium + स्क्रीनशॉट | ~100MB | ~2 सेकंड |
+|------|-------------|-----|---------|
+| Light | HTTP फ़ेच + HTML पार्सिंग | ~15MB | Instant |
+| JS | Light + JavaScript निष्कर्षण | ~15MB | Instant |
+| Render | पूर्ण Chromium + स्क्रीनशॉट | ~100MB | ~2s |
 
 ## त्वरित आरंभ
 
 बाइनरी इंस्टॉल करें या अपना पसंदीदा पैकेज मैनेजर उपयोग करें:
 
 ```bash
-# बाइनरी (कोई भी Linux, बिना निर्भरता)
+# बाइनरी (Linux, macOS, Windows — बिना निर्भरता)
 curl -sL https://b4n1.com/install | bash
 
 # या पैकेज मैनेजर के माध्यम से
@@ -83,8 +99,8 @@ uvx b4n1-web mcp
 
 ## SDK मैट्रिक्स
 
-| भाषा | पैकेज | संस्करण | बाइनरी |
-|------|--------|---------|--------|
+| भाषा | Package | Version | बाइनरी |
+|----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | बंडल (musl) |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | बंडल (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | बंडल (musl) |
@@ -93,18 +109,17 @@ uvx b4n1-web mcp
 ## दस्तावेज़ीकरण
 
 - [📖 पूर्ण दस्तावेज़ीकरण](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCP टूल](https://mcp.so/server/b4n1web/B4N1-com) — MCP रजिस्ट्री
-- [📊 प्रोजेक्ट आँकड़े](STATS.md) — डाउनलोड, संस्करण, रिलीज़
+- [MCP टूल](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
-## लिंक
+## Links
 
-- वेबसाइट: https://b4n1.com
+- Website: https://b4n1.com
 - GitHub: https://github.com/B4N1-com/b4n1-web
 - PyPI: https://pypi.org/project/b4n1-web
 - npm: https://www.npmjs.com/package/b4n1-web
 - NuGet: https://www.nuget.org/packages/B4n1Web
 - Maven Central: https://central.sonatype.com/artifact/com.b4n1/b4n1-web
 
-## लाइसेंस
+## License
 
 Apache License 2.0
