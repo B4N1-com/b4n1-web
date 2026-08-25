@@ -22,6 +22,8 @@
 एकल Rust बाइनरी · 4 भाषा SDK · 33 MCP टूल।
 URL नेविगेट करें, संरचित सामग्री (मार्कडाउन, लिंक, स्क्रीनशॉट) निकालें, और एजेंटों के लिए स्वायत्त वर्कफ़्लो बनाएं।
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@ URL नेविगेट करें, संरचित सामग्री
 
 ```bash
 # बाइनरी (Linux, macOS, Windows — बिना निर्भरता)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # या पैकेज मैनेजर के माध्यम से
 pip install b4n1-web

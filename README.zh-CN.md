@@ -22,6 +22,8 @@
 单个 Rust 二进制文件 · 4 种语言 SDK · 33 个 MCP 工具。
 导航 URL、提取结构化内容（Markdown、链接、截图），并为智能体构建自主工作流。
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@
 
 ```bash
 # 二进制文件（Linux、macOS、Windows——无依赖）
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # 或通过包管理器
 pip install b4n1-web

@@ -22,6 +22,8 @@
 Un seul binaire Rust · 4 SDK de langage · 33 outils MCP.
 Naviguez vers des URLs, extrayez du contenu structuré (markdown, liens, captures d'écran) et créez des workflows autonomes pour agents.
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@ Installez le binaire ou utilisez votre gestionnaire de paquets préféré :
 
 ```bash
 # Binaire (Linux, macOS, Windows — sans dépendances)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # Ou via les gestionnaires de paquets
 pip install b4n1-web

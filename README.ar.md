@@ -22,6 +22,8 @@
 ملف Rust واحد · 4 حزم SDK للغات · 33 أداة MCP.
 تصفح الروابط، واستخرج المحتوى المنظم (ماركداون، روابط، لقطات شاشة)، وابنِ سير عمل مستقلاً للوكلاء.
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@
 
 ```bash
 # الملف الثنائي (Linux، macOS، Windows — بدون تبعيات)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # أو عبر مديري الحزم
 pip install b4n1-web

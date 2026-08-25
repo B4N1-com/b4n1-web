@@ -22,6 +22,8 @@
 Un singolo binario Rust · 4 SDK di linguaggio · 33 strumenti MCP.
 Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruisci flussi di lavoro autonomi per agenti.
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@ Installa il binario o usa il tuo gestore di pacchetti preferito:
 
 ```bash
 # Binario (Linux, macOS, Windows — senza dipendenze)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # Oppure tramite gestori di pacchetti
 pip install b4n1-web

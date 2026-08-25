@@ -22,6 +22,8 @@
 단일 Rust 바이너리 · 4개 언어 SDK · 33개 MCP 도구.
 URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에이전트용 자율 워크플로 구축.
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 
 ```bash
 # 바이너리 (Linux, macOS, Windows — 의존성 없음)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # 또는 패키지 관리자 사용
 pip install b4n1-web

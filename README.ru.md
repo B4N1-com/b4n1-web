@@ -22,6 +22,8 @@
 Один Rust-бинарник · 4 SDK · 33 MCP-инструмента.
 Переходите по URL, извлекайте структурированный контент (markdown, ссылки, скриншоты) и создавайте автономные рабочие процессы для агентов.
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@
 
 ```bash
 # Бинарник (Linux, macOS, Windows — без зависимостей)
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # Или через менеджеры пакетов
 pip install b4n1-web

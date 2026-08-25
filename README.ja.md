@@ -22,6 +22,8 @@
 単一のRustバイナリ · 4言語SDK · 33のMCPツール。
 URLへの移動、構造化コンテンツの抽出（Markdown、リンク、スクリーンショット）、エージェント向けの自律型ワークフロー構築。
 
+</div>
+
 ---
 
 ## 🌍 Languages / Idiomas / 语言
@@ -68,7 +70,7 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 
 ```bash
 # バイナリ（Linux、macOS、Windows——依存なし）
-curl -sL https://b4n1.com/install | bash
+curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
 # またはパッケージマネージャー経由
 pip install b4n1-web
