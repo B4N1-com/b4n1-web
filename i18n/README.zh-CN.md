@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — محرك متصفح وكيل
+# 🌐 B4n1Web — 智能体浏览器引擎
 
-**متصفح خفيف للغاية بدون واجهة لوكيلات الذكاء الاصطناعي.**
+**面向 AI 智能体的超轻量无头浏览器。**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-ملف Rust واحد · 4 حزم SDK للغات · 33 أداة MCP.
-تصفح الروابط، واستخرج المحتوى المنظم (ماركداون، روابط، لقطات شاشة)، وابنِ سير عمل مستقلاً للوكلاء.
+单个 Rust 二进制文件 · 4 种语言 SDK · 33 个 MCP 工具。
+导航 URL、提取结构化内容（Markdown、链接、截图），并为智能体构建自主工作流。
 
 </div>
 
@@ -30,14 +30,14 @@
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 دعم المنصات
+## 🖥 🖥 平台支持
 
-ملفات ثنائية مجمّعة مسبقاً — تعمل في كل مكان:
+8 个预编译二进制文件——适用于所有平台：
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## المميزات
+## 特性
 
-- **33 MCP tools** — دمج وكلاء الذكاء الاصطناعي
+- **33 MCP tools** — AI 智能体集成
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,30 +56,30 @@
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## أوضاع المتصفح
+## 浏览器模式
 
-| الوضع | الوصف | الذاكرة | الإقلاع |
+| 模式 | 描述 | 内存 | 启动 |
 |------|-------------|-----|---------|
-| Light | جلب HTTP + تحليل HTML | ~15MB | Instant |
-| JS | Light + استخراج JavaScript | ~15MB | Instant |
-| Render | Chromium كامل + لقطات شاشة | ~100MB | ~2s |
+| Light | HTTP 抓取 + HTML 解析 | ~15MB | Instant |
+| JS | Light + JavaScript 提取 | ~15MB | Instant |
+| Render | 完整 Chromium + 截图 | ~100MB | ~2s |
 
-## البداية السريعة
+## 快速开始
 
-ثبّت الملف أو استخدم مدير الحزم المفضل لديك:
+安装二进制文件或使用您偏好的包管理器：
 
 ```bash
-# الملف الثنائي (Linux، macOS، Windows — بدون تبعيات)
+# 二进制文件（Linux、macOS、Windows——无依赖）
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# أو عبر مديري الحزم
+# 或通过包管理器
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: أضف التبعية من Maven Central
+# Java：从 Maven Central 添加依赖
 ```
 
-الاستخدام الأساسي:
+基本用法：
 
 ```python
 from b4n1web import AgentBrowser
@@ -90,28 +90,28 @@ print(page.markdown)
 browser.close()
 ```
 
-### خادم MCP
+### MCP 服务器
 
 ```bash
-# وضع stdio (افتراضي)
+# stdio 模式（默认）
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
 
-## مصفوفة حزم SDK
+## SDK 矩阵
 
-| اللغة | Package | Version | الملف الثنائي |
+| 语言 | Package | Version | 二进制 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | مدمج (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | مدمج (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | مدمج (musl) |
-| C# (.NET) | `B4n1Web` | 0.12.3 | مدمج (musl) |
+| Python | `b4n1-web` | 0.12.3 | 内置（musl） |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | 内置（musl） |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | 内置（musl） |
+| C# (.NET) | `B4n1Web` | 0.12.3 | 内置（musl） |
 
-## التوثيق
+## 文档
 
-- [📖 التوثيق الكامل](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [أدوات MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 完整文档](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [MCP 工具](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 

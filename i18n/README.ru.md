@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — エージェント型ブラウザエンジン
+# 🌐 B4n1Web — Агентный браузерный движок
 
-**AIエージェント向けの超軽量ヘッドレスブラウザ。**
+**Сверхлёгкий headless-браузер для ИИ-агентов.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-単一のRustバイナリ · 4言語SDK · 33のMCPツール。
-URLへの移動、構造化コンテンツの抽出（Markdown、リンク、スクリーンショット）、エージェント向けの自律型ワークフロー構築。
+Один Rust-бинарник · 4 SDK · 33 MCP-инструмента.
+Переходите по URL, извлекайте структурированный контент (markdown, ссылки, скриншоты) и создавайте автономные рабочие процессы для агентов.
 
 </div>
 
@@ -30,14 +30,14 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 プラットフォーム対応
+## 🖥 🖥 Поддержка платформ
 
-8つのプリコンパイル済みバイナリ——どこでも動作：
+8 предкомпилированных бинарников — работает везде:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## 特徴
+## Возможности
 
-- **33 MCP tools** — AIエージェント統合
+- **33 MCP tools** — интеграция с ИИ-агентами
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,30 +56,30 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## ブラウザモード
+## Режимы браузера
 
-| モード | 説明 | メモリ | 起動 |
+| Режим | Описание | RAM | Запуск |
 |------|-------------|-----|---------|
-| Light | HTTP取得 + HTML解析 | ~15MB | Instant |
-| JS | Light + JavaScript抽出 | ~15MB | Instant |
-| Render | 完全なChromium + スクリーンショット | ~100MB | ~2s |
+| Light | HTTP-загрузка + парсинг HTML | ~15MB | Instant |
+| JS | Light + извлечение JavaScript | ~15MB | Instant |
+| Render | Полный Chromium + скриншоты | ~100MB | ~2s |
 
-## クイックスタート
+## Быстрый старт
 
-バイナリをインストールするか、お好みのパッケージマネージャーを使用してください：
+Установите бинарник или используйте ваш любимый менеджер пакетов:
 
 ```bash
-# バイナリ（Linux、macOS、Windows——依存なし）
+# Бинарник (Linux, macOS, Windows — без зависимостей)
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# またはパッケージマネージャー経由
+# Или через менеджеры пакетов
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: Maven Centralから依存関係を追加
+# Java: добавьте зависимость из Maven Central
 ```
 
-基本的な使用方法：
+Базовое использование:
 
 ```python
 from b4n1web import AgentBrowser
@@ -90,28 +90,28 @@ print(page.markdown)
 browser.close()
 ```
 
-### MCPサーバー
+### MCP-сервер
 
 ```bash
-# stdioモード（デフォルト）
+# режим stdio (по умолчанию)
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
 
-## SDKマトリクス
+## Матрица SDK
 
-| 言語 | Package | Version | バイナリ |
+| Язык | Package | Version | Бинарник |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | 同梱（musl） |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | 同梱（musl） |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | 同梱（musl） |
-| C# (.NET) | `B4n1Web` | 0.12.3 | 同梱（musl） |
+| Python | `b4n1-web` | 0.12.3 | Встроенный (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Встроенный (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | Встроенный (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.3 | Встроенный (musl) |
 
-## ドキュメント
+## Документация
 
-- [📖 完全なドキュメント](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCPツール](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 Полная документация](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [MCP-инструменты](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 

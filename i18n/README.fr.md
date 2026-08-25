@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — Motore di Navigazione Agéntico
+# 🌐 B4n1Web — Moteur de Navigateur Agentique
 
-**Browser headless ultraleggero per agenti IA.**
+**Navigateur headless ultra-léger pour agents IA.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Un singolo binario Rust · 4 SDK di linguaggio · 33 strumenti MCP.
-Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruisci flussi di lavoro autonomi per agenti.
+Un seul binaire Rust · 4 SDK de langage · 33 outils MCP.
+Naviguez vers des URLs, extrayez du contenu structuré (markdown, liens, captures d'écran) et créez des workflows autonomes pour agents.
 
 </div>
 
@@ -30,14 +30,14 @@ Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruis
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 Supporto piattaforme
+## 🖥 🖥 Prise en charge des plateformes
 
-8 binari pre-compilati — funziona ovunque:
+8 binaires pré-compilés — fonctionne partout :
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@ Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruis
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## Caratteristiche
+## Fonctionnalités
 
-- **33 MCP tools** — integrazione agenti IA
+- **33 MCP tools** — Intégration IA
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,30 +56,30 @@ Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruis
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## Modalità del Browser
+## Modes du Navigateur
 
-| Modalità | Descrizione | RAM | Avvio |
+| Mode | Description | RAM | Démarrage |
 |------|-------------|-----|---------|
-| Light | Fetch HTTP + parsing HTML | ~15MB | Instant |
-| JS | Light + estrazione JavaScript | ~15MB | Instant |
-| Render | Chromium completo + screenshot | ~100MB | ~2s |
+| Light | Récupération HTTP + parsing HTML | ~15MB | Instant |
+| JS | Light + extraction JavaScript | ~15MB | Instant |
+| Render | Chromium complet + captures d'écran | ~100MB | ~2s |
 
-## Avvio Rapido
+## Démarrage Rapide
 
-Installa il binario o usa il tuo gestore di pacchetti preferito:
+Installez le binaire ou utilisez votre gestionnaire de paquets préféré :
 
 ```bash
-# Binario (Linux, macOS, Windows — senza dipendenze)
+# Binaire (Linux, macOS, Windows — sans dépendances)
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# Oppure tramite gestori di pacchetti
+# Ou via les gestionnaires de paquets
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: aggiungi la dipendenza da Maven Central
+# Java : ajoutez la dépendance depuis Maven Central
 ```
 
-Utilizzo di base:
+Utilisation de base :
 
 ```python
 from b4n1web import AgentBrowser
@@ -90,28 +90,28 @@ print(page.markdown)
 browser.close()
 ```
 
-### Server MCP
+### Serveur MCP
 
 ```bash
-# modalità stdio (predefinita)
+# mode stdio (par défaut)
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
 
-## Matrice SDK
+## Matrice des SDK
 
-| Linguaggio | Package | Version | Binario |
+| Langage | Package | Version | Binaire |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | Integrato (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integrato (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | Integrato (musl) |
-| C# (.NET) | `B4n1Web` | 0.12.3 | Integrato (musl) |
+| Python | `b4n1-web` | 0.12.3 | Intégré (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Intégré (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | Intégré (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.3 | Intégré (musl) |
 
-## Documentazione
+## Documentation
 
-- [📖 Documentazione completa](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [Strumenti MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 Documentation complète](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [Outils MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 

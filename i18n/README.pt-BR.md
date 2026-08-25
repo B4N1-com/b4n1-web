@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — Motor de Navegación Agéntico
+# 🌐 B4n1Web — Mecanismo de Navegação Agêntico
 
-**Navegador headless ultraligero para agentes de IA.**
+**Navegador headless ultraleve para agentes de IA.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Un solo binario Rust · 4 SDKs de lenguaje · 33 herramientas MCP.
-Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y construye flujos de trabajo autónomos para agentes.
+Um único binário Rust · 4 SDKs de linguagem · 33 ferramentas MCP.
+Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e construa fluxos de trabalho autônomos para agentes.
 
 </div>
 
@@ -30,14 +30,14 @@ Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y const
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 Soporte de plataformas
+## 🖥 🖥 Suporte a plataformas
 
-8 binarios pre-compilados — funciona en todas partes:
+8 binários pré-compilados — funciona em qualquer lugar:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@ Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y const
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## Características
+## Recursos
 
-- **33 MCP tools** — integración con agentes de IA
+- **33 MCP tools** — integração com agentes de IA
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,27 +56,27 @@ Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y const
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## Modos del Navegador
+## Modos do Navegador
 
-| Modo | Descripción | RAM | Arranque |
+| Modo | Descrição | RAM | Inicialização |
 |------|-------------|-----|---------|
-| Light | Descarga HTTP + parseo de HTML | ~15MB | Instant |
-| JS | Light + extracción de JavaScript | ~15MB | Instant |
-| Render | Chromium completo + capturas | ~100MB | ~2s |
+| Light | Busca HTTP + parsing de HTML | ~15MB | Instant |
+| JS | Light + extração de JavaScript | ~15MB | Instant |
+| Render | Chromium completo + screenshots | ~100MB | ~2s |
 
-## Inicio Rápido
+## Início Rápido
 
-Instala el binario o usa tu gestor de paquetes preferido:
+Instale o binário ou use seu gerenciador de pacotes preferido:
 
 ```bash
-# Binario (Linux, macOS, Windows — sin dependencias)
+# Binário (Linux, macOS, Windows — sem dependências)
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# O mediante gestores de paquetes
+# Ou via gerenciadores de pacotes
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: añade la dependencia desde Maven Central
+# Java: adicione a dependência do Maven Central
 ```
 
 Uso básico:
@@ -93,7 +93,7 @@ browser.close()
 ### Servidor MCP
 
 ```bash
-# modo stdio (por defecto)
+# modo stdio (padrão)
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
@@ -101,17 +101,17 @@ uvx b4n1-web mcp
 
 ## Matriz de SDKs
 
-| Lenguaje | Package | Version | Binario |
+| Linguagem | Package | Version | Binário |
 |----------|---------|---------|--------|
 | Python | `b4n1-web` | 0.12.3 | Integrado (musl) |
 | JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integrado (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.12.3 | Integrado (musl) |
 | C# (.NET) | `B4n1Web` | 0.12.3 | Integrado (musl) |
 
-## Documentación
+## Documentação
 
-- [📖 Documentación completa](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [Herramientas MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 Documentação completa](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [Ferramentas MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 

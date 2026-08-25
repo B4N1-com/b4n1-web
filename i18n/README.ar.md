@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — Mecanismo de Navegação Agêntico
+# 🌐 B4n1Web — محرك متصفح وكيل
 
-**Navegador headless ultraleve para agentes de IA.**
+**متصفح خفيف للغاية بدون واجهة لوكيلات الذكاء الاصطناعي.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Um único binário Rust · 4 SDKs de linguagem · 33 ferramentas MCP.
-Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e construa fluxos de trabalho autônomos para agentes.
+ملف Rust واحد · 4 حزم SDK للغات · 33 أداة MCP.
+تصفح الروابط، واستخرج المحتوى المنظم (ماركداون، روابط، لقطات شاشة)، وابنِ سير عمل مستقلاً للوكلاء.
 
 </div>
 
@@ -30,14 +30,14 @@ Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 Suporte a plataformas
+## 🖥 🖥 دعم المنصات
 
-8 binários pré-compilados — funciona em qualquer lugar:
+ملفات ثنائية مجمّعة مسبقاً — تعمل في كل مكان:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@ Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## Recursos
+## المميزات
 
-- **33 MCP tools** — integração com agentes de IA
+- **33 MCP tools** — دمج وكلاء الذكاء الاصطناعي
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,30 +56,30 @@ Navegue por URLs, extraia conteúdo estruturado (markdown, links, screenshots) e
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## Modos do Navegador
+## أوضاع المتصفح
 
-| Modo | Descrição | RAM | Inicialização |
+| الوضع | الوصف | الذاكرة | الإقلاع |
 |------|-------------|-----|---------|
-| Light | Busca HTTP + parsing de HTML | ~15MB | Instant |
-| JS | Light + extração de JavaScript | ~15MB | Instant |
-| Render | Chromium completo + screenshots | ~100MB | ~2s |
+| Light | جلب HTTP + تحليل HTML | ~15MB | Instant |
+| JS | Light + استخراج JavaScript | ~15MB | Instant |
+| Render | Chromium كامل + لقطات شاشة | ~100MB | ~2s |
 
-## Início Rápido
+## البداية السريعة
 
-Instale o binário ou use seu gerenciador de pacotes preferido:
+ثبّت الملف أو استخدم مدير الحزم المفضل لديك:
 
 ```bash
-# Binário (Linux, macOS, Windows — sem dependências)
+# الملف الثنائي (Linux، macOS، Windows — بدون تبعيات)
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# Ou via gerenciadores de pacotes
+# أو عبر مديري الحزم
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: adicione a dependência do Maven Central
+# Java: أضف التبعية من Maven Central
 ```
 
-Uso básico:
+الاستخدام الأساسي:
 
 ```python
 from b4n1web import AgentBrowser
@@ -90,28 +90,28 @@ print(page.markdown)
 browser.close()
 ```
 
-### Servidor MCP
+### خادم MCP
 
 ```bash
-# modo stdio (padrão)
+# وضع stdio (افتراضي)
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
 
-## Matriz de SDKs
+## مصفوفة حزم SDK
 
-| Linguagem | Package | Version | Binário |
+| اللغة | Package | Version | الملف الثنائي |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | Integrado (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integrado (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | Integrado (musl) |
-| C# (.NET) | `B4n1Web` | 0.12.3 | Integrado (musl) |
+| Python | `b4n1-web` | 0.12.3 | مدمج (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | مدمج (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | مدمج (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.3 | مدمج (musl) |
 
-## Documentação
+## التوثيق
 
-- [📖 Documentação completa](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [Ferramentas MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 التوثيق الكامل](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [أدوات MCP](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 

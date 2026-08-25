@@ -2,9 +2,9 @@
 
 <img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
-# 🌐 B4n1Web — एजेंटिक ब्राउज़र इंजन
+# 🌐 B4n1Web — Agentischer Browser-Engine
 
-**AI एजेंटों के लिए अल्ट्रा-लाइटवेट हेडलेस ब्राउज़र।**
+**Ultra-leichter headless Browser für KI-Agenten.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
@@ -19,8 +19,8 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-एकल Rust बाइनरी · 4 भाषा SDK · 33 MCP टूल।
-URL नेविगेट करें, संरचित सामग्री (मार्कडाउन, लिंक, स्क्रीनशॉट) निकालें, और एजेंटों के लिए स्वायत्त वर्कफ़्लो बनाएं।
+Ein einzelnes Rust-Binary · 4 Sprach-SDKs · 33 MCP-Tools.
+URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) und autonome Agenten-Workflows aufbauen.
 
 </div>
 
@@ -30,14 +30,14 @@ URL नेविगेट करें, संरचित सामग्री
 
 |  |  |  |  |  |  |
 |--|--|--|--|--|--|
-| 🇬🇧 [English](README.md) | 🇪🇸 [Español](README.es.md) | 🇫🇷 [Français](README.fr.md) | 🇩🇪 [Deutsch](README.de.md) | 🇵🇹 [Português](README.pt-BR.md) | 🇮🇹 [Italiano](README.it.md) |
-| 🇨🇳 [简体中文](README.zh-CN.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md) | 🇷🇺 [Русский](README.ru.md) | 🇸🇦 [العربية](README.ar.md) | 🇮🇳 [हिन्दी](README.hi.md) |
+| 🇬🇧 [English](../README.md) | 🇪🇸 [Español](i18n/README.es.md) | 🇫🇷 [Français](i18n/README.fr.md) | 🇩🇪 [Deutsch](i18n/README.de.md) | 🇵🇹 [Português](i18n/README.pt-BR.md) | 🇮🇹 [Italiano](i18n/README.it.md) |
+| 🇨🇳 [简体中文](i18n/README.zh-CN.md) | 🇯🇵 [日本語](i18n/README.ja.md) | 🇰🇷 [한국어](i18n/README.ko.md) | 🇷🇺 [Русский](i18n/README.ru.md) | 🇸🇦 [العربية](i18n/README.ar.md) | 🇮🇳 [हिन्दी](i18n/README.hi.md) |
 
 ---
 
-## 🖥 🖥 प्लेटफ़ॉर्म समर्थन
+## 🖥 🖥 Plattform-Unterstützung
 
-8 पूर्व-संकलित बाइनरी — हर जगह काम करता है:
+8 vor-kompilierte Binaries — funktioniert überall:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
@@ -45,9 +45,9 @@ URL नेविगेट करें, संरचित सामग्री
 | **macOS** | x86_64, arm64 | `universal` |
 | **Windows** | x86_64, arm64, i686 | `MSVC` |
 
-## विशेषताएँ
+## Funktionen
 
-- **33 MCP tools** — AI एजेंट एकीकरण
+- **33 MCP tools** — KI-Agenten-Integration
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -56,30 +56,30 @@ URL नेविगेट करें, संरचित सामग्री
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
 
-## ब्राउज़र मोड
+## Browser-Modi
 
-| मोड | विवरण | RAM | स्टार्टअप |
+| Modus | Beschreibung | RAM | Start |
 |------|-------------|-----|---------|
-| Light | HTTP फ़ेच + HTML पार्सिंग | ~15MB | Instant |
-| JS | Light + JavaScript निष्कर्षण | ~15MB | Instant |
-| Render | पूर्ण Chromium + स्क्रीनशॉट | ~100MB | ~2s |
+| Light | HTTP-Abruf + HTML-Parsing | ~15MB | Instant |
+| JS | Light + JavaScript-Extraktion | ~15MB | Instant |
+| Render | Volles Chromium + Screenshots | ~100MB | ~2s |
 
-## त्वरित आरंभ
+## Schnellstart
 
-बाइनरी इंस्टॉल करें या अपना पसंदीदा पैकेज मैनेजर उपयोग करें:
+Installieren Sie das Binary oder verwenden Sie Ihren bevorzugten Paketmanager:
 
 ```bash
-# बाइनरी (Linux, macOS, Windows — बिना निर्भरता)
+# Binary (Linux, macOS, Windows — ohne Abhängigkeiten)
 curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
 
-# या पैकेज मैनेजर के माध्यम से
+# Oder über Paketmanager
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: Maven Central से निर्भरता जोड़ें
+# Java: Abhängigkeit von Maven Central hinzufügen
 ```
 
-मूल उपयोग:
+Grundlegende Verwendung:
 
 ```python
 from b4n1web import AgentBrowser
@@ -90,28 +90,28 @@ print(page.markdown)
 browser.close()
 ```
 
-### MCP सर्वर
+### MCP-Server
 
 ```bash
-# stdio मोड (डिफ़ॉल्ट)
+# stdio-Modus (Standard)
 b4n1web mcp
 npx b4n1-web mcp
 uvx b4n1-web mcp
 ```
 
-## SDK मैट्रिक्स
+## SDK-Matrix
 
-| भाषा | Package | Version | बाइनरी |
+| Sprache | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | बंडल (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | बंडल (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | बंडल (musl) |
-| C# (.NET) | `B4n1Web` | 0.12.3 | बंडल (musl) |
+| Python | `b4n1-web` | 0.12.3 | Integriert (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | Integriert (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.12.3 | Integriert (musl) |
+| C# (.NET) | `B4n1Web` | 0.12.3 | Integriert (musl) |
 
-## दस्तावेज़ीकरण
+## Dokumentation
 
-- [📖 पूर्ण दस्तावेज़ीकरण](https://B4N1-com.github.io/b4n1-web/) — mdBook
-- [MCP टूल](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
+- [📖 Vollständige Dokumentation](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [MCP-Tools](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
 
