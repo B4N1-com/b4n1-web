@@ -126,4 +126,16 @@ uvx b4n1-web mcp
 
 ## License
 
-Apache License 2.0
+This project is distributed under the **Business Source License 1.1 (BSL 1.1)**.
+
+- **Free** for development, evaluation, testing, personal projects, and startups generating under **$100,000 USD** in annual gross revenue.
+- **Commercial license** required for organizations with annual gross revenue **>= $100,000 USD**, government agencies, and public bidding projects.
+- After the **Change Date** (4 years), the work converts to **Apache License 2.0**.
+
+See [LICENSE](LICENSE) for the full legal text.
+
+---
+
+## 💖 Support
+
+Support our open-source research and systems engineering journey by sponsoring us on GitHub: https://github.com/sponsors/BaniMontoya
