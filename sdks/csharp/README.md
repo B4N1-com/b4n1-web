@@ -1,9 +1,12 @@
 # B4n1Web C# SDK
 
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 > Ultra-lightweight agentic browser engine with bundled binary.
+>
+> <!-- mcp-name: io.github.B4N1-com/b4n1web -->
+
 
 ## Install
 

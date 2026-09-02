@@ -88,4 +88,4 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.12.0';
+const SDK_VERSION = '0.13.0';

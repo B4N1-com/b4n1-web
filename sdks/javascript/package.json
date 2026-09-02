@@ -1,6 +1,7 @@
 {
   "name": "b4n1-web",
-  "version": "0.12.0",
+  "version": "0.13.0",
+  "mcpName": "io.github.B4N1-com/b4n1web",
   "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -37,7 +38,7 @@
   "homepage": "https://b4n1.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/B4N1-com/b4n1-web.git"
+    "url": "git+https://github.com/B4N1-com/b4n1-web.git"
   },
   "dependencies": {
     "undici": "^6.0.0"
@@ -50,5 +51,9 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "tests"
   }
 }

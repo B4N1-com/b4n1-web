@@ -1,5 +1,31 @@
 # CHANGELOG — b4n1-web
 
+## v0.13.0 — 2026-09-02
+
+### Security
+- **Binary hardening protocol**: `strip=true`, `lto=fat`, `codegen-units=1`, `panic=abort`, `overflow-checks=false`, `incremental=false` en ambos `Cargo.toml` (engine + outer) — B4N1-BINARY-SECURITY.md §1.
+- **String obfuscation**: `obfstr` para URLs sensibles (`api.github.com`, `raw.githubusercontent`, `github.com/.../download`) y product identifiers en `engine/cli-core/src/main.rs` — §3.
+- **Post-build verification**: `scripts/verify-binary-security.sh` (strip, nm symbols ≤5, no raw URLs, size) + CI gate — §4/§5.
+
+## v0.12.3 — 2026-07-08
+
+### Fixed
+- **Python SDK screenshot parsing**: `_parse_output` now correctly parses `Screenshot:` field from binary output.
+- **E2E test suite**: Comprehensive test suite covering all 4 registries, all 3 modes, MCP server, error handling.
+
+### Added
+- **Comprehensive E2E tests**: `scripts/e2e-full-test.sh` (15 tests) + `scripts/pipeline-test.sh` (28 tests).
+- **Pipeline integration test**: Validates version consistency, file structure, binary matching, SDK test suites.
+
+## v0.12.2 — 2026-07-08
+
+### Added
+- **Musl static binary**: Linux binary compiled with `x86_64-unknown-linux-musl` for zero-dependency deployment.
+- **All 4 SDKs updated**: Python, JavaScript, C#, Java with bundled musl binary.
+
+### Changed
+- All components bumped to v0.12.2.
+
 ## v0.12.0 — 2026-07-03
 
 ### Added

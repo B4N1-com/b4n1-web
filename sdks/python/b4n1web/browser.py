@@ -49,7 +49,7 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.12.0"
+SDK_VERSION = "0.13.0"
 
 _PLATFORM_BINARIES = {
     ("linux", "x86_64"): "b4n1web-linux-amd64",
@@ -227,24 +227,35 @@ class AgentBrowser:
         """Parse text output from the Rust binary."""
         markdown = ""
         links = []
+        screenshot = None
+        in_markdown = False
 
         for line in output.splitlines():
             if line.startswith("URL:"):
                 continue
             elif line.startswith("Markdown:"):
-                continue
+                in_markdown = True
+                content_after = line[9:].strip()
+                if content_after:
+                    markdown += content_after + "\n"
             elif line.startswith("Links:"):
+                in_markdown = False
                 try:
                     links = ast.literal_eval(line[6:].strip())
                 except (ValueError, SyntaxError):
                     links = []
+            elif line.startswith("Screenshot:"):
+                in_markdown = False
+                screenshot = line[12:].strip() or None
             else:
-                markdown += line + "\n"
+                if in_markdown:
+                    markdown += line + "\n"
 
         return Page(
             url=url,
             markdown=markdown.strip(),
             links=links,
+            screenshot=screenshot,
         )
 
     def close(self):

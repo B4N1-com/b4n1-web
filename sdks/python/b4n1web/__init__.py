@@ -27,7 +27,7 @@ from .security import SecurityShield
 from .mcp import AsyncMcpClient, McpClient
 from .mcp import Tool, ToolResult
 
-__version__ = "0.12.0"
+__version__ = "0.13.0"
 __author__ = "Bani Montoya"
 __email__ = "banimontoya@gmail.com"
 

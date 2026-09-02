@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * }</pre>
  */
 public class AgentBrowser implements AutoCloseable {
-    private static final String SDK_VERSION = "0.12.0";
+    private static final String SDK_VERSION = "0.13.0";
     private final BrowserOptions options;
     private final String binaryPath;
 
