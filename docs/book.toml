@@ -1,0 +1,35 @@
+[book]
+title = "B4n1Web — Agentic Browser Engine"
+description = "Ultra-lightweight headless browser for AI agents"
+language = "en"
+src = "src"
+
+[output.html]
+default-theme = "light"
+smart-punctuation = true
+mathjax-support = false
+additional-css = []
+additional-js = []
+no-section-label = false
+git-repository-url = "https://github.com/B4N1-com/b4n1-web"
+git-repository-icon = "fab-github"
+edit-url-template = "https://github.com/B4N1-com/b4n1-web/edit/master/docs/src/{path}"
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true
+limit-results = 10
+teaser-word-count = 30
+use-boolean-and = true
+boost-title = 3
+boost-hierarchy = 2
+boost-paragraph = 1
+expand = true
+heading-split-level = 3
+
+[build]
+build-dir = "book"
+create-missing = false
