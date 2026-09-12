@@ -1,0 +1,23 @@
+#!/bin/bash
+# OPSEC Hook: Block .rs, Cargo.toml, .ld, secrets from public repos
+# Checks staged files before commit
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+# Pattern: Rust source, internal Cargo configs, linker scripts, secrets
+BLOCKED=$(echo "$STAGED" | grep -iE '\.rs$|Cargo\.toml|\.ld$|secret|token|api_key|\.env$' 2>/dev/null)
+
+if [ -n "$BLOCKED" ]; then
+    echo ""
+    echo "🚨 OPSEC BLOCK — Estos archivos NO pueden ir a un repo público:"
+    echo "$BLOCKED"
+    echo ""
+    echo "Si es un repo público, deshaz el commit:"
+    echo "  git reset HEAD <archivo>"
+    echo ""
+    echo "Si es un repo privado, usa: git commit --no-verify"
+    echo ""
+    exit 1
+fi
+
+exit 0
