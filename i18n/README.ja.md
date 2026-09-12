@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="b4n1web_presentation.png" alt="B4n1Web" width="100%">
+<img src="../b4n1web_presentation.png" alt="B4n1Web" width="100%">
 
 # 🌐 B4n1Web — エージェント型ブラウザエンジン
 
 **AIエージェント向けの超軽量ヘッドレスブラウザ。**
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-BSL%201.1-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
 [![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | 言語 | Package | Version | バイナリ |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.12.3 | 同梱（musl） |
-| JavaScript/TypeScript | `b4n1-web` | 0.12.3 | 同梱（musl） |
-| Java | `com.b4n1:b4n1-web` | 0.12.3 | 同梱（musl） |
-| C# (.NET) | `B4n1Web` | 0.12.3 | 同梱（musl） |
+| Python | `b4n1-web` | 0.13.0 | 同梱（musl） |
+| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | 同梱（musl） |
+| Java | `com.b4n1:b4n1-web` | 0.13.0 | 同梱（musl） |
+| C# (.NET) | `B4n1Web` | 0.13.0 | 同梱（musl） |
 
 ## ドキュメント
 
@@ -124,4 +124,4 @@ uvx b4n1-web mcp
 
 ## License
 
-Apache License 2.0
+Business Source License 1.1 (BSL 1.1)

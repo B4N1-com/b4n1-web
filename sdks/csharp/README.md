@@ -1,7 +1,7 @@
 # B4n1Web C# SDK
 
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-BSL_1.1-blue.svg)](LICENSE)
 
 > Ultra-lightweight agentic browser engine with bundled binary.
 >
@@ -60,7 +60,7 @@ var result = shield.IsUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.9.8** | Binary: **0.9.6** (bundled)
+SDK: **0.13.0** | Binary: **0.13.0** (bundled)
 
 ## Links
 

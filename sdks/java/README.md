@@ -1,7 +1,7 @@
 # B4n1Web Java SDK
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-BSL_1.1-blue.svg)](LICENSE)
 
 > Ultra-lightweight agentic browser engine with bundled binary.
 
@@ -11,7 +11,7 @@
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.9.5</version>
+    <version>0.13.0</version>
 </dependency>
 ```
 
@@ -55,7 +55,7 @@ SecurityCheckResult result = shield.isUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.9.8** | Binary: **0.9.6** (bundled)
+SDK: **0.13.0** | Binary: **0.13.0** (bundled)
 
 ## Links
 
