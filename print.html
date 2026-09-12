@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5a031ad1.js";
+            window.path_to_searchindex_js = "searchindex-622eea0e.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-3aad55af.js"></script>
+        <script src="toc-59b3fe7a.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -2050,110 +2050,9 @@ b4n1web mcp
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
-<p>Thanks for contributing to B4n1Web!</p>
-<h2 id="development-setup"><a class="header" href="#development-setup">Development Setup</a></h2>
-<pre><code class="language-bash"># Clone
-git clone https://github.com/B4N1-com/b4n1-web.git
-cd b4n1-web
-
-# Rust binary
-cd engine/cli-core
-cargo build --release
-
-# Python SDK
-cd ../../sdks/python
-pip install -e ".[dev]"
-
-# JavaScript SDK
-cd ../../sdks/javascript
-npm install
-
-# Java SDK
-cd ../../sdks/java
-mvn install -DskipTests
-
-# C# SDK
-cd ../../sdks/csharp
-dotnet build
-</code></pre>
-<h2 id="running-tests"><a class="header" href="#running-tests">Running Tests</a></h2>
-<pre><code class="language-bash"># All tests
-bash test_all.sh
-
-# Rust
-cd engine/cli-core &amp;&amp; cargo test --lib
-
-# JavaScript
-cd sdks/javascript &amp;&amp; npx vitest run
-
-# Python
-cd sdks/python &amp;&amp; PYTHONPATH=. pytest tests/ -v
-
-# C#
-cd sdks/csharp &amp;&amp; dotnet test
-</code></pre>
-<h2 id="code-style"><a class="header" href="#code-style">Code Style</a></h2>
-<ul>
-<li><strong>Rust</strong>: <code>cargo fmt</code> + <code>cargo clippy</code></li>
-<li><strong>TypeScript</strong>: <code>npm run lint</code> (ESLint + Prettier)</li>
-<li><strong>Python</strong>: <code>black</code> + <code>ruff</code></li>
-<li><strong>C#</strong>: <code>dotnet format</code></li>
-<li><strong>Java</strong>: Google Java Format</li>
-</ul>
-<h2 id="pull-request-process"><a class="header" href="#pull-request-process">Pull Request Process</a></h2>
-<ol>
-<li>Fork the repo</li>
-<li>Create feature branch: <code>git checkout -b feat/my-feature</code></li>
-<li>Make changes with tests</li>
-<li>Run all tests: <code>bash test_all.sh</code></li>
-<li>Commit: <code>git commit -m "feat: my feature"</code></li>
-<li>Push and open PR</li>
-</ol>
-<h2 id="commit-convention"><a class="header" href="#commit-convention">Commit Convention</a></h2>
-<pre><code>feat: new feature
-fix: bug fix
-docs: documentation changes
-refactor: code restructuring
-test: adding tests
-chore: maintenance
-</code></pre>
-<p>Example: <code>feat(python): add async context manager support</code></p>
-<h2 id="adding-a-new-sdk"><a class="header" href="#adding-a-new-sdk">Adding a New SDK</a></h2>
-<ol>
-<li>Create <code>sdks/&lt;language&gt;/</code> directory</li>
-<li>Implement <code>AgentBrowser</code> class with same API</li>
-<li>Add tests in <code>sdks/&lt;language&gt;/tests/</code></li>
-<li>Add to <code>test_all.sh</code></li>
-<li>Update documentation</li>
-</ol>
-<h2 id="releasing"><a class="header" href="#releasing">Releasing</a></h2>
-<pre><code class="language-bash"># Bump version
-bash scripts/bump-version.sh 0.13.0
-
-# Commit and tag
-git add -A &amp;&amp; git commit -m "release: v0.13.0"
-git tag v0.13.0
-git push &amp;&amp; git push --tags
-
-# GitHub Actions builds and publishes automatically
-</code></pre>
-<h2 id="reporting-issues"><a class="header" href="#reporting-issues">Reporting Issues</a></h2>
-<p>Use <a href="https://github.com/B4N1-com/b4n1-web/issues">GitHub Issues</a> with:</p>
-<ul>
-<li>OS and version</li>
-<li>b4n1web version</li>
-<li>Full error message</li>
-<li>Minimal reproduction</li>
-</ul>
-<h2 id="security-1"><a class="header" href="#security-1">Security</a></h2>
-<p>Report security issues privately via email to security@b4n1.com</p>
-<h2 id="code-of-conduct"><a class="header" href="#code-of-conduct">Code of Conduct</a></h2>
-<p>Be respectful. No harassment, discrimination, or spam.</p>
-<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="changelog--b4n1-web"><a class="header" href="#changelog--b4n1-web">CHANGELOG — b4n1-web</a></h1>
 <h2 id="v0130--2026-09-02"><a class="header" href="#v0130--2026-09-02">v0.13.0 — 2026-09-02</a></h2>
-<h3 id="security-2"><a class="header" href="#security-2">Security</a></h3>
+<h3 id="security-1"><a class="header" href="#security-1">Security</a></h3>
 <ul>
 <li><strong>Binary hardening protocol</strong>: <code>strip=true</code>, <code>lto=fat</code>, <code>codegen-units=1</code>, <code>panic=abort</code>, <code>overflow-checks=false</code>, <code>incremental=false</code> en ambos <code>Cargo.toml</code> (engine + outer) — B4N1-BINARY-SECURITY.md §1.</li>
 <li><strong>String obfuscation</strong>: <code>obfstr</code> para URLs sensibles (<code>api.github.com</code>, <code>raw.githubusercontent</code>, <code>github.com/.../download</code>) y product identifiers en <code>engine/cli-core/src/main.rs</code> — §3.</li>

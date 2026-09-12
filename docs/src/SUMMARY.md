@@ -11,5 +11,4 @@
 - [MCP Integration](mcp.md)
 - [Troubleshooting](troubleshooting.md)
 - [FAQ](faq.md)
-- [Contributing](contributing.md)
 - [Changelog](changelog.md)
