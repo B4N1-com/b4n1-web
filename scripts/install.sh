@@ -79,10 +79,7 @@ install_b4n1web() {
         echo "  1. The release hasn't been published yet"
         echo "  2. Your platform ($platform) isn't supported yet"
         echo ""
-        echo "You can also install from source:"
-        echo "  1. Clone the repository"
-        echo "  2. Run: cd engine/cli-core && cargo build --release"
-        echo "  3. Copy target/release/b4n1web to your PATH"
+        echo "Check releases at: https://github.com/${GITHUB_REPO}/releases"
         exit 1
     fi
     
