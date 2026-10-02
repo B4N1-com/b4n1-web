@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Single Rust binary · 4 language SDKs · 33 MCP tools.
+Single native binary · 4 language SDKs · 33 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
 
 📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/
