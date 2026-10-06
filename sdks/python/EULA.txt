@@ -1,0 +1,79 @@
+B4N1-WEB — END USER LICENSE AGREEMENT (BINARIES)
+==================================================
+
+Version: 1.0 | Effective: 2026-09-27 | Applies to: b4n1-web 0.13.0+
+
+This End User License Agreement ("EULA") governs your use of the B4N1
+BINARY ARTIFACTS of b4n1-web — the bundled per-platform `b4n1web`
+executables (`b4n1web-linux-amd64`, `b4n1web-macos-arm64`,
+`b4n1web-windows-amd64.exe` and the remaining platform builds shipped
+under each SDK's `bin/` or `native/` directory), the packaged
+per-language bindings (`*.jar`, `*.nupkg`, `*.whl`, npm tarball),
+and the `b4n1web` standalone executable.
+
+The SDK wrapper source files (the thin per-language bindings) are licensed
+separately under the Business Source License 1.1 — see the `LICENSE` file
+and each registry's license metadata.
+
+1. DEFINITIONS
+   "Binaries" means the compiled artifacts described above.
+   "SDK" means the BSL 1.1 licensed wrapper source distributed for each language.
+   "Source" means the Rust implementation, build scripts, internal tests and
+   internal documentation of the B4N1 engine. Source is NOT distributed under
+   this EULA or any other license and remains proprietary.
+
+2. GRANT OF LICENSE
+   Subject to your compliance with this EULA and payment of any applicable
+   subscription, B4N1 grants you a limited, non-exclusive, non-transferable,
+   revocable license to install and use the Binaries within your own products
+   and internal tooling, in object form only.
+
+3. RESTRICTIONS (strictly enforced)
+   a. NO REDISTRIBUTION OF SOURCE. You may not publish, disclose, sublicense
+      or otherwise make the B4N1 Rust Source available, in whole or in part,
+      modified or unmodified, by any means, including in public repositories.
+   b. NO DECOMPILATION OR REVERSE ENGINEERING. You may not decompile,
+      disassemble, deobfuscate, or otherwise reverse engineer the Binaries
+      except to the extent such restriction is prohibited by applicable law
+      that cannot be waived.
+   c. NO REMOVAL OF NOTICES. You may not remove, alter, or obscure any
+      copyright, license, watermark, or proprietary notices in the Binaries.
+   d. NO RESALE AS A STANDALONE PRODUCT. The Binaries may not be resold,
+      sublicensed, or offered as a competing product.
+   e. COMPLIANCE AND AUDIT. You will cooperate with reasonable verification of
+      license status, including honoring embedded license validation.
+
+4. SUBSCRIPTION TIERS
+   The Binaries operate under the applicable tier, validated offline against a
+   license file (`.b4n1lic`):
+     - Community: free, with attribution/watermark obligations.
+     - Pro / Corporate / Enterprise: paid tiers, no watermark, per the
+       commercial license purchased from B4N1.
+   License files are validated fully offline; no network calls are made at
+   runtime to verify entitlement.
+
+5. TERMINATION
+   This EULA terminates automatically if you breach any term. Upon
+   termination you must cease all use and destroy the Binaries and copies.
+
+6. DISCLAIMER OF WARRANTY
+   The Binaries are provided "AS IS", WITHOUT WARRANTY OF ANY KIND, express or
+   implied, including merchantability, fitness for a particular purpose, and
+   non-infringement. B4N1 does not warrant that the Binaries will be
+   uninterrupted or error-free.
+
+7. LIMITATION OF LIABILITY
+   To the maximum extent permitted by law, B4N1 shall not be liable for any
+   indirect, incidental, special, consequential, or punitive damages, or for
+   any loss of profits, revenue, data, or goodwill, arising out of your use
+   of the Binaries, regardless of the legal theory, even if advised of the
+   possibility of such damages.
+
+8. GOVERNING LAW AND SEVERABILITY
+   This EULA is governed by applicable law. If any provision is held
+   unenforceable, the remaining provisions stay in full force.
+
+9. CONTACT
+   Licensing questions: licensing@b4n1.com | https://b4n1.com
+
+B4N1 — Todos los derechos reservados. Fuente proprietary: privada y secreta.

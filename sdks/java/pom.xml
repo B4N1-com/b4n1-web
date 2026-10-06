@@ -20,8 +20,9 @@
 
     <licenses>
         <license>
-            <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <name>Business Source License 1.1</name>
+            <url>https://github.com/B4N1-com/b4n1-web/blob/master/LICENSE</url>
+            <comments>Binaries are covered by the accompanying EULA.txt (see native/EULA.txt inside the jar).</comments>
         </license>
     </licenses>
 

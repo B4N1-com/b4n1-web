@@ -15,7 +15,9 @@
   "files": [
     "dist",
     "bin",
-    "scripts/postinstall.js"
+    "scripts/postinstall.js",
+    "LICENSE",
+    "EULA.txt"
   ],
   "scripts": {
     "build": "tsc",
@@ -31,7 +33,7 @@
     "headless"
   ],
   "author": "Bani Montoya <banimontoya@gmail.com>",
-  "license": "Apache-2.0",
+  "license": "BUSL-1.1",
   "bugs": {
     "url": "https://github.com/B4N1-com/b4n1-web/issues"
   },

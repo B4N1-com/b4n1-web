@@ -9,7 +9,8 @@ description = "B4n1Web - Agentic Browser Engine for AI agents. Ultra-lightweight
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}
 ]
-license = {text = "Apache-2.0"}
+license = { file = "LICENSE" }
+license-files = ["LICENSE*", "EULA*"]
 keywords = ["browser", "agent", "automation", "web-scraping", "headless", "ai"]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -39,4 +40,5 @@ b4n1web-install = "b4n1web.__main__:install_command"
 packages = ["b4n1web", "b4n1web.bin"]
 
 [tool.setuptools.package-data]
+"b4n1web" = ["EULA.txt"]
 "b4n1web.bin" = ["*"]

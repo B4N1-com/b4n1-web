@@ -10,7 +10,7 @@
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>BUSL-1.1</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>browser;automation;agent;AI;headless</PackageTags>
     <PackageProjectUrl>https://b4n1.com</PackageProjectUrl>
@@ -22,6 +22,9 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <!-- §10k.3: every binary artifact ships its EULA alongside the binaries. -->
+    <None Include="EULA.txt" Pack="true" PackagePath="\" />
+    <None Include="LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
