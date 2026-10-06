@@ -37,13 +37,13 @@
 
 ## 🖥 🖥 Поддержка платформ
 
-8 предкомпилированных бинарников — работает везде:
+6 предкомпилированных бинарников — работает везде:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## Возможности
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | Язык | Package | Version | Бинарник |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | Встроенный (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | Встроенный (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | Встроенный (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | Встроенный (musl) |
+| Python | `b4n1-web` | 0.14.0 | Встроенный (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | Встроенный (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | Встроенный (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | Встроенный (musl) |
 
 ## Документация
 

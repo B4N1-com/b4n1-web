@@ -37,13 +37,13 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 
 ## 🖥 🖥 플랫폼 지원
 
-8개 사전 컴파일된 바이너리——모든 곳에서 작동:
+6개 사전 컴파일된 바이너리——모든 곳에서 작동:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## 기능
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | 언어 | Package | Version | 바이너리 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | 번들 (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | 번들 (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | 번들 (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | 번들 (musl) |
+| Python | `b4n1-web` | 0.14.0 | 번들 (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | 번들 (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | 번들 (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | 번들 (musl) |
 
 ## 문서
 

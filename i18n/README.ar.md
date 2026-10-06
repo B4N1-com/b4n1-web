@@ -43,7 +43,7 @@
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## المميزات
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | اللغة | Package | Version | الملف الثنائي |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | مدمج (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | مدمج (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | مدمج (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | مدمج (musl) |
+| Python | `b4n1-web` | 0.14.0 | مدمج (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | مدمج (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | مدمج (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | مدمج (musl) |
 
 ## التوثيق
 

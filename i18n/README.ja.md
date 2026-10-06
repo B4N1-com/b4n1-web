@@ -37,13 +37,13 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 
 ## 🖥 🖥 プラットフォーム対応
 
-8つのプリコンパイル済みバイナリ——どこでも動作：
+6つのプリコンパイル済みバイナリ——どこでも動作：
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## 特徴
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | 言語 | Package | Version | バイナリ |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | 同梱（musl） |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | 同梱（musl） |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | 同梱（musl） |
-| C# (.NET) | `B4n1Web` | 0.13.0 | 同梱（musl） |
+| Python | `b4n1-web` | 0.14.0 | 同梱（musl） |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | 同梱（musl） |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | 同梱（musl） |
+| C# (.NET) | `B4n1Web` | 0.14.0 | 同梱（musl） |
 
 ## ドキュメント
 

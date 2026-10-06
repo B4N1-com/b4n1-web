@@ -39,13 +39,13 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 
 ## 🖥 Platform Support
 
-8 pre-compiled binaries — works everywhere:
+6 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## Quick Start
 
@@ -82,10 +82,10 @@ uvx b4n1-web mcp
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | Bundled (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | Bundled (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | Bundled (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | Bundled (musl) |
+| Python | `b4n1-web` | 0.14.0 | Bundled (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | Bundled (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | Bundled (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | Bundled (musl) |
 
 ## Browser Modes
 

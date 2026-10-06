@@ -37,13 +37,13 @@ URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) 
 
 ## 🖥 🖥 Plattform-Unterstützung
 
-8 vor-kompilierte Binaries — funktioniert überall:
+6 vor-kompilierte Binaries — funktioniert überall:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## Funktionen
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | Sprache | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | Integriert (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | Integriert (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | Integriert (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | Integriert (musl) |
+| Python | `b4n1-web` | 0.14.0 | Integriert (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | Integriert (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | Integriert (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | Integriert (musl) |
 
 ## Dokumentation
 

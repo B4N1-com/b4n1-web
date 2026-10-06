@@ -37,13 +37,13 @@ URL नेविगेट करें, संरचित सामग्री
 
 ## 🖥 🖥 प्लेटफ़ॉर्म समर्थन
 
-8 पूर्व-संकलित बाइनरी — हर जगह काम करता है:
+6 पूर्व-संकलित बाइनरी — हर जगह काम करता है:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## विशेषताएँ
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | भाषा | Package | Version | बाइनरी |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | बंडल (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | बंडल (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | बंडल (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | बंडल (musl) |
+| Python | `b4n1-web` | 0.14.0 | बंडल (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | बंडल (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | बंडल (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | बंडल (musl) |
 
 ## दस्तावेज़ीकरण
 

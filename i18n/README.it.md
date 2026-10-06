@@ -37,13 +37,13 @@ Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruis
 
 ## 🖥 🖥 Supporto piattaforme
 
-8 binari pre-compilati — funziona ovunque:
+6 binari pre-compilati — funziona ovunque:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## Caratteristiche
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | Linguaggio | Package | Version | Binario |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | Integrato (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | Integrato (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | Integrato (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | Integrato (musl) |
+| Python | `b4n1-web` | 0.14.0 | Integrato (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | Integrato (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | Integrato (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | Integrato (musl) |
 
 ## Documentazione
 

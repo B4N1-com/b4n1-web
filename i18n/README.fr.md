@@ -37,13 +37,13 @@ Naviguez vers des URLs, extrayez du contenu structuré (markdown, liens, capture
 
 ## 🖥 🖥 Prise en charge des plateformes
 
-8 binaires pré-compilés — fonctionne partout :
+6 binaires pré-compilés — fonctionne partout :
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## Fonctionnalités
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | Langage | Package | Version | Binaire |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | Intégré (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | Intégré (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | Intégré (musl) |
-| C# (.NET) | `B4n1Web` | 0.13.0 | Intégré (musl) |
+| Python | `b4n1-web` | 0.14.0 | Intégré (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | Intégré (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | Intégré (musl) |
+| C# (.NET) | `B4n1Web` | 0.14.0 | Intégré (musl) |
 
 ## Documentation
 

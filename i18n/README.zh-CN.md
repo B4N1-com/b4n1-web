@@ -37,13 +37,13 @@
 
 ## 🖥 🖥 平台支持
 
-8 个预编译二进制文件——适用于所有平台：
+6 个预编译二进制文件——适用于所有平台：
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **Windows** | x86_64 | `MSVC` |
 
 ## 特性
 
@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | 语言 | Package | Version | 二进制 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.13.0 | 内置（musl） |
-| JavaScript/TypeScript | `b4n1-web` | 0.13.0 | 内置（musl） |
-| Java | `com.b4n1:b4n1-web` | 0.13.0 | 内置（musl） |
-| C# (.NET) | `B4n1Web` | 0.13.0 | 内置（musl） |
+| Python | `b4n1-web` | 0.14.0 | 内置（musl） |
+| JavaScript/TypeScript | `b4n1-web` | 0.14.0 | 内置（musl） |
+| Java | `com.b4n1:b4n1-web` | 0.14.0 | 内置（musl） |
+| C# (.NET) | `B4n1Web` | 0.14.0 | 内置（musl） |
 
 ## 文档
 
