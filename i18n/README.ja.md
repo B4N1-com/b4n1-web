@@ -11,7 +11,7 @@
 [![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
-[![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/)
+[![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/book/)
 
 [![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
 [![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
@@ -110,7 +110,7 @@ uvx b4n1-web mcp
 
 ## ドキュメント
 
-- [📖 完全なドキュメント](https://B4N1-com.github.io/b4n1-web/) — mdBook
+- [📖 完全なドキュメント](https://B4N1-com.github.io/b4n1-web/book/) — mdBook
 - [MCPツール](https://mcp.so/server/b4n1web/B4N1-com) — MCP registry
 
 ## Links
