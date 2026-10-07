@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B4N1Web</RootNamespace>
     <AssemblyName>B4n1Web</AssemblyName>
-    <Version>0.13.0</Version>
+    <Version>0.14.0</Version>
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
@@ -22,9 +22,6 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
-    <!-- §10k.3: every binary artifact ships its EULA alongside the binaries. -->
-    <None Include="EULA.txt" Pack="true" PackagePath="\" />
-    <None Include="LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

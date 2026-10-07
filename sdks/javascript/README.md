@@ -96,7 +96,7 @@ try {
 
 ## Version
 
-SDK: **0.13.0** | Binary: **0.13.0** (bundled)
+SDK: **0.14.0** | Binary: **0.14.0** (bundled)
 
 ## Links
 

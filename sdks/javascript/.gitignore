@@ -1,5 +1,2 @@
 node_modules/
 .npmrc
-*.tgz
-package-lock.json
-sdks/java/src/main/resources/

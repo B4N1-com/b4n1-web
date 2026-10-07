@@ -1,6 +1,6 @@
 {
   "name": "b4n1-web",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "mcpName": "io.github.B4N1-com/b4n1web",
   "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",
@@ -15,9 +15,7 @@
   "files": [
     "dist",
     "bin",
-    "scripts/postinstall.js",
-    "LICENSE",
-    "EULA.txt"
+    "scripts/postinstall.js"
   ],
   "scripts": {
     "build": "tsc",

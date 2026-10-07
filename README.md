@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Single native binary · 4 language SDKs · 33 MCP tools.
+Single Rust binary · 4 language SDKs · 33 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
 
 📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/
@@ -39,13 +39,13 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 
 ## 🖥 Platform Support
 
-6 pre-compiled binaries — works everywhere:
+8 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64 | `MSVC` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
 
 ## Quick Start
 
