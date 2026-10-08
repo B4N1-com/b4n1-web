@@ -15,7 +15,8 @@
   "files": [
     "dist",
     "bin",
-    "scripts/postinstall.js"
+    "scripts/postinstall.js",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
@@ -40,6 +41,7 @@
     "type": "git",
     "url": "git+https://github.com/B4N1-com/b4n1-web.git"
   },
+  "readme": "README.md",
   "dependencies": {
     "undici": "^6.0.0"
   },

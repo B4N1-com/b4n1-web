@@ -9,7 +9,7 @@ description = "B4n1Web - Agentic Browser Engine for AI agents. Ultra-lightweight
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}
 ]
-license = { file = "LICENSE" }
+license = "BUSL-1.1"
 license-files = ["LICENSE*", "EULA*"]
 keywords = ["browser", "agent", "automation", "web-scraping", "headless", "ai"]
 readme = "README.md"
@@ -41,3 +41,5 @@ packages = ["b4n1web", "b4n1web.bin"]
 
 [tool.setuptools.package-data]
 "b4n1web.bin" = ["*"]
+"b4n1web" = ["README.md"]
+"*" = ["README.md"]
