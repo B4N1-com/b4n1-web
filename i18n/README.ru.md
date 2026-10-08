@@ -6,7 +6,7 @@
 
 **Сверхлёгкий headless-браузер для ИИ-агентов.**
 
-[![License](https://img.shields.io/badge/license-BSL%201.1-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
 [![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
@@ -37,13 +37,13 @@
 
 ## 🖥 🖥 Поддержка платформ
 
-6 предкомпилированных бинарников — работает везде:
+8 предкомпилированных бинарников — работает везде:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
 | **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64 | `MSVC` |
+| **Windows** | x86_64, arm64, i686 | `MSVC` |
 
 ## Возможности
 
@@ -124,4 +124,4 @@ uvx b4n1-web mcp
 
 ## License
 
-Business Source License 1.1 (BSL 1.1)
+Business Source License 1.1 (BUSL-1.1)

@@ -6,7 +6,7 @@
 
 **Ultra-lightweight headless browser for AI agents.**
 
-[![License](https://img.shields.io/badge/license-BSL%201.1-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
 [![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
 [![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
@@ -124,7 +124,7 @@ uvx b4n1-web mcp
 ## License & Commercial Terms
 
 - **Original Source Code**: 100% Proprietary and Closed Source (**All Rights Reserved** by Bani Montoya).
-- **Binaries & SDK Tools**: Provided under the **Business Source License 1.1 (BSL 1.1)**.
+- **Binaries & SDK Tools**: Provided under the **Business Source License 1.1 (BUSL-1.1)**.
   - **Free Tier**: 100% free for development, evaluation, testing, personal projects, and startups with gross annual revenue **< $100,000 USD**.
   - **Mandatory Enterprise B2B License**: Required for government agencies, public bidding projects, and enterprises with gross annual revenue **>= $100,000 USD**.
 

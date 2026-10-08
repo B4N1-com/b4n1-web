@@ -1,7 +1,7 @@
 # B4n1Web Java SDK
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
-[![License](https://img.shields.io/badge/License-BSL_1.1-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
 
 > Ultra-lightweight agentic browser engine with bundled binary.
 
