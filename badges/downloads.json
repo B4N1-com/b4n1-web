@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "metric": "all_time_downloads",
+  "updated": "2026-10-08",
+  "approx": true,
+  "total": 23885,
+  "stores": {
+    "pypi": {
+      "total": 15000,
+      "approx": true,
+      "monthly": 251,
+      "source": "pepy via shields.io (k-rounded; pepy API key-gated)"
+    },
+    "npm": {
+      "total": 6503,
+      "approx": false,
+      "monthly": 527,
+      "source": "api.npmjs.org (paged 18-month ranges)"
+    },
+    "nuget": {
+      "total": 2382,
+      "approx": false,
+      "monthly": null,
+      "source": "nuget.org search API"
+    },
+    "maven": {
+      "total": null,
+      "approx": false,
+      "monthly": null,
+      "source": null,
+      "reason": "not published on Maven Central; Central exposes no keyless download metrics"
+    }
+  }
+}
