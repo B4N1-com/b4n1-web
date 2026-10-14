@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B4N1Web</RootNamespace>
     <AssemblyName>B4n1Web</AssemblyName>
-    <Version>0.14.0</Version>
+    <Version>0.15.0</Version>
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="../../../BUSL-1.1.txt" Pack="true" PackagePath="\" />
+    <None Include="EULA.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +42,9 @@
     <EmbeddedResource Include="native/windows-amd64/b4n1web.exe">
       <LogicalName>B4N1Web.native.windows-amd64.b4n1web.exe</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="native/windows-arm64/b4n1web.exe">
+    <!-- windows-arm64: no se compila en local (sin Windows SDK, AGENTS.md §11.24).
+         Condicional para no romper el pack cuando el binario no existe. -->
+    <EmbeddedResource Include="native/windows-arm64/b4n1web.exe" Condition="Exists('native/windows-arm64/b4n1web.exe')">
       <LogicalName>B4N1Web.native.windows-arm64.b4n1web.exe</LogicalName>
     </EmbeddedResource>
   </ItemGroup>

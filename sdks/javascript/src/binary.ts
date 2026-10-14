@@ -6,10 +6,10 @@ import { execSync } from 'child_process';
 const PLATFORM_BINARIES: Record<string, string> = {
   'linux-x64': 'b4n1web-linux-amd64',
   'linux-arm64': 'b4n1web-linux-arm64',
+  'linux-ia32': 'b4n1web-linux-ia32',
   'darwin-x64': 'b4n1web-macos-x64',
   'darwin-arm64': 'b4n1web-macos-arm64',
   'win32-x64': 'b4n1web-windows-amd64.exe',
-  'win32-arm64': 'b4n1web-windows-arm64.exe',
 };
 
 function getPlatformBinaryName(): string | null {
@@ -88,4 +88,4 @@ export function getB4n1webVersion(): string | null {
   }
 }
 
-const SDK_VERSION = '0.14.0';
+const SDK_VERSION = '0.15.0';

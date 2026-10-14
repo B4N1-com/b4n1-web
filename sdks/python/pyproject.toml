@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "b4n1-web"
-version = "0.14.0"
+version = "0.15.0"
 description = "B4n1Web - Agentic Browser Engine for AI agents. Ultra-lightweight headless browser with bundled binary."
 authors = [
     {name = "Bani Montoya", email = "banimontoya@gmail.com"}
 ]
-license = "BUSL-1.1"
+license = { file = "LICENSE" }
 license-files = ["LICENSE*", "EULA*"]
 keywords = ["browser", "agent", "automation", "web-scraping", "headless", "ai"]
 readme = "README.md"

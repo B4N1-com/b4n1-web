@@ -39,22 +39,34 @@ public class RealProcessRunner : IProcessRunner
         using var process = new Process { StartInfo = startInfo };
         process.Start();
 
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
+        // Start async reads BEFORE waiting: ReadToEnd() blocks until the
+        // stream closes, so reading synchronously first defeats the timeout
+        // below (a long-lived child with open stdout hangs us until IT exits).
+        // Found 2026-10-14 via the coverage gate: `sleep 30` + 300 ms timeout
+        // never reported TimedOut. (RunAsync already had the right shape.)
+        var outputTask = startInfo.RedirectStandardOutput
+            ? process.StandardOutput.ReadToEndAsync() : Task.FromResult("");
+        var errorTask = startInfo.RedirectStandardError
+            ? process.StandardError.ReadToEndAsync() : Task.FromResult("");
 
-        var timedOut = process.WaitForExit(timeoutMs);
-
-        if (!timedOut)
+        var exited = process.WaitForExit(timeoutMs);
+        if (!exited)
         {
             try { process.Kill(); } catch { }
-            return new ProcessResult { TimedOut = true, StdOut = output, StdErr = error };
+            process.WaitForExit();
+            return new ProcessResult
+            {
+                TimedOut = true,
+                StdOut = outputTask.GetAwaiter().GetResult(),
+                StdErr = errorTask.GetAwaiter().GetResult()
+            };
         }
 
         return new ProcessResult
         {
             ExitCode = process.ExitCode,
-            StdOut = output,
-            StdErr = error,
+            StdOut = outputTask.GetAwaiter().GetResult(),
+            StdErr = errorTask.GetAwaiter().GetResult(),
             TimedOut = false
         };
     }
@@ -64,8 +76,10 @@ public class RealProcessRunner : IProcessRunner
         using var process = new Process { StartInfo = startInfo };
         process.Start();
 
-        var outputTask = process.StandardOutput.ReadToEndAsync();
-        var errorTask = process.StandardError.ReadToEndAsync();
+        var outputTask = startInfo.RedirectStandardOutput
+            ? process.StandardOutput.ReadToEndAsync() : Task.FromResult("");
+        var errorTask = startInfo.RedirectStandardError
+            ? process.StandardError.ReadToEndAsync() : Task.FromResult("");
 
         var timedOut = await Task.Run(() => process.WaitForExit(timeoutMs));
 

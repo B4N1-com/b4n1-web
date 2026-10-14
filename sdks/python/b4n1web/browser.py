@@ -49,15 +49,16 @@ class Page:
         return [link for link in self.links if text.lower() in link.lower()]
 
 
-SDK_VERSION = "0.14.0"
+SDK_VERSION = "0.15.0"
 
 _PLATFORM_BINARIES = {
     ("linux", "x86_64"): "b4n1web-linux-amd64",
     ("linux", "aarch64"): "b4n1web-linux-arm64",
+    ("linux", "x86"): "b4n1web-linux-ia32",
+    ("linux", "i686"): "b4n1web-linux-ia32",
     ("darwin", "x86_64"): "b4n1web-macos-x64",
     ("darwin", "arm64"): "b4n1web-macos-arm64",
     ("windows", "AMD64"): "b4n1web-windows-amd64.exe",
-    ("windows", "ARM64"): "b4n1web-windows-arm64.exe",
 }
 
 

@@ -1,5 +1,25 @@
 # CHANGELOG — b4n1-web
 
+## v0.15.0 — 2026-10-13
+
+### Added
+- **`get_links` MCP tool**: extract links (href + text) from the current page over MCP, with `mailto:`/`tel:` filtering and empty-URL guards.
+- **`--licenses` global flag**: prints Section A (BUSL + EULA) and Section B (third-party notices) embedded via `include_str!("../THIRD-PARTY-NOTICES.txt")`; SIGPIPE-safe so piping to `head` never backtraces.
+- **Unified `js` evaluation mode**: `evaluate` gates the mode explicitly — `light`/`js` fail loud with an actionable hint instead of silently returning an empty result.
+- **Test coverage**: 428 → 539 lib/unit tests (+111) plus 33 Chromium integration tests run against a real browser (previously 30 pass / 2 fail / 6 silently empty). New suites: `daemon_auth` (56), CSS parser (45), `lib`/`mcp`/`chromium utils` (15), plus rewritten integration tests on a local fixture instead of third-party markup.
+
+### Fixed
+- **CSS selector parser**: combined selectors no longer corrupt — `div#main` had parsed as `Tag("div#main")` (never matched) and `div > span` collapsed to `Tag("divspan")`; `#`/`.`/space with a pending compound now terminate it correctly.
+- **`goto` `wait_for` timeout**: `goto(url, Some(selector))` discarded the wait timeout and returned `Ok` even when the selector never appeared; it now returns `Err` naming the selector (fail-loud, §5).
+- **Script/style leak**: rendered-text extraction strips `<script>`/`<style>` bodies so page text never leaks executable or CSS source.
+- **Chromium orphan watchdog**: background browser instances are reaped deterministically instead of leaking processes across runs.
+- **Fail-loud stubs**: `NotImplemented`/TODO paths surface explicitly instead of returning empty defaults.
+- **License metadata**: README/`i18n`/SDK manifests corrected `BSL-1.1`/`Apache-2.0` → `BUSL-1.1` (§10k); `sync-public.sh` now mirrors `i18n/`; SDK artifacts ship `BUSL-1.1.txt` instead of the root Proprietary `LICENSE`.
+
+### Changed
+- **Dependency license policy**: permissive-only `cargo-deny`/`cargo-about` allowlist wired across nested `deny.toml` (§10k); source stays Proprietary, distributed SDKs declare `BUSL-1.1`.
+- **Win-arm64**: native binary is now conditional (no local Windows ARM SDK, §11.24).
+
 ## v0.13.0 — 2026-09-02
 
 ### Security
