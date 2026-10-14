@@ -10,7 +10,7 @@
     <Authors>Bani Montoya</Authors>
     <Email>banimontoya@gmail.com</Email>
     <Description>B4n1Web SDK for .NET - Agentic Browser Engine with bundled binary</Description>
-    <PackageLicenseExpression>BUSL-1.1</PackageLicenseExpression>
+    <PackageLicenseFile>BUSL-1.1.txt</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>browser;automation;agent;AI;headless</PackageTags>
     <PackageProjectUrl>https://b4n1.com</PackageProjectUrl>
