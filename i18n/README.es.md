@@ -103,10 +103,10 @@ uvx b4n1-web mcp
 
 | Lenguaje | Package | Version | Binario |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.15.0 | Integrado (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.15.0 | Integrado (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.15.0 | Integrado (musl) |
-| C# (.NET) | `B4n1Web` | 0.15.0 | Integrado (musl) |
+| Python | `b4n1-web` | 0.16.0 | Integrado (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.0 | Integrado (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.0 | Integrado (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.0 | Integrado (musl) |
 
 ## Documentación
 

@@ -1,6 +1,6 @@
 {
   "name": "b4n1-web",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "mcpName": "io.github.B4N1-com/b4n1web",
   "description": "B4n1Web SDK for JavaScript/TypeScript - Agentic Browser Engine with bundled binary",
   "main": "dist/index.js",

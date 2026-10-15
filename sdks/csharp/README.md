@@ -60,7 +60,7 @@ var result = shield.IsUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.15.0** | Binary: **0.15.0** (bundled)|SDK: **0.15.0** | Binary: **0.15.0** (bundled)
+SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)
 
 ## Links
 

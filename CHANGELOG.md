@@ -1,5 +1,16 @@
 # CHANGELOG — b4n1-web
 
+## v0.16.0 — 2026-10-15
+
+### Added
+- **JS SDK `getLinks` + `getLinksFromPage`**: parity with C# (`GetLinks`/
+  `GetLinksFromPage`), Python (`find_links_by_text`, MCP `get_links`) and
+  Java (`getLinks`). `browser.getLinks()` returns the last visited page's
+  links (`[]` when none); one-shot `getLinksFromPage(url)` needs no browser
+  instance. Errors propagate (fail-loud — C#'s silent `[]` not replicated).
+- **JS tests**: 97 → 105 (6 mocked unit + 2 e2e against an out-of-process
+  fixture server; in-process servers deadlock the sync SDK path).
+
 ## v0.15.0 — 2026-10-13
 
 ### Added

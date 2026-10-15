@@ -13,6 +13,7 @@ export class AgentBrowser {
   private userAgent: string;
   private binaryPath!: string;
   private currentUrl: string | null = null;
+  private lastPage: Page | null = null;
   private sessionId: string;
   private sessionStarted: boolean = false;
   private viewportWidth: number = 1280;
@@ -83,6 +84,7 @@ export class AgentBrowser {
         }
         const output = execSync(cmd, { timeout: this.timeout * 1000 }).toString();
         const page = this.parseOutput(url, output);
+        this.lastPage = page;
         resolve(page);
       } catch (error: any) {
         if (error.message?.includes('timed out')) {
@@ -164,6 +166,14 @@ export class AgentBrowser {
     this.close();
   }
 
+  /**
+   * Links from the last visited page (parity with C# GetLinks()).
+   * Empty array when nothing visited yet — never null (§5: typed empties).
+   */
+  getLinks(): string[] {
+    return this.lastPage ? [...this.lastPage.links] : [];
+  }
+
   async click(selector: string): Promise<string> {
     this.ensureSession(this.currentUrl || undefined);
     return this.runSessionCommand('click', this.escapeArg(selector));
@@ -227,6 +237,25 @@ export async function createBrowserAndGoto(
   const browser = new AgentBrowser(options);
   try {
     return await browser.goto(url);
+  } finally {
+    browser.close();
+  }
+}
+
+/**
+ * Fetch links from a URL without managing a browser instance (one-shot).
+ * Parity with C# AgentBrowser.GetLinksFromPage / Python MCP get_links:
+ * runs a single light-mode goto and returns the parsed `Links:` array.
+ * Errors propagate (fail-loud §5) — unlike C#, no silent `[]` on failure.
+ */
+export async function getLinksFromPage(
+  url: string,
+  options: BrowserOptions = {}
+): Promise<string[]> {
+  const browser = new AgentBrowser(options);
+  try {
+    const page = await browser.goto(url);
+    return [...page.links];
   } finally {
     browser.close();
   }
