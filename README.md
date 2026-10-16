@@ -86,6 +86,9 @@ uvx b4n1-web mcp
 | JavaScript/TypeScript | `b4n1-web` | 0.16.0 | Bundled (musl) |
 | Java | `com.b4n1:b4n1-web` | 0.16.0 | Bundled (musl) |
 | C# (.NET) | `B4n1Web` | 0.16.0 | Bundled (musl) |
+| Ruby | `b4n1-web` | 0.16.0 | Resolver (env/system/PATH) |
+| PHP | `b4n1/b4n1-web` | 0.16.0 | Resolver (env/system/PATH) |
+| Go | `b4n1-web/sdks/go` | 0.16.0 | Resolver (env/system/PATH) |
 
 ## Browser Modes
 
