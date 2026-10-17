@@ -25,6 +25,18 @@ out/
 **/bin/
 target/
 
+# EXCEPCION: el SDK PHP se publica por Packagist usando ESTE repo como dist
+# (el zipball del tag raiz es el paquete), asi que lo que el paquete necesita
+# tiene que estar trackeado aqui. Sin estas negaciones, `bin/b4n1web` y
+# `tests/` se quedaban fuera del commit y el paquete publicado llegaba sin el
+# launcher de la CLI (verificado 2026-10-17: `composer require b4n1/b4n1-web`
+# no creaba vendor/bin). Los demas SDKs no lo necesitan porque se publican
+# desde su arbol privado (private-repos/<crate>/sdks), no desde el espejo.
+!sdks/php/bin/
+!sdks/php/bin/**
+!sdks/php/tests/
+!sdks/php/tests/**
+
 # IDE
 .idea/
 .vscode/
