@@ -1,0 +1,32 @@
+{
+    "name": "b4n1/b4n1-web",
+    "description": "Ultra-lightweight agentic browser for AI agents - PHP SDK wrapping the b4n1web binary",
+    "type": "library",
+    "license": "BUSL-1.1",
+    "keywords": ["browser", "ai", "agent", "headless", "scraping", "markdown"],
+    "authors": [
+        {
+            "name": "Bani Montoya",
+            "email": "b4n1@b4n1.com"
+        }
+    ],
+    "homepage": "https://b4n1.com",
+    "support": {
+        "issues": "https://github.com/B4N1-com/b4n1-web/issues",
+        "source": "https://github.com/B4N1-com/b4n1-web"
+    },
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "B4n1Web\\": "sdks/php/src/B4n1Web/"
+        }
+    },
+    "bin": [
+        "sdks/php/bin/b4n1web"
+    ],
+    "scripts": {
+        "test": "php sdks/php/tests/run_tests.php"
+    }
+}
