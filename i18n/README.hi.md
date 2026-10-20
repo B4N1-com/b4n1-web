@@ -47,7 +47,7 @@ URL नेविगेट करें, संरचित सामग्री
 
 ## विशेषताएँ
 
-- **33 MCP tools** — AI एजेंट एकीकरण
+- **35 MCP tools** — AI एजेंट एकीकरण
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@ URL नेविगेट करें, संरचित सामग्री
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **लिंक निष्कर्षण**: get_links MCP टूल + प्रत्येक SDK में getLinks() (ब्राउज़र इंस्टेंस के बिना सीधी प्राप्ति)
+- **--licenses फ़्लैग**: शामिल लाइसेंस + तृतीय-पक्ष सूचनाएं प्रिंट करता है, बिना कुंजी
 
 ## ब्राउज़र मोड
 

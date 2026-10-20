@@ -150,8 +150,11 @@ export class SecurityShield {
       if (colonIdx > 0) {
         host = host.slice(0, colonIdx);
       }
-      // Accept localhost / single-label hosts too
-      return host.toLowerCase() || null;
+      // Accept localhost / single-label hosts too. `|| null` removed:
+      // `host` is provably non-empty here (checked above), and
+      // toLowerCase() never empties a non-empty string — the fallback was
+      // a dead branch that capped coverage at <100% (2026-10-15).
+      return host.toLowerCase();
     } catch {
       return null;
     }

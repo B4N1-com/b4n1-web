@@ -31,6 +31,16 @@ System.out.println(page.findLinksByText("github"));
 browser.close();
 ```
 
+## Links
+
+```java
+// Links from the last visited page
+Page page = browser.goto_("https://example.com");
+System.out.println(page.getLinks());              // List<String>: all links
+System.out.println(page.getLinksArray());         // String[]: same as array
+System.out.println(page.findLinksByText("github")); // List<String>: matching links
+```
+
 ## Browser Modes
 
 ```java

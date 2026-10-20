@@ -60,6 +60,21 @@ page.get_main_content()           # str: content without headers
 page.find_links_by_text("more")   # list[str]: links containing "more"
 ```
 
+## Links
+
+```js
+const { AgentBrowser, getLinksFromPage } = require('b4n1-web');
+
+// Links from the last visited page
+const browser = new AgentBrowser();
+await browser.goto("https://example.com");
+const links = browser.getLinks(); // string[]
+browser.close();
+
+// One-shot fetch, no browser instance needed
+const links2 = await getLinksFromPage("https://example.com");
+```
+
 ## Browser Modes
 
 | Mode | Description | RAM | Startup |

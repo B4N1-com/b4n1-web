@@ -47,7 +47,7 @@ Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y const
 
 ## Características
 
-- **33 MCP tools** — integración con agentes de IA
+- **35 MCP tools** — integración con agentes de IA
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@ Navega URLs, extrae contenido estructurado (markdown, enlaces, capturas) y const
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **Extracción de enlaces**: herramientas MCP get_links + getLinks() en cada SDK (captura directa sin instancia de navegador)
+- **Flag --licenses**: imprime la licencia incluida + avisos de terceros, sin clave
 
 ## Modos del Navegador
 

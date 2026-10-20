@@ -47,7 +47,7 @@ URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) 
 
 ## Funktionen
 
-- **33 MCP tools** — KI-Agenten-Integration
+- **35 MCP tools** — KI-Agenten-Integration
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@ URLs aufrufen, strukturierte Inhalte extrahieren (Markdown, Links, Screenshots) 
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **Link-Extraktion**: get_links-MCP-Tools + getLinks() in jedem SDK (direkter Abruf ohne Browser-Instanz)
+- **--licenses-Flag**: gibt die mitgelieferte Lizenz + Drittanbieter-Hinweise aus, kein Schlüssel nötig
 
 ## Browser-Modi
 

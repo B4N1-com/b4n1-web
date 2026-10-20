@@ -47,7 +47,7 @@
 
 ## Возможности
 
-- **33 MCP tools** — интеграция с ИИ-агентами
+- **35 MCP tools** — интеграция с ИИ-агентами
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **Извлечение ссылок**: MCP-инструменты get_links + getLinks() в каждом SDK (прямое получение без экземпляра браузера)
+- **Флаг --licenses**: выводит встроенную лицензию + уведомления третьих сторон, без ключа
 
 ## Режимы браузера
 

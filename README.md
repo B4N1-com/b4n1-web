@@ -90,6 +90,25 @@ uvx b4n1-web mcp
 | PHP | `b4n1/b4n1-web` | 0.16.0 | Resolver (env/system/PATH) |
 | Go | `b4n1-web/sdks/go` | 0.16.0 | Resolver (env/system/PATH) |
 
+### Capability parity
+
+Every method each SDK exposes is tested (see coverage). Surface differs by
+design: Python additionally ships a full MCP client (`b4n1web.mcp`), so it
+covers the whole tool surface; JS/C#/Java/Ruby/PHP/Go wrap the CLI binary
+(core flows).
+
+| Capability | PY | JS | CS | JAVA |
+|---|---|---|---|---|
+| goto / click / type / wait / screenshot | ✓ | ✓ | ✓ | ✓ |
+| links (Page) + find-by-text | ✓ | ✓ | ✓ | ✓ |
+| getLinks (browser) / one-shot fetch | mcp | ✓ | ✓ | · |
+| evaluate (JS execution) | ✓ | · | · | · |
+| viewport / user-agent / emulate-device | ✓ | ✓ | · | · |
+| upload / download / frames / cookies | ✓ | · | · | · |
+| version-match gate (bundle == SDK) | ✓ | ✓ | ✓ | ✓ |
+
+Full parity = one MCP client per SDK (JS/CS/Java) — tracked as tasks.
+
 ## Browser Modes
 
 | Mode | Description | RAM | Startup |
@@ -100,7 +119,7 @@ uvx b4n1-web mcp
 
 ## Features
 
-- **33 MCP tools** for AI agent integration
+- **35 MCP tools** for AI agent integration
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Self-contained binary** ~12MB, no dependencies
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -108,6 +127,8 @@ uvx b4n1-web mcp
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **Link extraction**: get_links MCP tools + getLinks() in every SDK (one-shot fetch without a browser instance)
+- **--licenses flag**: prints the bundled license + third-party notices, no key required
 
 ## Documentation
 

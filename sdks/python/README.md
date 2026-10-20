@@ -60,6 +60,20 @@ page.get_main_content()           # str: content without headers
 page.find_links_by_text("more")   # list[str]: links containing "more"
 ```
 
+## Links
+
+```python
+# Links from the last visited page
+page = browser.goto("https://example.com")
+print(page.links)                          # list[str]: all links
+print(page.find_links_by_text("more"))     # list[str]: links containing "more"
+
+# Via MCP (sync and async clients)
+from b4n1web.mcp import McpClient, AsyncMcpClient
+with McpClient() as client:
+    print(client.get_links())              # list[str] from current page
+```
+
 ## Browser Modes
 
 | Mode | Description | RAM | Startup |

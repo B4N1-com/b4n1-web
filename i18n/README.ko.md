@@ -47,7 +47,7 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 
 ## 기능
 
-- **33 MCP tools** — AI 에이전트 통합
+- **35 MCP tools** — AI 에이전트 통합
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **링크 추출**: get_links MCP 도구 + 각 SDK의 getLinks() (브라우저 인스턴스 없이 직접 가져오기)
+- **--licenses 플래그**: 포함된 라이선스 + 서드파티 고지를 출력, 키 불필요
 
 ## 브라우저 모드
 

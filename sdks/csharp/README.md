@@ -30,6 +30,19 @@ Console.WriteLine(string.Join(", ", page.FindLinksByText("github")));
 browser.Close();
 ```
 
+## Links
+
+```csharp
+// Links from the last visited page
+var page = browser.Goto("https://example.com");
+Console.WriteLine(string.Join(", ", page.Links));                 // all links
+Console.WriteLine(string.Join(", ", page.FindLinksByText("github"))); // matching links
+Console.WriteLine(string.Join(", ", browser.GetLinks()));         // last page, no Page needed
+
+// One-shot fetch, no browser instance needed
+var links = AgentBrowser.GetLinksFromPage("https://example.com");
+```
+
 ## Async
 
 ```csharp

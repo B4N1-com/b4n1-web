@@ -306,13 +306,21 @@ public class AgentBrowser : IDisposable
     /// <summary>
     /// Find b4n1web binary in bundled location or system install
     /// </summary>
+    // Test seam (never set outside tests): skip the embedded-resource lookup
+    // so tests exercise the system-path fallback and the not-found throws,
+    // unreachable otherwise — the test assembly ships the natives.
+    private static bool s_skipBundledForTests = false;
+
     private static string FindBinary()
     {
         // 1. Check bundled binary (extracted from embedded resource for current platform)
-        var bundledPath = ExtractBundledBinary();
-        if (!string.IsNullOrEmpty(bundledPath))
+        if (!s_skipBundledForTests)
         {
-            return bundledPath;
+            var bundledPath = ExtractBundledBinary();
+            if (!string.IsNullOrEmpty(bundledPath))
+            {
+                return bundledPath;
+            }
         }
 
         // 2. Check system install locations

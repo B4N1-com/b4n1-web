@@ -101,12 +101,12 @@ def install_command():
                 import subprocess
 
                 subprocess.run(["chmod", "+x", str(binary_path)], check=True)
-                if str(binary_path).startswith("/usr/local/bin") or str(
-                    binary_path
-                ).startswith("/usr/bin"):
-                    subprocess.run(
-                        ["sudo", "chmod", "+x", str(binary_path)], check=True
-                    )
+                # NOTE: no second startswith check here — binary_path is
+                # install_dir / "b4n1web", so it shares install_dir's prefix
+                # that use_sudo already tested (dead branch removed 2026-10-15).
+                subprocess.run(
+                    ["sudo", "chmod", "+x", str(binary_path)], check=True
+                )
             else:
                 os.chmod(binary_path, 0o755)
 

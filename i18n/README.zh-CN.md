@@ -47,7 +47,7 @@
 
 ## 特性
 
-- **33 MCP tools** — AI 智能体集成
+- **35 MCP tools** — AI 智能体集成
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
 - **4 language SDKs** (Python, JS, Java, C#) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
@@ -55,6 +55,8 @@
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
 - **MCP Server**: stdio transport, no port needed
+- **链接提取**：get_links MCP 工具 + 每款 SDK 中的 getLinks()（无需浏览器实例直接获取）
+- **--licenses 参数**：打印内置许可 + 第三方声明，无需密钥
 
 ## 浏览器模式
 
