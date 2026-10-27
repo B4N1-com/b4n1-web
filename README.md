@@ -95,19 +95,25 @@ uvx b4n1-web mcp
 Every method each SDK exposes is tested (see coverage). Surface differs by
 design: Python additionally ships a full MCP client (`b4n1web.mcp`), so it
 covers the whole tool surface; JS/C#/Java/Ruby/PHP/Go wrap the CLI binary
-(core flows).
+(core flows). Cells below are measured against each SDK's actual source
+(b4n1-web 0.16.0), not aspirational: explicit rounding — `✓` implemented ·
+`·` not implemented · `mcp` available through the bundled MCP server.
 
-| Capability | PY | JS | CS | JAVA |
-|---|---|---|---|---|
-| goto / click / type / wait / screenshot | ✓ | ✓ | ✓ | ✓ |
-| links (Page) + find-by-text | ✓ | ✓ | ✓ | ✓ |
-| getLinks (browser) / one-shot fetch | mcp | ✓ | ✓ | · |
-| evaluate (JS execution) | ✓ | · | · | · |
-| viewport / user-agent / emulate-device | ✓ | ✓ | · | · |
-| upload / download / frames / cookies | ✓ | · | · | · |
-| version-match gate (bundle == SDK) | ✓ | ✓ | ✓ | ✓ |
+| Capability | Python | JS/TS | C# | Java | Ruby | PHP | Go |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| goto (light / js / render) + page screenshot | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| wait (`--wait-for` / waitForSelector) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| click / typeText | ✓ | ✓ | ✓ | ✓ | · | · | · |
+| links (Page) + find-links-by-text | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| getLinks (browser) / one-shot fetch | mcp | ✓ | ✓ | · | · | · | · |
+| evaluate (JS execution) | ✓ | · | · | · | ✓ | ✓ | ✓ |
+| viewport / user-agent / emulate-device | ✓ | ✓ | · | · | · | · | · |
+| upload / download / frames / cookies | ✓ | · | · | · | · | · | · |
+| binary version query (bundle == SDK) | ✓ | ✓ | ✓ | ✓ | · | · | · |
 
-Full parity = one MCP client per SDK (JS/CS/Java) — tracked as tasks.
+Full parity = one MCP client per SDK (JS/CS/Java) — tracked as tasks;
+the Ruby/PHP/Go interaction gaps (click/type, device emulation,
+file transfer, cookies/frames) are their own parity tasks.
 
 ## Browser Modes
 
