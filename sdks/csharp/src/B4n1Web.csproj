@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://b4n1.com</PackageProjectUrl>
     <PackageIconUrl>https://b4n1.com/favicon.ico</PackageIconUrl>
     <Company>B4N1</Company>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
 
