@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | 언어 | Package | Version | 바이너리 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.0 | 번들 (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.0 | 번들 (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.0 | 번들 (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.0 | 번들 (musl) |
+| Python | `b4n1-web` | 0.16.1 | 번들 (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | 번들 (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.1 | 번들 (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.1 | 번들 (musl) |
 
 ## 문서
 

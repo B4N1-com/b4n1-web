@@ -1,5 +1,43 @@
 # CHANGELOG — b4n1-web
 
+## v0.16.1 — 2026-11-15
+
+### Fixed
+- **Per-registry READMEs**: the npm package shipped the Python README
+  (`B4n1Web Python SDK`, `pip install`, Python examples), so the npm page
+  taught another language. It is now a JavaScript/TypeScript README (install,
+  page object, interactions, modes, security, errors, MCP).
+- **C# and Java READMEs**: the `## Version` line had the version paragraph
+  concatenated four times (bump-sed artifact).
+- **Public docs**: general README claimed "4 language SDKs" / "33 MCP tools"
+  and "8 pre-compiled binaries" (including an ARM64 Windows build that does
+  not exist); now 7 SDKs, 35 MCP tools (source-pinned) and 6 binaries.
+- **Release documentation**: `RELEASE_CHECKLIST.md` and `VERSION_BUMP.md`
+  described 4 SDKs / 6 platforms / "15+ files" and pointed at the legacy
+  scripts; rewritten around `sdks/b4n1-web/release.conf` (single source of
+  truth, 40 version-bearing files) and the canonical `cli.sh sdk` flow.
+
+### Changed
+- **License text in published artifacts**: every 0.16.0 artifact still carried
+  the EULA that said `BSL-1.1`; 0.16.1 republishes the registries with the
+  corrected `BUSL-1.1` (Business Source License 1.1).
+- **Release config**: `sdks/b4n1-web/release.conf` now uses the repo root as
+  `SDK_TREE` with per-registry `DIR_*` and bumps the crate version, `VERSION`,
+  `server.json`, README + 11 i18n files, docs, every SDK manifest and every
+  runtime version constant (a manifest bumped with its constant left behind
+  publishes an SDK that lies).
+- **Bundled binaries** rebuilt at 0.16.1 (6 platforms) so `--version` matches
+  the SDK version.
+- **Documentation site**: `docs/src/changelog.md` refreshed (it stopped at
+  0.9.5 and still announced "4 SDKs"); FAQ/CI/CD/deployment docs corrected.
+
+### Notes
+- **Maven Central not published**: the account's organization hit its monthly
+  release-size quota (owner decision 2026-11-15). The other six registries
+  ship 0.16.1; Maven stays blocked until the channel reopens.
+- 11 i18n READMEs still carry the old "4 SDK · 33 MCP" header line; the text
+  refresh goes through `b4n1-translate` rather than hand-editing translations.
+
 ## v0.16.0 — 2026-10-15
 
 ### Added

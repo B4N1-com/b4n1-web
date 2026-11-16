@@ -7,6 +7,8 @@
 >
 > <!-- mcp-name: io.github.B4N1-com/b4n1web -->
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
+
 
 ## Install
 
@@ -73,11 +75,12 @@ var result = shield.IsUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)
+SDK: **0.16.1** | Binary: **0.16.1** (bundled)
 
 ## Links
 
 - [NuGet](https://www.nuget.org/packages/B4n1Web)
+- [Documentation](https://B4N1-com.github.io/b4n1-web/book/)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
 - [Website](https://b4n1.com)
 

@@ -3,6 +3,8 @@
 Ultra-lightweight agentic browser for AI agents — Ruby gem wrapping the
 `b4n1web` binary.
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
+
 ## Install
 
 ```bash

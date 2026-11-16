@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Single Rust binary · 4 language SDKs · 33 MCP tools.
+Single Rust binary · 7 language SDKs · 35 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
 
 📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
@@ -39,13 +39,16 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 
 ## 🖥 Platform Support
 
-8 pre-compiled binaries — works everywhere:
+6 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64 | `MSVC` |
+| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Windows** | x86_64 | MSVC |
+
+Windows ARM64 has no local SDK on the build host, so it is not shipped
+(`win-arm64` would need a real Windows ARM toolchain, not a cross guess).
 
 ## Quick Start
 
@@ -57,7 +60,11 @@ curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/inst
 pip install b4n1-web
 npm install b4n1-web
 dotnet add package B4n1Web
-# Java: add dependency from Maven Central
+gem install b4n1-web
+composer require b4n1/b4n1-web
+go get github.com/B4N1-com/b4n1-web/sdks/go
+# Java: add the com.b4n1:b4n1-web dependency (Maven Central publication is
+# currently blocked by the account's organization quota)
 ```
 
 ```python
@@ -82,13 +89,13 @@ uvx b4n1-web mcp
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.0 | Bundled (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.0 | Bundled (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.0 | Bundled (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.0 | Bundled (musl) |
-| Ruby | `b4n1-web` | 0.16.0 | Resolver (env/system/PATH) |
-| PHP | `b4n1/b4n1-web` | 0.16.0 | Resolver (env/system/PATH) |
-| Go | `b4n1-web/sdks/go` | 0.16.0 | Resolver (env/system/PATH) |
+| Python | `b4n1-web` | 0.16.1 | Bundled (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | Bundled (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.1 | Bundled (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.1 | Bundled (musl) |
+| Ruby | `b4n1-web` | 0.16.1 | Resolver (env/system/PATH) |
+| PHP | `b4n1/b4n1-web` | 0.16.1 | Resolver (env/system/PATH) |
+| Go | `b4n1-web/sdks/go` | 0.16.1 | Resolver (env/system/PATH) |
 
 ### Capability parity
 
@@ -96,7 +103,7 @@ Every method each SDK exposes is tested (see coverage). Surface differs by
 design: Python additionally ships a full MCP client (`b4n1web.mcp`), so it
 covers the whole tool surface; JS/C#/Java/Ruby/PHP/Go wrap the CLI binary
 (core flows). Cells below are measured against each SDK's actual source
-(b4n1-web 0.16.0), not aspirational: explicit rounding — `✓` implemented ·
+(b4n1-web 0.16.1), not aspirational: explicit rounding — `✓` implemented ·
 `·` not implemented · `mcp` available through the bundled MCP server.
 
 | Capability | Python | JS/TS | C# | Java | Ruby | PHP | Go |
@@ -126,7 +133,7 @@ file transfer, cookies/frames) are their own parity tasks.
 ## Features
 
 - **35 MCP tools** for AI agent integration
-- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go)
 - **Self-contained binary** ~12MB, no dependencies
 - **Static linking (musl)** — works on any Linux, no glibc required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)

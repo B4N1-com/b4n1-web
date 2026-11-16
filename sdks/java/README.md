@@ -5,13 +5,15 @@
 
 > Ultra-lightweight agentic browser engine with bundled binary.
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
+
 ## Install
 
 ```xml
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.16.0</version>
+    <version>0.16.1</version>
 </dependency>
 ```
 
@@ -65,11 +67,12 @@ SecurityCheckResult result = shield.isUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)|SDK: **0.16.0** | Binary: **0.16.0** (bundled)
+SDK: **0.16.1** | Binary: **0.16.1** (bundled)
 
 ## Links
 
 - [Maven Central](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
+- [Documentation](https://B4N1-com.github.io/b4n1-web/book/)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
 - [Website](https://b4n1.com)
 

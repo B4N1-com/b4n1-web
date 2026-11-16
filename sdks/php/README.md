@@ -3,6 +3,8 @@
 Ultra-lightweight agentic browser for AI agents — PHP SDK wrapping the
 `b4n1web` binary. Requires PHP >= 8.1.
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
+
 ## Install
 
 ```bash

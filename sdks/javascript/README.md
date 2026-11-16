@@ -1,134 +1,151 @@
-# B4n1Web Python SDK
+# B4n1Web — JavaScript / TypeScript SDK
 
-[![PyPI version](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
+[![npm version](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![License](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-> Ultra-lightweight agentic browser engine with bundled binary. Navigate URLs, extract structured content (markdown, links, screenshots), and build AI agent workflows.
->
-> <!-- mcp-name: io.github.B4N1-com/b4n1web -->
+> Ultra-lightweight agentic browser engine with the native binary bundled.
+> Navigate URLs, extract structured content (markdown, links, screenshots) and
+> build agent workflows from Node.js 18+.
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
 
 ## Install
 
 ```bash
-pip install b4n1-web
+npm install b4n1-web
 ```
 
-No additional binary installation needed — the SDK bundles the b4n1web binary.
+The package carries the `b4n1web` binary for `linux-x64`, `linux-arm64`,
+`linux-ia32`, `macos-x64`, `macos-arm64` and `windows-x64`; the right one is
+selected at runtime. No compiler, no separate binary install.
+
+Binary resolution order:
+
+1. `B4N1WEB_BIN_PATH` (explicit override)
+2. bundled binary inside the package
+3. `B4N1WEB_BINARY` + well-known locations (`~/.local/bin`, `~/.b4n1web/bin`,
+   `/usr/local/bin`, `/usr/bin`, …)
+4. `PATH`
+
+If nothing resolves, the SDK throws `BinaryNotFoundError` with an actionable
+install hint (no silent fallback).
 
 ## Quick Start
 
-```python
-from b4n1web import AgentBrowser, BrowserMode
+```ts
+import { AgentBrowser, BrowserMode } from 'b4n1-web';
 
-# Light mode - fastest
-browser = AgentBrowser(mode=BrowserMode.LIGHT)
-page = browser.goto("https://example.com")
-print(page.markdown)
-print(f"Found {len(page.links)} links")
-browser.close()
+const browser = new AgentBrowser({ mode: BrowserMode.LIGHT });
+const page = await browser.goto('https://example.com');
 
-# JS mode - extract scripts
-browser = AgentBrowser(mode=BrowserMode.JS)
-page = browser.goto("https://example.com")
-browser.close()
-
-# Render mode - full Chromium (requires chromium install)
-# browser = AgentBrowser(mode=BrowserMode.RENDER)
-# page = browser.goto("https://example.com")
-# print(page.screenshot)  # base64 screenshot
+console.log(page.url);
+console.log(page.markdown);       // page content as markdown
+console.log(page.links);          // string[] of every link on the page
+browser.close();
 ```
 
-## Context Manager
+CommonJS works too:
 
-```python
-with AgentBrowser() as browser:
-    page = browser.goto("https://example.com")
-    print(page.markdown)
+```js
+const { AgentBrowser, BrowserMode } = require('b4n1-web');
 ```
 
 ## Page Object
 
-```python
-page.url          # str: final URL
-page.markdown     # str: page content as markdown
-page.links        # list[str]: all links on page
-page.screenshot   # str|None: base64 screenshot (render mode)
-
-page.get_main_content()           # str: content without headers
-page.find_links_by_text("more")   # list[str]: links containing "more"
-```
+| Member | Type | Description |
+|---|---|---|
+| `page.url` | `string` | final URL after redirects |
+| `page.markdown` | `string` | page content as markdown |
+| `page.links` | `string[]` | all links on the page |
+| `page.screenshot` | `string \| undefined` | base64 screenshot (render mode) |
+| `page.jsOutput` | `string \| undefined` | extracted script output (js mode) |
+| `page.getMainContent()` | `string` | content without headers/footers |
+| `page.findLinksByText(text)` | `string[]` | links containing `text` |
 
 ## Links
 
-```js
-const { AgentBrowser, getLinksFromPage } = require('b4n1-web');
-
+```ts
 // Links from the last visited page
-const browser = new AgentBrowser();
-await browser.goto("https://example.com");
-const links = browser.getLinks(); // string[]
-browser.close();
+const page = await browser.goto('https://example.com');
+console.log(browser.getLinks());              // string[]: all links
+console.log(page.findLinksByText('more'));    // string[]: matching links
 
-// One-shot fetch, no browser instance needed
-const links2 = await getLinksFromPage("https://example.com");
+// One-shot fetch from a URL, without a browser instance
+import { getLinksFromPage } from 'b4n1-web';
+const links = await getLinksFromPage('https://example.com');
+```
+
+## Interactions
+
+```ts
+const browser = new AgentBrowser({ mode: BrowserMode.RENDER });
+await browser.goto('https://example.com');
+
+await browser.waitForSelector('h1', 5000);
+await browser.click('a.more');
+await browser.typeText('input[name=q]', 'b4n1', true);
+const shot = await browser.screenshot('https://example.com', true);
+await browser.setViewport(1280, 800);
+await browser.emulateDevice('iPhone 13');
 ```
 
 ## Browser Modes
 
 | Mode | Description | RAM | Startup |
 |------|-------------|-----|---------|
-| `LIGHT` | HTTP fetch + HTML parsing | ~15MB | Instant |
-| `JS` | Light + JavaScript extraction | ~15MB | Instant |
-| `RENDER` | Full Chromium + screenshots | ~100MB | ~2s |
+| `BrowserMode.LIGHT` | HTTP fetch + HTML parsing | ~15 MB | instant |
+| `BrowserMode.JS` | Light + JavaScript extraction | ~15 MB | instant |
+| `BrowserMode.RENDER` | Full Chromium + screenshots | ~100 MB | ~2 s |
 
 ## Security
 
-```python
-from b4n1web.security import SecurityShield
+```ts
+import { SecurityShield } from 'b4n1-web';
 
-shield = SecurityShield()
-shield.mark_domain("evil.com", is_safe=False)
-is_safe, needs_api = shield.is_url_safe("https://evil.com/page")
-# (False, False)
-```
-
-## MCP Integration
-
-```python
-from b4n1web.mcp import AsyncMcpClient
-
-async with AsyncMcpClient() as client:
-    page = await client.goto("https://example.com")
-    print(page.markdown)
-```
-
-Start MCP server:
-```bash
-b4n1web mcp -p 8080
+const shield = new SecurityShield();
+shield.markDomain('evil.com', false);
+const { isSafe, needsApiCheck } = shield.isUrlSafe('https://evil.com/page');
 ```
 
 ## Error Handling
 
-```python
-from b4n1web import BinaryNotFoundError
+```ts
+import {
+  BinaryNotFoundError,
+  NavigationError,
+  SelectorTimeoutError,
+} from 'b4n1-web';
 
-try:
-    browser = AgentBrowser()
-except BinaryNotFoundError:
-    print("b4n1web binary not found. Install with:")
-    print("  curl -sL https://b4n1.com/install | bash")
+try {
+  const page = await browser.goto('https://example.com', 'main');
+} catch (err) {
+  if (err instanceof SelectorTimeoutError) console.error('selector never appeared');
+}
+```
+
+## MCP Server
+
+The package ships no CLI shim: run the bundled binary directly (this is the
+path `getB4n1webBinary()` returns).
+
+```ts
+import { getB4n1webBinary } from 'b4n1-web';
+import { spawn } from 'node:child_process';
+
+const bin = getB4n1webBinary();
+if (!bin) throw new Error('b4n1web binary not found');
+spawn(bin, ['mcp'], { stdio: 'inherit' });
 ```
 
 ## Version
 
-SDK version: **0.16.0**
-Bundled binary version: **0.16.0**
+SDK version: **0.16.1**
+Bundled binary version: **0.16.1**
 
 ## Links
 
-- [PyPI](https://pypi.org/project/b4n1-web/)
+- [npm](https://www.npmjs.com/package/b4n1-web)
+- [Documentation](https://B4N1-com.github.io/b4n1-web/book/)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
 - [Website](https://b4n1.com)
 

@@ -9,6 +9,7 @@ const binDir = path.join(__dirname, '..', 'bin');
 const binaries = [
   'b4n1web-linux-amd64',
   'b4n1web-linux-arm64',
+  'b4n1web-linux-ia32',
   'b4n1web-macos-x64',
   'b4n1web-macos-arm64',
 ];

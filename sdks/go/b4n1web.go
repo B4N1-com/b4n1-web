@@ -21,7 +21,7 @@ import (
 )
 
 // SDKVersion is bumped by scripts/bump-version.sh alongside the other SDKs.
-const SDKVersion = "0.16.0"
+const SDKVersion = "0.16.1"
 
 // BrowserMode selects how the binary fetches the page.
 type BrowserMode string

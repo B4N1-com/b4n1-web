@@ -8,6 +8,8 @@
 >
 > <!-- mcp-name: io.github.B4N1-com/b4n1web -->
 
+📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
+
 
 ## Install
 
@@ -122,12 +124,13 @@ except BinaryNotFoundError:
 
 ## Version
 
-SDK version: **0.16.0**
-Bundled binary version: **0.16.0**
+SDK version: **0.16.1**
+Bundled binary version: **0.16.1**
 
 ## Links
 
 - [PyPI](https://pypi.org/project/b4n1-web/)
+- [Documentation](https://B4N1-com.github.io/b4n1-web/book/)
 - [GitHub](https://github.com/B4N1-com/b4n1-web)
 - [Website](https://b4n1.com)
 

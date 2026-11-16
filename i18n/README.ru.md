@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | Язык | Package | Version | Бинарник |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.0 | Встроенный (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.0 | Встроенный (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.0 | Встроенный (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.0 | Встроенный (musl) |
+| Python | `b4n1-web` | 0.16.1 | Встроенный (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | Встроенный (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.1 | Встроенный (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.1 | Встроенный (musl) |
 
 ## Документация
 

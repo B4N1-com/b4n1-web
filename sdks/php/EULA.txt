@@ -17,7 +17,7 @@ and each registry's license metadata.
 
 1. DEFINITIONS
    "Binaries" means the compiled artifacts described above.
-   "SDK" means the BSL 1.1 licensed wrapper source distributed for each language.
+   "SDK" means the BUSL-1.1 licensed wrapper source distributed for each language.
    "Source" means the Rust implementation, build scripts, internal tests and
    internal documentation of the B4N1 engine. Source is NOT distributed under
    this EULA or any other license and remains proprietary.
