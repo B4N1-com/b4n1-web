@@ -2,8 +2,11 @@
 B4n1Web SDK
 Zero-overhead, high-speed web execution for sovereign AI agents.
 
-NOTE: The B4n1Web binary must be installed separately via:
-    curl -sL https://raw.githubusercontent.com/B4N1-com/b4n1-web/master/scripts/install.sh | bash
+NOTE: nothing has to be installed first. The wheel carries the engine for six
+platforms and resolves the matching one at import time. Overrides:
+    B4N1WEB_BIN_PATH=/path/to/b4n1web   exact binary, wins over the bundle
+    B4N1WEB_BINARY=/path/to/b4n1web     same, kept for older callers
+    python -m b4n1web install           optional: copy one onto PATH
 
 Quick Start:
     # Using MCP (recommended for AI agents)
@@ -27,7 +30,7 @@ from .security import SecurityShield
 from .mcp import AsyncMcpClient, McpClient
 from .mcp import Tool, ToolResult
 
-__version__ = "0.16.1"
+__version__ = "0.16.2"
 __author__ = "Bani Montoya"
 __email__ = "banimontoya@gmail.com"
 

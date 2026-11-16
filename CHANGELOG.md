@@ -1,5 +1,30 @@
 # CHANGELOG — b4n1-web
 
+## v0.16.2 — 2026-11-16
+
+Text-only follow-up to 0.16.1. It exists because a published version cannot be
+replaced on the registries, and 0.16.1 shipped with statements that no longer
+matched what the packages do.
+
+### Fixed
+- **All 11 i18n READMEs** opened with "4 language SDKs · 33 MCP tools". They now
+  say 7 SDKs · 35 tools, and the untranslated English bullet under Features
+  lists the seven wrappers instead of four.
+- **Four i18n READMEs** (es, fr, it, pt-BR) claimed "8 pre-compiled binaries"
+  with a universal macOS build and Windows arm64 + i686 — neither exists. The
+  platform table is now the canonical one: 6 binaries, one per target.
+- **Python SDK docstring**: it instructed users to install the engine separately
+  with `install.sh`, although the wheel bundles six binaries and resolves the
+  matching one at import time.
+
+### Changed
+- Bundled binaries rebuilt at 0.16.2 so `b4n1web --version` matches the SDK
+  version, which is what the runtime mismatch check reads.
+
+### Notes
+- Maven Central still not published (organization quota). The other six
+  channels carry 0.16.2.
+
 ## v0.16.1 — 2026-11-15
 
 ### Fixed

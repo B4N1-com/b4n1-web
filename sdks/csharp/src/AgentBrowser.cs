@@ -21,7 +21,7 @@ namespace B4N1Web;
 /// </example>
 public class AgentBrowser : IDisposable
 {
-    private const string SdkVersion = "0.16.1";
+    private const string SdkVersion = "0.16.2";
     private readonly BrowserOptions _options;
     private readonly string _binaryPath;
     private readonly IProcessRunner _runner;

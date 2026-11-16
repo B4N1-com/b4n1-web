@@ -139,8 +139,8 @@ spawn(bin, ['mcp'], { stdio: 'inherit' });
 
 ## Version
 
-SDK version: **0.16.1**
-Bundled binary version: **0.16.1**
+SDK version: **0.16.2**
+Bundled binary version: **0.16.2**
 
 ## Links
 

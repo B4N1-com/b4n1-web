@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Un seul binaire Rust · 4 SDK de langage · 33 outils MCP.
+Un seul binaire Rust · 7 SDK de langage · 35 outils MCP.
 Naviguez vers des URLs, extrayez du contenu structuré (markdown, liens, captures d'écran) et créez des workflows autonomes pour agents.
 
 </div>
@@ -35,21 +35,21 @@ Naviguez vers des URLs, extrayez du contenu structuré (markdown, liens, capture
 
 ---
 
-## 🖥 🖥 Prise en charge des plateformes
+## 🖥 Platform Support
 
-8 binaires pré-compilés — fonctionne partout :
+6 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Windows** | x86_64 | MSVC |
 
 ## Fonctionnalités
 
 - **35 MCP tools** — Intégration IA
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
-- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | Langage | Package | Version | Binaire |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.1 | Intégré (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | Intégré (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.1 | Intégré (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.1 | Intégré (musl) |
+| Python | `b4n1-web` | 0.16.2 | Intégré (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | Intégré (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | Intégré (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.2 | Intégré (musl) |
 
 ## Documentation
 

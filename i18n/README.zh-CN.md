@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-单个 Rust 二进制文件 · 4 种语言 SDK · 33 个 MCP 工具。
+单个 Rust 二进制文件 · 7 种语言 SDK · 35 个 MCP 工具。
 导航 URL、提取结构化内容（Markdown、链接、截图），并为智能体构建自主工作流。
 
 </div>
@@ -35,21 +35,21 @@
 
 ---
 
-## 🖥 🖥 平台支持
+## 🖥 Platform Support
 
-8 个预编译二进制文件——适用于所有平台：
+6 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Windows** | x86_64 | MSVC |
 
 ## 特性
 
 - **35 MCP tools** — AI 智能体集成
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
-- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | 语言 | Package | Version | 二进制 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.1 | 内置（musl） |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | 内置（musl） |
-| Java | `com.b4n1:b4n1-web` | 0.16.1 | 内置（musl） |
-| C# (.NET) | `B4n1Web` | 0.16.1 | 内置（musl） |
+| Python | `b4n1-web` | 0.16.2 | 内置（musl） |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | 内置（musl） |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | 内置（musl） |
+| C# (.NET) | `B4n1Web` | 0.16.2 | 内置（musl） |
 
 ## 文档
 

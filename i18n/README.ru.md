@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Один Rust-бинарник · 4 SDK · 33 MCP-инструмента.
+Один Rust-бинарник · 7 SDK · 35 MCP-инструмента.
 Переходите по URL, извлекайте структурированный контент (markdown, ссылки, скриншоты) и создавайте автономные рабочие процессы для агентов.
 
 </div>
@@ -35,21 +35,21 @@
 
 ---
 
-## 🖥 🖥 Поддержка платформ
+## 🖥 Platform Support
 
-8 предкомпилированных бинарников — работает везде:
+6 pre-compiled binaries — works everywhere:
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | `universal` |
-| **Windows** | x86_64, arm64, i686 | `MSVC` |
+| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Windows** | x86_64 | MSVC |
 
 ## Возможности
 
 - **35 MCP tools** — интеграция с ИИ-агентами
 - **Single self-contained Rust binary** ~11MB, no runtime dependencies
-- **4 language SDKs** (Python, JS, Java, C#) with bundled binary
+- **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go) with bundled binary
 - **Static linking (musl)** — works on any Linux, no glibc required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | Язык | Package | Version | Бинарник |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.1 | Встроенный (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | Встроенный (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.1 | Встроенный (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.1 | Встроенный (musl) |
+| Python | `b4n1-web` | 0.16.2 | Встроенный (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | Встроенный (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | Встроенный (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.2 | Встроенный (musl) |
 
 ## Документация
 

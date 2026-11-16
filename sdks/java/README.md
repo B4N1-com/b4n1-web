@@ -13,7 +13,7 @@
 <dependency>
     <groupId>com.b4n1</groupId>
     <artifactId>b4n1-web</artifactId>
-    <version>0.16.1</version>
+    <version>0.16.2</version>
 </dependency>
 ```
 
@@ -67,7 +67,7 @@ SecurityCheckResult result = shield.isUrlSafe("https://evil.com");
 
 ## Version
 
-SDK: **0.16.1** | Binary: **0.16.1** (bundled)
+SDK: **0.16.2** | Binary: **0.16.2** (bundled)
 
 ## Links
 

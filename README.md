@@ -89,13 +89,13 @@ uvx b4n1-web mcp
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.1 | Bundled (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.1 | Bundled (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.1 | Bundled (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.1 | Bundled (musl) |
-| Ruby | `b4n1-web` | 0.16.1 | Resolver (env/system/PATH) |
-| PHP | `b4n1/b4n1-web` | 0.16.1 | Resolver (env/system/PATH) |
-| Go | `b4n1-web/sdks/go` | 0.16.1 | Resolver (env/system/PATH) |
+| Python | `b4n1-web` | 0.16.2 | Bundled (musl) |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | Bundled (musl) |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | Bundled (musl) |
+| C# (.NET) | `B4n1Web` | 0.16.2 | Bundled (musl) |
+| Ruby | `b4n1-web` | 0.16.2 | Resolver (env/system/PATH) |
+| PHP | `b4n1/b4n1-web` | 0.16.2 | Resolver (env/system/PATH) |
+| Go | `b4n1-web/sdks/go` | 0.16.2 | Resolver (env/system/PATH) |
 
 ### Capability parity
 
@@ -103,7 +103,7 @@ Every method each SDK exposes is tested (see coverage). Surface differs by
 design: Python additionally ships a full MCP client (`b4n1web.mcp`), so it
 covers the whole tool surface; JS/C#/Java/Ruby/PHP/Go wrap the CLI binary
 (core flows). Cells below are measured against each SDK's actual source
-(b4n1-web 0.16.1), not aspirational: explicit rounding — `✓` implemented ·
+(b4n1-web 0.16.2), not aspirational: explicit rounding — `✓` implemented ·
 `·` not implemented · `mcp` available through the bundled MCP server.
 
 | Capability | Python | JS/TS | C# | Java | Ruby | PHP | Go |
