@@ -31,6 +31,28 @@
 - **Documentation site**: `docs/src/changelog.md` refreshed (it stopped at
   0.9.5 and still announced "4 SDKs"); FAQ/CI/CD/deployment docs corrected.
 
+### Publication status (2026-11-16)
+| Registry | 0.16.1 |
+|---|---|
+| PyPI | published (`b4n1_web-0.16.1-py3-none-any.whl`, 6 binaries inside) |
+| npm | published |
+| NuGet | published |
+| RubyGems | published |
+| Packagist | tag `v0.16.1` ready locally — indexes once the owner pushes it |
+| Go (`pkg.go.dev`) | tag `sdks/go/v0.16.1` ready locally — indexes once pushed |
+| Maven Central | blocked (organization quota, see below) |
+
+### Fixed in the release tooling
+- `DIR_nuget` pointed at `sdks/csharp`, which has no project file: `dotnet pack`
+  died with MSB1003. The `.csproj` lives in `sdks/csharp/src`.
+- `GeneratePackageOnBuild=true` made `pack` skip the build after a clean and
+  fail with NU5026. Packing is a release step, not a build side effect.
+- npm `postinstall` only chmodded four binaries (linux-ia32 was left
+  non-executable), and the npm README documented an `npx b4n1-web` CLI that the
+  package does not ship.
+- Java/.NET never resolve ia32 or the flat `native/b4n1web-*` files: those
+  stale 0.16.0 copies were ~45 MB of dead weight inside the jar.
+
 ### Notes
 - **Maven Central not published**: the account's organization hit its monthly
   release-size quota (owner decision 2026-11-15). The other six registries
