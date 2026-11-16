@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-73771366.js";
+            window.path_to_searchindex_js = "searchindex-de523827.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-3aad55af.js"></script>
@@ -2192,6 +2192,35 @@ publishes an SDK that lies).</li>
 the SDK version.</li>
 <li><strong>Documentation site</strong>: <code>docs/src/changelog.md</code> refreshed (it stopped at
 0.9.5 and still announced “4 SDKs”); FAQ/CI/CD/deployment docs corrected.</li>
+</ul>
+<h3 id="publication-status-2026-11-16"><a class="header" href="#publication-status-2026-11-16">Publication status (2026-11-16)</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Registry</th><th>0.16.1</th></tr>
+</thead>
+<tbody>
+<tr><td>PyPI</td><td>published (<code>b4n1_web-0.16.1-py3-none-any.whl</code>, 6 binaries inside)</td></tr>
+<tr><td>npm</td><td>published</td></tr>
+<tr><td>NuGet</td><td>published</td></tr>
+<tr><td>RubyGems</td><td>published</td></tr>
+<tr><td>Packagist</td><td>tag <code>v0.16.1</code> ready locally — indexes once the owner pushes it</td></tr>
+<tr><td>Go (<code>pkg.go.dev</code>)</td><td>tag <code>sdks/go/v0.16.1</code> ready locally — indexes once pushed</td></tr>
+<tr><td>Maven Central</td><td>blocked (organization quota, see below)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="fixed-in-the-release-tooling"><a class="header" href="#fixed-in-the-release-tooling">Fixed in the release tooling</a></h3>
+<ul>
+<li><code>DIR_nuget</code> pointed at <code>sdks/csharp</code>, which has no project file: <code>dotnet pack</code>
+died with MSB1003. The <code>.csproj</code> lives in <code>sdks/csharp/src</code>.</li>
+<li><code>GeneratePackageOnBuild=true</code> made <code>pack</code> skip the build after a clean and
+fail with NU5026. Packing is a release step, not a build side effect.</li>
+<li>npm <code>postinstall</code> only chmodded four binaries (linux-ia32 was left
+non-executable), and the npm README documented an <code>npx b4n1-web</code> CLI that the
+package does not ship.</li>
+<li>Java/.NET never resolve ia32 or the flat <code>native/b4n1web-*</code> files: those
+stale 0.16.0 copies were ~45 MB of dead weight inside the jar.</li>
 </ul>
 <h3 id="notes"><a class="header" href="#notes">Notes</a></h3>
 <ul>
