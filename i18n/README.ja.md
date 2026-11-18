@@ -43,7 +43,7 @@ URLへの移動、構造化コンテンツの抽出（Markdown、リンク、ス
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
 | **macOS** | x86_64, arm64 | one per architecture |
-| **Windows** | x86_64 | MSVC |
+| **Windows** | x86_64 | native |
 
 ## 特徴
 

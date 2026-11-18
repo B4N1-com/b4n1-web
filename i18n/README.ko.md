@@ -43,7 +43,7 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
 | **macOS** | x86_64, arm64 | one per architecture |
-| **Windows** | x86_64 | MSVC |
+| **Windows** | x86_64 | native |
 
 ## 기능
 

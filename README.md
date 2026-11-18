@@ -45,7 +45,7 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
 | **macOS** | x86_64, arm64 | one per architecture |
-| **Windows** | x86_64 | MSVC |
+| **Windows** | x86_64 | native |
 
 Windows ARM64 has no local SDK on the build host, so it is not shipped
 (`win-arm64` would need a real Windows ARM toolchain, not a cross guess).

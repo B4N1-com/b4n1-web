@@ -43,7 +43,7 @@ Naviga URL, estrai contenuti strutturati (markdown, link, screenshot) e costruis
 |----------|---------------|--------|
 | **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
 | **macOS** | x86_64, arm64 | one per architecture |
-| **Windows** | x86_64 | MSVC |
+| **Windows** | x86_64 | native |
 
 ## Caratteristiche
 
