@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | 言語 | Package | Version | バイナリ |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | 同梱 |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | 同梱 |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | 同梱 |
-| C# (.NET) | `B4n1Web` | 0.16.2 | 同梱 |
+| Python | `b4n1-web` | 0.16.3 | 同梱 |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.3 | 同梱 |
+| Java | `com.b4n1:b4n1-web` | 0.16.3 | 同梱 |
+| C# (.NET) | `B4n1Web` | 0.16.3 | 同梱 |
 
 ## ドキュメント
 

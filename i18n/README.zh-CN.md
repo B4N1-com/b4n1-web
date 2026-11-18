@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | 语言 | Package | Version | 二进制 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | 内置 |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | 内置 |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | 内置 |
-| C# (.NET) | `B4n1Web` | 0.16.2 | 内置 |
+| Python | `b4n1-web` | 0.16.3 | 内置 |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.3 | 内置 |
+| Java | `com.b4n1:b4n1-web` | 0.16.3 | 内置 |
+| C# (.NET) | `B4n1Web` | 0.16.3 | 内置 |
 
 ## 文档
 

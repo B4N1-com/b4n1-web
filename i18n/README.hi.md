@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | भाषा | Package | Version | बाइनरी |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | बंडल |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | बंडल |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | बंडल |
-| C# (.NET) | `B4n1Web` | 0.16.2 | बंडल |
+| Python | `b4n1-web` | 0.16.3 | बंडल |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.3 | बंडल |
+| Java | `com.b4n1:b4n1-web` | 0.16.3 | बंडल |
+| C# (.NET) | `B4n1Web` | 0.16.3 | बंडल |
 
 ## दस्तावेज़ीकरण
 
