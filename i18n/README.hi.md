@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-एकल Rust बाइनरी · 7 भाषा SDK · 35 MCP टूल।
+एकल बाइनरी · 7 भाषा SDK · 35 MCP टूल।
 URL नेविगेट करें, संरचित सामग्री (मार्कडाउन, लिंक, स्क्रीनशॉट) निकालें, और एजेंटों के लिए स्वायत्त वर्कफ़्लो बनाएं।
 
 </div>
@@ -41,16 +41,16 @@ URL नेविगेट करें, संरचित सामग्री
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
-| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
+| **macOS** | x86_64, arm64 | one per architecture |
 | **Windows** | x86_64 | MSVC |
 
 ## विशेषताएँ
 
 - **35 MCP tools** — AI एजेंट एकीकरण
-- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **Single self-contained binary** ~11MB, no runtime dependencies
 - **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go) with bundled binary
-- **Static linking (musl)** — works on any Linux, no glibc required
+- **Fully static** — works on any Linux, no system libraries required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | भाषा | Package | Version | बाइनरी |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | बंडल (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | बंडल (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | बंडल (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.2 | बंडल (musl) |
+| Python | `b4n1-web` | 0.16.2 | बंडल |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | बंडल |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | बंडल |
+| C# (.NET) | `B4n1Web` | 0.16.2 | बंडल |
 
 ## दस्तावेज़ीकरण
 

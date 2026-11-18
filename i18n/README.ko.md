@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-단일 Rust 바이너리 · 7개 언어 SDK · 35개 MCP 도구.
+단일 바이너리 · 7개 언어 SDK · 35개 MCP 도구.
 URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에이전트용 자율 워크플로 구축.
 
 </div>
@@ -41,16 +41,16 @@ URL 탐색, 구조화된 콘텐츠 추출(Markdown, 링크, 스크린샷), 에�
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
-| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
+| **macOS** | x86_64, arm64 | one per architecture |
 | **Windows** | x86_64 | MSVC |
 
 ## 기능
 
 - **35 MCP tools** — AI 에이전트 통합
-- **Single self-contained Rust binary** ~11MB, no runtime dependencies
+- **Single self-contained binary** ~11MB, no runtime dependencies
 - **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go) with bundled binary
-- **Static linking (musl)** — works on any Linux, no glibc required
+- **Fully static** — works on any Linux, no system libraries required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
@@ -105,10 +105,10 @@ uvx b4n1-web mcp
 
 | 언어 | Package | Version | 바이너리 |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | 번들 (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | 번들 (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | 번들 (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.2 | 번들 (musl) |
+| Python | `b4n1-web` | 0.16.2 | 번들 |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | 번들 |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | 번들 |
+| C# (.NET) | `B4n1Web` | 0.16.2 | 번들 |
 
 ## 문서
 

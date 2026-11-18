@@ -19,7 +19,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
 
-Single Rust binary · 7 language SDKs · 35 MCP tools.
+Single self-contained binary · 7 language SDKs · 35 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
 
 📖 **Full documentation**: https://B4N1-com.github.io/b4n1-web/book/
@@ -43,8 +43,8 @@ Navigate URLs, extract structured content (markdown, links, screenshots), and bu
 
 | Platform | Architectures | Binary |
 |----------|---------------|--------|
-| **Linux** | x86_64, aarch64, i686 | `musl` (static, no glibc) |
-| **macOS** | x86_64, arm64 | Mach-O (one per arch) |
+| **Linux** | x86_64, aarch64, i686 | static (no system libraries) |
+| **macOS** | x86_64, arm64 | one per architecture |
 | **Windows** | x86_64 | MSVC |
 
 Windows ARM64 has no local SDK on the build host, so it is not shipped
@@ -89,10 +89,10 @@ uvx b4n1-web mcp
 
 | Language | Package | Version | Binary |
 |----------|---------|---------|--------|
-| Python | `b4n1-web` | 0.16.2 | Bundled (musl) |
-| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | Bundled (musl) |
-| Java | `com.b4n1:b4n1-web` | 0.16.2 | Bundled (musl) |
-| C# (.NET) | `B4n1Web` | 0.16.2 | Bundled (musl) |
+| Python | `b4n1-web` | 0.16.2 | Bundled |
+| JavaScript/TypeScript | `b4n1-web` | 0.16.2 | Bundled |
+| Java | `com.b4n1:b4n1-web` | 0.16.2 | Bundled |
+| C# (.NET) | `B4n1Web` | 0.16.2 | Bundled |
 | Ruby | `b4n1-web` | 0.16.2 | Resolver (env/system/PATH) |
 | PHP | `b4n1/b4n1-web` | 0.16.2 | Resolver (env/system/PATH) |
 | Go | `b4n1-web/sdks/go` | 0.16.2 | Resolver (env/system/PATH) |
@@ -135,7 +135,7 @@ file transfer, cookies/frames) are their own parity tasks.
 - **35 MCP tools** for AI agent integration
 - **7 language SDKs** (Python, JavaScript/TypeScript, Java, C#, Ruby, PHP, Go)
 - **Self-contained binary** ~12MB, no dependencies
-- **Static linking (musl)** — works on any Linux, no glibc required
+- **Fully static** — works on any Linux, no system libraries required
 - **Three modes**: Light (instant), JS (scripts), Render (Chromium)
 - **Security shield**: domain filtering, safe browsing
 - **Network interception**: block resources, mock responses
