@@ -124,8 +124,8 @@ except BinaryNotFoundError:
 
 ## Version
 
-SDK version: **0.16.2**
-Bundled binary version: **0.16.2**
+SDK version: **0.16.3**
+Bundled binary version: **0.16.3**
 
 ## Links
 

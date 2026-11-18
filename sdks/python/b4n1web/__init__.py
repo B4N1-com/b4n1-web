@@ -30,7 +30,7 @@ from .security import SecurityShield
 from .mcp import AsyncMcpClient, McpClient
 from .mcp import Tool, ToolResult
 
-__version__ = "0.16.2"
+__version__ = "0.16.3"
 __author__ = "Bani Montoya"
 __email__ = "banimontoya@gmail.com"
 
