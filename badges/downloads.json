@@ -1,24 +1,24 @@
 {
   "schema": 1,
   "metric": "all_time_downloads",
-  "updated": "2026-10-08",
+  "updated": "2026-11-19",
   "approx": true,
-  "total": 23885,
+  "total": 29088,
   "stores": {
     "pypi": {
-      "total": 15000,
+      "total": 18000,
       "approx": true,
-      "monthly": 251,
+      "monthly": 315,
       "source": "pepy via shields.io (k-rounded; pepy API key-gated)"
     },
     "npm": {
-      "total": 6503,
+      "total": 7732,
       "approx": false,
-      "monthly": 527,
+      "monthly": 723,
       "source": "api.npmjs.org (paged 18-month ranges)"
     },
     "nuget": {
-      "total": 2382,
+      "total": 3356,
       "approx": false,
       "monthly": null,
       "source": "nuget.org search API"
