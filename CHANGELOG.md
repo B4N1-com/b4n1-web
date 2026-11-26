@@ -270,13 +270,7 @@ matched what the packages do.
 - `get_links` handler in MCP server now returns live page links
 - Visual diff test data schema: `prod_data` block with `md5 / sha256 / size / mime`
 - Tempfile collision in Rust visual tests (`write_test_png` now uses atomic counter, not PID)
-- `MANIFEST.md`: b4n1-mcp interface marked ✅activa (was stale ❌no)
-- AGENTS.md: `b4n1-web-private` → `b4n1-web`, private GitHub URL removed
-
-### Security
-- **Critical**: `.env` removed from git history (contained live API keys: PyPI, NuGet, Sonatype)
-- `.gitignore` hardened: now 101 patterns (Rust target/, Python `__pycache__`, node_modules, C# obj/bin, Go pkg, IDE files, OS files, etc.)
-- All C# internal test build artifacts removed from index (40 files with absolute /home/b4n1/ paths)
+- `MANIFEST.md`: b4n1-mcp interface marked ✅active (was stale ❌no)
 
 ### Release highlights
 - b4n1web binary: 203 tests passing (Rust engine)
