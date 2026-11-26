@@ -63,8 +63,6 @@ dotnet add package B4n1Web
 gem install b4n1-web
 composer require b4n1/b4n1-web
 go get github.com/B4N1-com/b4n1-web/sdks/go
-# Java: add the com.b4n1:b4n1-web dependency (Maven Central publication is
-# currently blocked by the account's organization quota)
 ```
 
 ```python

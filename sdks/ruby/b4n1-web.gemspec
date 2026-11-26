@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "homepage_uri"          => "https://b4n1.com",
     "source_code_uri"       => "https://github.com/B4N1-com/b4n1-web",
-    "changelog_uri"         => "https://github.com/B4N1-com/b4n1-web/blob/master/CHANGELOG.md",
+    "changelog_uri"         => "https://github.com/B4N1-com/b4n1-web/blob/master/VERSIONS.md",
     "bug_tracker_uri"       => "https://github.com/B4N1-com/b4n1-web/issues"
   }
 end
