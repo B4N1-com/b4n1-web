@@ -12,4 +12,4 @@
 - [Troubleshooting](troubleshooting.md)
 - [FAQ](faq.md)
 - [Contributing](contributing.md)
-- [Changelog](changelog.md)
+- [Release history](versions.md)
