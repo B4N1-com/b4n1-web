@@ -6,18 +6,17 @@
 
 **Ultra-lightweight headless browser for AI agents.**
 
-[![License](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
-[![PyPI](https://badge.fury.io/py/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
-[![npm](https://badge.fury.io/js/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
+[![License](https://img.shields.io/badge/license-BUSL--1.1-blue.svg)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/b4n1-web.svg)](https://pypi.org/project/b4n1-web/)
+[![Pepy downloads](https://img.shields.io/pepy/dt/b4n1-web.svg)](https://pepy.tech/project/b4n1-web)
+[![npm](https://img.shields.io/npm/v/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
+[![npm downloads](https://img.shields.io/npm/dm/b4n1-web.svg)](https://www.npmjs.com/package/b4n1-web)
 [![NuGet](https://img.shields.io/nuget/v/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
-[![Maven Central](https://img.shields.io/maven-central/v/com.b4n1/b4n1-web.svg)](https://central.sonatype.com/artifact/com.b4n1/b4n1-web)
-[![Docs](https://img.shields.io/badge/docs-mdBook-blue)](https://B4N1-com.github.io/b4n1-web/book/)
-
-[![PyPI Downloads/month](https://img.shields.io/pypi/dm/b4n1-web)](https://pypi.org/project/b4n1-web/)
-[![npm Downloads/month](https://img.shields.io/npm/dm/b4n1-web)](https://www.npmjs.com/package/b4n1-web)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/B4n1Web)](https://www.nuget.org/packages/B4n1Web)
-[![GitHub Release](https://img.shields.io/github/v/release/B4N1-com/b4n1-web)](https://github.com/B4N1-com/b4n1-web/releases)
-[![GitHub Downloads](https://img.shields.io/github/downloads/B4N1-com/b4n1-web/total)](https://github.com/B4N1-com/b4n1-web/releases)
+[![NuGet downloads](https://img.shields.io/nuget/dt/B4n1Web.svg)](https://www.nuget.org/packages/B4n1Web)
+[![RubyGems](https://img.shields.io/gem/v/b4n1-web.svg)](https://rubygems.org/gems/b4n1-web)
+[![Packagist](https://img.shields.io/packagist/v/b4n1/b4n1-web.svg)](https://packagist.org/packages/b4n1/b4n1-web)
+[![Go Reference](https://pkg.go.dev/badge/github.com/b4n1-com/b4n1-web/sdks/go.svg)](https://pkg.go.dev/github.com/b4n1-com/b4n1-web/sdks/go)
 
 Single self-contained binary · 7 language SDKs · 35 MCP tools.
 Navigate URLs, extract structured content (markdown, links, screenshots), and build autonomous agent workflows.
